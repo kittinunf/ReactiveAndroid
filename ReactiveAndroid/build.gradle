@@ -1,0 +1,37 @@
+apply plugin: 'kotlin'
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "io.reactivex:rxjava:$rxjava_version"
+
+    testCompile "junit:junit:$junit_version"
+}
+
+buildscript {
+    ext {
+        //dependencies version
+        kotlin_version = '1.0.0-beta-4589'
+        rxjava_version = '1.1.0'
+
+        //test dependencies version
+        junit_version = '4.12'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
