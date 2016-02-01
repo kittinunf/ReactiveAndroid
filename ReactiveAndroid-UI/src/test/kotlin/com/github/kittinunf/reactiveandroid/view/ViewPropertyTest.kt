@@ -19,11 +19,11 @@ class ViewPropertyTest {
     val view = View(activity)
 
     @Test
-    fun isActivated() {
+    fun activated() {
         var result = false
 
         view.isActivated = true
-        view.rx_isActivated.subscribe {
+        view.rx_activated.subscribe {
             result = it
         }
 
