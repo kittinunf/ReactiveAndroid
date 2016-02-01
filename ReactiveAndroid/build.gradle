@@ -10,28 +10,19 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "io.reactivex:rxjava:$rxjava_version"
+    compile parent.ext.kotlinStdLib
+    compile parent.ext.reactivexRxJava
 
-    testCompile "junit:junit:$junit_version"
+    testCompile parent.ext.junit
 }
 
 buildscript {
-    ext {
-        //dependencies version
-        kotlin_version = '1.0.0-beta-4589'
-        rxjava_version = '1.1.0'
-
-        //test dependencies version
-        junit_version = '4.12'
-    }
-
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath parent.ext.kotlinGradlePlugin
     }
 }
 

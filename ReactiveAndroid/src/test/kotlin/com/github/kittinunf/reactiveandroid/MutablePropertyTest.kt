@@ -1,6 +1,5 @@
 package com.github.kittinunf.reactiveandroid
 
-import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.Assert.assertThat
 import org.junit.Test
 import rx.Observable

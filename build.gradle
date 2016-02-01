@@ -15,6 +15,22 @@ buildscript {
 }
 
 allprojects {
+
+    ext {
+        reactiveAndroidVersion = '0.1.0'
+
+        //kotlin
+        kotlinGradlePlugin = 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-4589'
+        kotlinStdLib = 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-4589'
+
+        //rxjava
+        reactivexRxJava = 'io.reactivex:rxjava:1.1.0'
+
+        //test
+        robolectric = 'org.robolectric:robolectric:3.0'
+        junit = 'junit:junit:4.12'
+    }
+
     repositories {
         jcenter()
     }
