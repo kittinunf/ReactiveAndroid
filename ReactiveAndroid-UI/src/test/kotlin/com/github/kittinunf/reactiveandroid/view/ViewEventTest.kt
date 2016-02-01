@@ -30,4 +30,5 @@ class ViewEventTest {
 
         assertThat(result, isEqualTo(true))
     }
+
 }

@@ -46,4 +46,9 @@ class ViewPropertyTest {
         assertThat(result, isEqualTo(0f))
     }
 
+    @Test
+    fun background() {
+
+    }
+
 }

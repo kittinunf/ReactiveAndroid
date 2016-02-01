@@ -78,6 +78,9 @@ class Property<T>(private val init: T) : PropertyType<T> {
 
 class MutableProperty<T>(private val init: T) : MutablePropertyType<T> {
 
+    override val observable: Observable<T>
+        get() = sink
+
     override var value: T = init
         get() = synchronized(this) { field }
         set(value) {
@@ -86,9 +89,6 @@ class MutableProperty<T>(private val init: T) : MutablePropertyType<T> {
                 value
             }
         }
-
-    override val observable: Observable<T>
-        get() = sink
 
     private val sink = BehaviorSubject.create(init)
 
