@@ -60,7 +60,7 @@ buildscript {
 }
 
 publish {
-    artifactId = 'reactiveandroid-core'
+    artifactId = 'reactiveandroid-ui'
     autoPublish = true
     desc = 'Reactive events and properties with RxJava for Android'
     groupId = 'com.github.kittinunf.reactiveandroid'

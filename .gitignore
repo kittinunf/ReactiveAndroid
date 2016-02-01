@@ -16,6 +16,7 @@ local.properties
 # User-specific configurations
 .idea/
 *.iml
+bintray_push
 
 # OS-specific files
 .DS_Store
