@@ -49,7 +49,6 @@ dependencies {
 
     testCompile parent.ext.junit
     testCompile parent.ext.robolectric
-
 }
 
 buildscript {

@@ -1,12 +1,5 @@
-<manifest package="com.github.kittinunf.reactiveandroid"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="com.github.kittinunf.reactiveandroid">
 
-    <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        >
-
-    </application>
+    <!-- Libraries have no manifest -->
 
 </manifest>
