@@ -11,19 +11,19 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-private var _rx_isActivated: MutableProperty<Boolean>? = null
+private var _rx_activated: MutableProperty<Boolean>? = null
 
-val View.rx_isActivated: MutableProperty<Boolean>
+val View.rx_activated: MutableProperty<Boolean>
     get() {
         val getter = { isActivated }
         val setter: (Boolean) -> Unit = { isActivated = it }
 
-        if (_rx_isActivated == null) {
-            _rx_isActivated = createMainThreadMutableProperty(getter, setter)
+        if (_rx_activated == null) {
+            _rx_activated = createMainThreadMutableProperty(getter, setter)
         } else {
-            _rx_isActivated!!.value = getter()
+            _rx_activated!!.value = getter()
         }
-        return _rx_isActivated!!
+        return _rx_activated!!
     }
 
 private var _rx_alpha: MutableProperty<Float>? = null
@@ -74,49 +74,49 @@ val View.rx_backgroundColor: MutableProperty<Int>
         return _rx_backgroundColor!!
     }
 
-private var _rx_isClickable: MutableProperty<Boolean>? = null
+private var _rx_clickable: MutableProperty<Boolean>? = null
 
-val View.rx_isClickable: MutableProperty<Boolean>
+val View.rx_clickable: MutableProperty<Boolean>
     get() {
         val getter = { isClickable }
         val setter: (Boolean) -> Unit = { isClickable = it }
 
-        if (_rx_isClickable == null) {
-            _rx_isClickable = createMainThreadMutableProperty(getter, setter)
+        if (_rx_clickable == null) {
+            _rx_clickable = createMainThreadMutableProperty(getter, setter)
         } else {
-            _rx_isClickable!!.value = getter()
+            _rx_clickable!!.value = getter()
         }
-        return _rx_isClickable!!
+        return _rx_clickable!!
     }
 
-private var _rx_isEnabled: MutableProperty<Boolean>? = null
+private var _rx_enabled: MutableProperty<Boolean>? = null
 
-val View.rx_isEnabled: MutableProperty<Boolean>
+val View.rx_enabled: MutableProperty<Boolean>
     get() {
         val getter = { isEnabled }
         val setter: (Boolean) -> Unit = { isEnabled = it }
         
-        if (_rx_isEnabled == null) {
-            _rx_isEnabled = createMainThreadMutableProperty(getter, setter)
+        if (_rx_enabled == null) {
+            _rx_enabled = createMainThreadMutableProperty(getter, setter)
         } else {
-            _rx_isEnabled!!.value = getter()
+            _rx_enabled!!.value = getter()
         }
-        return _rx_isEnabled!!
+        return _rx_enabled!!
     }
 
-private var _rx_isFocused: MutableProperty<Boolean>? = null
+private var _rx_focused: MutableProperty<Boolean>? = null
 
-val View.rx_isFocused: MutableProperty<Boolean>
+val View.rx_focused: MutableProperty<Boolean>
     get() {
         val getter = { isFocused }
         val setter: (Boolean) -> Unit = { requestFocus() }
 
-        if (_rx_isFocused == null) {
-            _rx_isFocused = createMainThreadMutableProperty(getter, setter)
+        if (_rx_focused == null) {
+            _rx_focused = createMainThreadMutableProperty(getter, setter)
         } else {
-            _rx_isFocused!!.value = getter()
+            _rx_focused!!.value = getter()
         }
-        return _rx_isFocused!!
+        return _rx_focused!!
     }
 
 private var _rx_foreground: MutableProperty<Drawable>? = null
@@ -134,19 +134,19 @@ val View.rx_foreground: MutableProperty<Drawable>
         return _rx_foreground!!
     }
 
-private var _rx_isLongClickable: MutableProperty<Boolean>? = null
+private var _rx_longClickable: MutableProperty<Boolean>? = null
 
-val View.rx_isLongClickable: MutableProperty<Boolean>
+val View.rx_longClickable: MutableProperty<Boolean>
     get() {
         val getter = { isLongClickable }
         val setter: (Boolean) -> Unit = { isLongClickable = it }
         
-        if (_rx_isLongClickable == null) {
-            _rx_isLongClickable = createMainThreadMutableProperty(getter, setter)
+        if (_rx_longClickable == null) {
+            _rx_longClickable = createMainThreadMutableProperty(getter, setter)
         } else {
-            _rx_isLongClickable!!.value = getter()
+            _rx_longClickable!!.value = getter()
         }
-        return _rx_isLongClickable!!
+        return _rx_longClickable!!
     }
 
 
@@ -168,34 +168,34 @@ val View.rx_padding: MutableProperty<Padding>
         return _rx_padding!!
     }
 
-private var _rx_isPressed: MutableProperty<Boolean>? = null
+private var _rx_pressed: MutableProperty<Boolean>? = null
 
-val View.rx_isPressed: MutableProperty<Boolean>
+val View.rx_pressed: MutableProperty<Boolean>
     get() {
         val getter = { isPressed }
         val setter: (Boolean) -> Unit = { isPressed = it }
 
-        if (_rx_isPressed == null) {
-            _rx_isPressed = createMainThreadMutableProperty(getter, setter)
+        if (_rx_pressed == null) {
+            _rx_pressed = createMainThreadMutableProperty(getter, setter)
         } else {
-            _rx_isPressed!!.value = getter()
+            _rx_pressed!!.value = getter()
         }
-        return _rx_isPressed!!
+        return _rx_pressed!!
     }
 
-private var _rx_isSelected: MutableProperty<Boolean>? = null
+private var _rx_selected: MutableProperty<Boolean>? = null
 
-val View.rx_isSelected: MutableProperty<Boolean>
+val View.rx_selected: MutableProperty<Boolean>
     get() {
         val getter = { isSelected }
         val setter: (Boolean) -> Unit = { isSelected = it }
 
-        if (_rx_isSelected == null) {
-            _rx_isSelected = createMainThreadMutableProperty(getter, setter)
+        if (_rx_selected == null) {
+            _rx_selected = createMainThreadMutableProperty(getter, setter)
         } else {
-            _rx_isSelected!!.value = getter()
+            _rx_selected!!.value = getter()
         }
-        return _rx_isSelected!!
+        return _rx_selected!!
     }
 
 private var _rx_visibility: MutableProperty<Int>? = null

@@ -1,9 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-apply plugin: 'com.github.dcendents.android-maven'
-
-group='com.github.kittinunf'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 23
@@ -60,4 +58,16 @@ buildscript {
         classpath parent.ext.kotlinGradlePlugin
     }
 }
+
+publish {
+    artifactId = 'reactiveandroid-core'
+    autoPublish = true
+    desc = 'Reactive events and properties with RxJava for Android'
+    groupId = 'com.github.kittinunf.reactiveandroid'
+    licences = ['MIT']
+    publishVersion = parent.ext.version
+    uploadName = 'ReactiveAndroid'
+    website = 'https://github.com/kittinunf/ReactiveAndroid'
+}
+
 

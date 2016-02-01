@@ -2,6 +2,7 @@ package com.github.kittinunf.reactiveandroid.view
 
 import android.view.View
 import com.github.kittinunf.reactiveandroid.*
+import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
 //================================================================================
@@ -10,13 +11,13 @@ import rx.Observable
 
 fun View.rx_click(): Observable<View> {
     return Observable.create { subscriber ->
-        if (hasOnClickListeners()) {
-            setOnClickListener(null)
-        }
-
         setOnClickListener {
             subscriber.onNext(it)
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnClickListener(null)
+        })
     }
 }
 
@@ -26,6 +27,10 @@ fun View.rx_drag(consumed: Boolean): Observable<DragListener> {
             subscriber.onNext(DragListener(view, event))
             consumed
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnDragListener(null)
+        })
     }
 }
 
@@ -35,6 +40,10 @@ fun View.rx_key(consumed: Boolean): Observable<KeyListener> {
             subscriber.onNext(KeyListener(view, code, event))
             consumed
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnKeyListener(null)
+        })
     }
 }
 
@@ -44,6 +53,10 @@ fun View.rx_hover(consumed: Boolean): Observable<HoverListener> {
             subscriber.onNext(HoverListener(view, event))
             consumed
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnHoverListener(null)
+        })
     }
 }
 
@@ -53,6 +66,10 @@ fun View.rx_touch(consumed: Boolean): Observable<TouchListener> {
             subscriber.onNext(TouchListener(view, event))
             consumed
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnTouchListener(null)
+        })
     }
 }
 
@@ -62,6 +79,10 @@ fun View.rx_longClick(consumed: Boolean): Observable<View> {
             subscriber.onNext(it)
             consumed
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnLongClickListener(null)
+        })
     }
 }
 
@@ -70,14 +91,24 @@ fun View.rx_focusChange(): Observable<FocusChangeListener> {
         setOnFocusChangeListener { view, event ->
             subscriber.onNext(FocusChangeListener(view, event))
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnFocusChangeListener(null)
+        })
     }
 }
 
 fun View.rx_layoutChange(): Observable<LayoutChangeListener> {
     return Observable.create { subscriber ->
-        addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+        val listener: (View, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit = {
+            view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             subscriber.onNext(LayoutChangeListener(view, Padding(left, top, right, bottom), Padding(oldLeft, oldTop, oldRight, oldBottom)))
         }
+        addOnLayoutChangeListener(listener)
+
+        subscriber.add(AndroidMainThreadSubscription {
+            removeOnLayoutChangeListener(listener)
+        })
     }
 }
 
@@ -86,6 +117,10 @@ fun View.rx_scrollChange(): Observable<ScrollChangeListener> {
         setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
             subscriber.onNext(ScrollChangeListener(view, ScrollDirection(scrollX, scrollY), ScrollDirection(oldScrollX, oldScrollY)))
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnScrollChangeListener(null)
+        })
     }
 }
 
@@ -94,6 +129,10 @@ fun View.rx_createContextMenu(): Observable<CreateContextMenuListener> {
         setOnCreateContextMenuListener { menu, view, menuInfo ->
             subscriber.onNext(CreateContextMenuListener(menu, view, menuInfo))
         }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            setOnCreateContextMenuListener(null)
+        })
     }
 }
 
