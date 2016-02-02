@@ -8,6 +8,7 @@ import rx.Observable
 //================================================================================
 // Events
 //================================================================================
+
 data class ItemClickListener(val adapterView: AdapterView<*>, val view: View, val position: Int, val id: Long)
 
 fun AdapterView<*>.rx_itemClick(): Observable<ItemClickListener> {
@@ -70,7 +71,7 @@ private val AdapterView<*>._itemSelected: _AdapterView_OnItemSelectedListener
         return listener
     }
 
-private class _AdapterView_OnItemSelectedListener : AdapterView.OnItemSelectedListener {
+internal class _AdapterView_OnItemSelectedListener : AdapterView.OnItemSelectedListener {
 
     private var onNothingSelected: ((AdapterView<*>?) -> Unit)? = null
 

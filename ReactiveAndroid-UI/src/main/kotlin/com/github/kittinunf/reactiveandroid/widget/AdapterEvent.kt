@@ -1,0 +1,64 @@
+package com.github.kittinunf.reactiveandroid.widget
+
+import android.database.DataSetObserver
+import android.widget.Adapter
+import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
+import rx.Observable
+
+//================================================================================
+// Events
+//================================================================================
+
+fun Adapter.rx_changed(): Observable<Unit> {
+    return Observable.create { subscriber ->
+        _dataSet.onChanged {
+            subscriber.onNext(Unit)
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            unregisterDataSetObserver(_dataSet)
+        })
+    }
+}
+
+fun Adapter.rx_invalidated(): Observable<Unit> {
+    return Observable.create { subscriber ->
+        _dataSet.onInvalidated {
+            subscriber.onNext(Unit)
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            unregisterDataSetObserver(_dataSet)
+        })
+    }
+}
+
+private val Adapter._dataSet: _Adapter_DataSetObserver
+    get() {
+        val listener = _Adapter_DataSetObserver()
+        registerDataSetObserver(listener)
+        return listener
+    }
+
+private class _Adapter_DataSetObserver : DataSetObserver() {
+
+    var onChanged: (() -> Unit)? = null
+    var onInvalidated: (() -> Unit)? = null
+
+    fun onChanged(listener: () -> Unit) {
+        onChanged = listener
+    }
+
+    override fun onChanged() {
+        onChanged?.invoke()
+    }
+
+    fun onInvalidated(listener: () -> Unit) {
+        onInvalidated = listener
+    }
+
+    override fun onInvalidated() {
+        onInvalidated?.invoke()
+    }
+
+}
