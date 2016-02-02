@@ -2,15 +2,13 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.view.View
 import android.widget.AdapterView
-import com.github.kittinunf.reactiveandroid.ItemClickListener
-import com.github.kittinunf.reactiveandroid.ItemLongClickListener
-import com.github.kittinunf.reactiveandroid.ItemSelectedListener
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
 //================================================================================
 // Events
 //================================================================================
+data class ItemClickListener(val adapterView: AdapterView<*>, val view: View, val position: Int, val id: Long)
 
 fun AdapterView<*>.rx_itemClick(): Observable<ItemClickListener> {
     return Observable.create { subscriber ->
@@ -23,6 +21,8 @@ fun AdapterView<*>.rx_itemClick(): Observable<ItemClickListener> {
         })
     }
 }
+
+data class ItemLongClickListener(val adapterView: AdapterView<*>, val view: View, val position: Int, val id: Long)
 
 fun AdapterView<*>.rx_itemLongClick(consumed: Boolean): Observable<ItemLongClickListener> {
     return Observable.create { subscriber ->
@@ -37,6 +37,7 @@ fun AdapterView<*>.rx_itemLongClick(consumed: Boolean): Observable<ItemLongClick
     }
 }
 
+data class ItemSelectedListener(val adapterView: AdapterView<*>?, val view: View?, val position: Int, val id: Long)
 
 fun AdapterView<*>.rx_itemSelected(): Observable<ItemSelectedListener> {
     return Observable.create { subscriber ->
@@ -61,7 +62,6 @@ fun AdapterView<*>.rx_nothingSelected(): Observable<AdapterView<*>> {
         })
     }
 }
-
 
 private val AdapterView<*>._itemSelected: _AdapterView_OnItemSelectedListener
     get() {
@@ -95,6 +95,4 @@ private class _AdapterView_OnItemSelectedListener : AdapterView.OnItemSelectedLi
     }
 
 }
-
-
 

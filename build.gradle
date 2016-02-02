@@ -16,7 +16,7 @@ buildscript {
 
 allprojects {
     ext {
-        version = '0.1.4'
+        version = '0.1.5'
 
         //kotlin
         kotlinGradlePlugin = 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-4589'

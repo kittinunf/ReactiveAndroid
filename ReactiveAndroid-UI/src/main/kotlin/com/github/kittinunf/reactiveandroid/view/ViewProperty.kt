@@ -4,7 +4,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import com.github.kittinunf.reactiveandroid.MutableProperty
-import com.github.kittinunf.reactiveandroid.Padding
 import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 
 //================================================================================
@@ -149,6 +148,7 @@ val View.rx_longClickable: MutableProperty<Boolean>
         return _rx_longClickable!!
     }
 
+data class Padding(val start: Int, val top: Int, val end: Int, val bottom: Int)
 
 private var _rx_padding: MutableProperty<Padding>? = null
 

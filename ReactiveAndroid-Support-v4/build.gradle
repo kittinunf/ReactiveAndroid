@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+apply plugin: 'com.novoda.bintray-release'
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -59,15 +61,15 @@ buildscript {
     }
 }
 
-//publish {
-//    artifactId = 'reactiveandroid-support-v4'
-//    autoPublish = true
-//    desc = 'Reactive events and properties with RxJava for Android'
-//    groupId = 'com.github.kittinunf.reactiveandroid'
-//    licences = ['MIT']
-//    publishVersion = parent.ext.version
-//    uploadName = 'ReactiveAndroid'
-//    website = 'https://github.com/kittinunf/ReactiveAndroid'
-//}
+publish {
+    artifactId = 'reactiveandroid-support-v4'
+    autoPublish = true
+    desc = 'Reactive events and properties with RxJava for Android'
+    groupId = 'com.github.kittinunf.reactiveandroid'
+    licences = ['MIT']
+    publishVersion = parent.ext.version
+    uploadName = 'ReactiveAndroid'
+    website = 'https://github.com/kittinunf/ReactiveAndroid'
+}
 
 

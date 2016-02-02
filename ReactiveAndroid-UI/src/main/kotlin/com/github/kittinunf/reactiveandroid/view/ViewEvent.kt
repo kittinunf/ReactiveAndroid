@@ -1,7 +1,6 @@
 package com.github.kittinunf.reactiveandroid.view
 
-import android.view.View
-import com.github.kittinunf.reactiveandroid.*
+import android.view.*
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -21,6 +20,8 @@ fun View.rx_click(): Observable<View> {
     }
 }
 
+data class DragListener(val view: View, val dragEvent: DragEvent)
+
 fun View.rx_drag(consumed: Boolean): Observable<DragListener> {
     return Observable.create { subscriber ->
         setOnDragListener { view, event ->
@@ -33,6 +34,8 @@ fun View.rx_drag(consumed: Boolean): Observable<DragListener> {
         })
     }
 }
+
+data class KeyListener(val view: View, val keyCode: Int, val keyEvent: KeyEvent)
 
 fun View.rx_key(consumed: Boolean): Observable<KeyListener> {
     return Observable.create { subscriber ->
@@ -47,6 +50,8 @@ fun View.rx_key(consumed: Boolean): Observable<KeyListener> {
     }
 }
 
+data class HoverListener(val view: View, val motionEvent: MotionEvent)
+
 fun View.rx_hover(consumed: Boolean): Observable<HoverListener> {
     return Observable.create { subscriber ->
         setOnHoverListener { view, event ->
@@ -59,6 +64,8 @@ fun View.rx_hover(consumed: Boolean): Observable<HoverListener> {
         })
     }
 }
+
+data class TouchListener(val view: View, val motionEvent: MotionEvent)
 
 fun View.rx_touch(consumed: Boolean): Observable<TouchListener> {
     return Observable.create { subscriber ->
@@ -86,6 +93,8 @@ fun View.rx_longClick(consumed: Boolean): Observable<View> {
     }
 }
 
+data class FocusChangeListener(val view: View, val hasFocus: Boolean)
+
 fun View.rx_focusChange(): Observable<FocusChangeListener> {
     return Observable.create { subscriber ->
         setOnFocusChangeListener { view, event ->
@@ -97,6 +106,8 @@ fun View.rx_focusChange(): Observable<FocusChangeListener> {
         })
     }
 }
+
+data class LayoutChangeListener(val view: View, val newPadding: Padding, val oldPadding: Padding)
 
 fun View.rx_layoutChange(): Observable<LayoutChangeListener> {
     return Observable.create { subscriber ->
@@ -112,6 +123,10 @@ fun View.rx_layoutChange(): Observable<LayoutChangeListener> {
     }
 }
 
+data class ScrollDirection(val x: Int, val y: Int)
+
+data class ScrollChangeListener(val view: View, val direction: ScrollDirection, val oldDirection: ScrollDirection)
+
 fun View.rx_scrollChange(): Observable<ScrollChangeListener> {
     return Observable.create { subscriber ->
         setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
@@ -123,6 +138,8 @@ fun View.rx_scrollChange(): Observable<ScrollChangeListener> {
         })
     }
 }
+
+data class CreateContextMenuListener(val contextMenu: ContextMenu, val view: View, val menuInfo: ContextMenu.ContextMenuInfo)
 
 fun View.rx_createContextMenu(): Observable<CreateContextMenuListener> {
     return Observable.create { subscriber ->
