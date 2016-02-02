@@ -63,7 +63,7 @@ buildscript {
 
 publish {
     artifactId = 'reactiveandroid-support-v4'
-    autoPublish = true
+    autoPublish = false
     desc = 'Reactive events and properties with RxJava for Android'
     groupId = 'com.github.kittinunf.reactiveandroid'
     licences = ['MIT']
@@ -71,5 +71,3 @@ publish {
     uploadName = 'ReactiveAndroid'
     website = 'https://github.com/kittinunf/ReactiveAndroid'
 }
-
-
