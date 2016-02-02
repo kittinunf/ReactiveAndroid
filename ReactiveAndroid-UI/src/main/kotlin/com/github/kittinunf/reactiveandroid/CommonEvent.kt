@@ -1,6 +1,7 @@
 package com.github.kittinunf.reactiveandroid
 
 import android.view.*
+import android.widget.AdapterView
 import android.widget.TextView
 
 data class Padding(val start: Int, val top: Int, val end: Int, val bottom: Int)
@@ -26,3 +27,9 @@ data class CreateContextMenuListener(val contextMenu: ContextMenu, val view: Vie
 data class EditorActionListener(val textView: TextView, val actionId: Int, val event: KeyEvent)
 
 data class TextChangedListener(val text: CharSequence?, val start: Int, val before: Int, val count: Int)
+
+data class ItemClickListener(val adapterView: AdapterView<*>, val view: View, val position: Int, val id: Long)
+
+data class ItemSelectedListener(val adapterView: AdapterView<*>?, val view: View?, val position: Int, val id: Long)
+
+data class ItemLongClickListener(val adapterView: AdapterView<*>, val view: View, val position: Int, val id: Long)

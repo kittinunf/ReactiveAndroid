@@ -69,5 +69,3 @@ publish {
     uploadName = 'ReactiveAndroid'
     website = 'https://github.com/kittinunf/ReactiveAndroid'
 }
-
-

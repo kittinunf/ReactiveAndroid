@@ -41,7 +41,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':ReactiveAndroid')
+    compile project(':ReactiveAndroid-UI')
+
     compile parent.ext.androidSupportV4
 
     testCompile parent.ext.junit
