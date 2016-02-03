@@ -31,7 +31,7 @@ fun Toolbar.rx_menuItemClick(consumed: Boolean): Observable<MenuItem> {
         }
         
         subscriber.add(AndroidMainThreadSubscription {
-           setOnMenuItemClickListener(null)
+            setOnMenuItemClickListener(null)
         })
     }
 }

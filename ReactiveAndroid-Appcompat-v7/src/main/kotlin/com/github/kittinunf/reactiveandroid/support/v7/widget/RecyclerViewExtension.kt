@@ -1,8 +1,8 @@
-package com.github.kittinunf.reactiveandroid.widget
+package com.github.kittinunf.reactiveandroid.support.v7.widget
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.github.kittinunf.reactiveandroid.RecyclerViewProxyAdapter
+import com.github.kittinunf.reactiveandroid.support.v7.widget.RecyclerViewProxyAdapter
 import rx.Observable
 import rx.Subscription
 

@@ -33,7 +33,7 @@ fun AdapterView<*>.rx_itemLongClick(consumed: Boolean): Observable<ItemLongClick
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-           setOnItemLongClickListener(null)
+            setOnItemLongClickListener(null)
         })
     }
 }

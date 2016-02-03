@@ -1,4 +1,4 @@
-package com.github.kittinunf.reactiveandroid.view
+package com.github.kittinunf.reactiveandroid.support.v4.view
 
 import android.support.v4.view.ViewPager
 import com.github.kittinunf.reactiveandroid.MutableProperty

@@ -31,7 +31,7 @@ fun AutoCompleteTextView.rx_dismiss(): Observable<Unit> {
         }
         
         subscriber.add(AndroidMainThreadSubscription {
-           setOnDismissListener(null)
+            setOnDismissListener(null)
         })
     }
 }
@@ -43,7 +43,7 @@ fun AutoCompleteTextView.rx_itemClick(): Observable<ItemClickListener> {
         }
         
         subscriber.add(AndroidMainThreadSubscription {
-           setOnItemClickListener(null)
+            setOnItemClickListener(null)
         })
     }
 }
@@ -55,7 +55,7 @@ fun AutoCompleteTextView.rx_itemSelected(): Observable<ItemSelectedListener> {
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-           setOnItemSelectedListener(null)
+            setOnItemSelectedListener(null)
         })
     }
 }
@@ -66,7 +66,7 @@ fun AutoCompleteTextView.rx_nothingSelected(): Observable<AdapterView<*>> {
             subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription{
+        subscriber.add(AndroidMainThreadSubscription {
             setOnItemSelectedListener(null)
         })
     }

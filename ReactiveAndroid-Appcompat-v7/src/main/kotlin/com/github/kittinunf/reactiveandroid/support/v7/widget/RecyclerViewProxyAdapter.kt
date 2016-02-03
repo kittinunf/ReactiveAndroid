@@ -1,4 +1,4 @@
-package com.github.kittinunf.reactiveandroid
+package com.github.kittinunf.reactiveandroid.support.v7.widget
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
