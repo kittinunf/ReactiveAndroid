@@ -2,7 +2,7 @@ package com.github.kittinunf.reactiveandroid.view
 
 import android.app.Activity
 import android.view.View
-import com.github.kittinunf.reactiveandroid.BuildConfig
+import com.github.kittinunf.reactiveandroid.ui.BuildConfig
 import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
