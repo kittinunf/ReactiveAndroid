@@ -21,7 +21,9 @@ class RecyclerViewProxyAdapter<T : RecyclerView.ViewHolder, U>(val onCreateViewH
 
     fun updateData(recyclerView: RecyclerView, observedItems: List<U>) {
         items = observedItems
-        notifyDataSetChanged()
+        recyclerView.post {
+            notifyDataSetChanged()
+        }
     }
 
 }
