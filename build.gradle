@@ -16,7 +16,20 @@ buildscript {
 
 allprojects {
     ext {
-        version = '0.1.8'
+        //publish
+        reactiveAndroidVersion = '0.1.9'
+
+        reactiveAndroid = 'reactiveandroid'
+        reactiveAndroidAppcompatV7 = 'reactiveandroid-support-v7'
+        reactiveAndroidSupportV4 = 'reactiveandroid-support-v4'
+        reactiveAndroidUI = 'reactiveandroid-ui'
+
+        autoPublish = false
+        desc = 'Reactive events and properties with RxJava for Android'
+        groupId = 'com.github.kittinunf.reactiveandroid'
+        licences = ['MIT']
+        uploadName = 'ReactiveAndroid'
+        website = 'https://github.com/kittinunf/ReactiveAndroid'
 
         //kotlin
         kotlinGradlePlugin = 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-4589'
@@ -24,6 +37,8 @@ allprojects {
 
         //android
         androidSupportV4 = 'com.android.support:support-v4:23.1.0'
+        androidAppCompatV7 = 'com.android.support:appcompat-v7:23.1.0'
+        androidSupportRecyclerView = 'com.android.support:recyclerview-v7:23.1.1'
 
         //rxjava
         reactivexRxJava = 'io.reactivex:rxjava:1.1.0'

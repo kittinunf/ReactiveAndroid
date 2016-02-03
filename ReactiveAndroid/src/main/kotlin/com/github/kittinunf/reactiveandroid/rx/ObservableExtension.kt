@@ -4,10 +4,10 @@ import rx.Observable
 import rx.Observer
 import rx.Subscription
 
-public fun <T, U> Observable<T>.lift(u: U,
-                                     onNext: U.(T) -> Unit,
-                                     onError: (U.(Throwable?) -> Unit)? = null,
-                                     onCompleted: (U.() -> Unit)? = null): Subscription {
+fun <T, U> Observable<T>.lift(u: U,
+                              onNext: U.(T) -> Unit,
+                              onError: (U.(Throwable?) -> Unit)? = null,
+                              onCompleted: (U.() -> Unit)? = null): Subscription {
 
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
@@ -28,9 +28,9 @@ public fun <T, U> Observable<T>.lift(u: U,
     })
 }
 
-public fun <T : Pair<A, B>, A, B> Observable<T>.subscribe(onNext: (A, B) -> Unit,
-                                                          onError: ((Throwable?) -> Unit)? = null,
-                                                          onCompleted: (() -> Unit)? = null): Subscription {
+fun <T : Pair<A, B>, A, B> Observable<T>.subscribe(onNext: (A, B) -> Unit,
+                                                   onError: ((Throwable?) -> Unit)? = null,
+                                                   onCompleted: (() -> Unit)? = null): Subscription {
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
             val (first, second) = t
@@ -51,9 +51,9 @@ public fun <T : Pair<A, B>, A, B> Observable<T>.subscribe(onNext: (A, B) -> Unit
     })
 }
 
-public fun <T : Triple<A, B, C>, A, B, C> Observable<T>.subscribe(onNext: (A, B, C) -> Unit,
-                                                          onError: ((Throwable?) -> Unit)? = null,
-                                                          onCompleted: (() -> Unit)? = null): Subscription {
+fun <T : Triple<A, B, C>, A, B, C> Observable<T>.subscribe(onNext: (A, B, C) -> Unit,
+                                                           onError: ((Throwable?) -> Unit)? = null,
+                                                           onCompleted: (() -> Unit)? = null): Subscription {
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
             val (first, second, third) = t

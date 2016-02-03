@@ -45,7 +45,8 @@ dependencies {
 
     compile project(':ReactiveAndroid-UI')
 
-    compile parent.ext.androidSupportV4
+    compile parent.ext.androidAppCompatV7
+    compile parent.ext.androidSupportRecyclerView
 
     testCompile parent.ext.junit
     testCompile parent.ext.robolectric
@@ -62,7 +63,7 @@ buildscript {
 }
 
 publish {
-    artifactId = parent.ext.reactiveAndroidSupportV4
+    artifactId = parent.ext.reactiveAndroidAppcompatV7
     autoPublish = parent.ext.autoPublish
     desc = parent.ext.desc
     groupId = parent.ext.groupId

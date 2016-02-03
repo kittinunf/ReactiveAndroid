@@ -15,6 +15,7 @@ class ObservableExtensionTest {
         result = input
     }
 
+
     class Foo {
         var value = 0
 
@@ -59,9 +60,9 @@ class ObservableExtensionTest {
     fun subscribeTriple() {
         var a = 0
         var b = 0
-        var c =0
+        var c = 0
 
-        Observable.just(Triple(1,2,3)).subscribe({ f, s, t ->
+        Observable.just(Triple(1, 2, 3)).subscribe({ f, s, t ->
             a = f
             b = s
             c = t

@@ -1,1 +1,1 @@
-include ':ReactiveAndroid', ':ReactiveAndroid-UI', ':ReactiveAndroid-Support-v4'
+include ':ReactiveAndroid', ':ReactiveAndroid-UI', ':ReactiveAndroid-Support-v4', ':ReactiveAndroid-Appcompat-v7'

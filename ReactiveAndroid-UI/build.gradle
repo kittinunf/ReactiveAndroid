@@ -60,12 +60,12 @@ buildscript {
 }
 
 publish {
-    artifactId = 'reactiveandroid-ui'
-    autoPublish = false
-    desc = 'Reactive events and properties with RxJava for Android'
-    groupId = 'com.github.kittinunf.reactiveandroid'
-    licences = ['MIT']
-    publishVersion = parent.ext.version
-    uploadName = 'ReactiveAndroid'
-    website = 'https://github.com/kittinunf/ReactiveAndroid'
+    artifactId = parent.ext.reactiveAndroidUI
+    autoPublish = parent.ext.autoPublish
+    desc = parent.ext.desc
+    groupId = parent.ext.groupId
+    licences = parent.ext.licences
+    publishVersion = parent.ext.reactiveAndroidVersion
+    uploadName = parent.ext.uploadName
+    website = parent.ext.website
 }
