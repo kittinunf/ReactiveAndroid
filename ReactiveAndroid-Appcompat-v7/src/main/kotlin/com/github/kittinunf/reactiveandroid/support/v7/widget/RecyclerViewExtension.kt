@@ -6,10 +6,6 @@ import com.github.kittinunf.reactiveandroid.support.v7.widget.RecyclerViewProxyA
 import rx.Observable
 import rx.Subscription
 
-/**
- * Created by Kittinun Vantasin on 2/3/16.
- */
-
 fun <T : RecyclerView.ViewHolder, U> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
                                                                onCreateViewHolder: (ViewGroup?, Int) -> T,
                                                                onBindViewHolder: (T, Int, U) -> Unit) : Subscription {

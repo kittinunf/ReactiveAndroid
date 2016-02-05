@@ -3,10 +3,6 @@ package com.github.kittinunf.reactiveandroid.support.v7.widget
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 
-/**
- * Created by Kittinun Vantasin on 2/3/16.
- */
-
 class RecyclerViewProxyAdapter<T : RecyclerView.ViewHolder, U>(val onCreateViewHolder: (ViewGroup?, Int) -> T,
                                                             val onBindViewHolder: (T, Int, U) -> Unit,
                                                             var items: List<U>) : RecyclerView.Adapter<T>() {
