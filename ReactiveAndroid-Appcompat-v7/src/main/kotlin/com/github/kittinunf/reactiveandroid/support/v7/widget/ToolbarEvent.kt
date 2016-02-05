@@ -1,22 +1,22 @@
-package com.github.kittinunf.reactiveandroid.widget
+package com.github.kittinunf.reactiveandroid.support.v7.widget
 
+import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toolbar
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
 //================================================================================
-// Events 
+// Events
 //================================================================================
 
 fun Toolbar.rx_navigationClick(): Observable<View> {
     return Observable.create { subscriber ->
-        setNavigationOnClickListener { 
+        setNavigationOnClickListener {
             subscriber.onNext(it)
 
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
             setNavigationOnClickListener(null)
         })
@@ -29,7 +29,7 @@ fun Toolbar.rx_menuItemClick(consumed: Boolean): Observable<MenuItem> {
             subscriber.onNext(it)
             consumed
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
             setOnMenuItemClickListener(null)
         })
