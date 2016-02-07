@@ -54,7 +54,7 @@ private val SlidingPaneLayout._panelSlide: _SlidingPaneLayout_PanelSlideListener
         return listener
     }
 
-class _SlidingPaneLayout_PanelSlideListener : SlidingPaneLayout.PanelSlideListener {
+internal class _SlidingPaneLayout_PanelSlideListener : SlidingPaneLayout.PanelSlideListener {
 
     private var onPanelSlide: ((View?, Float) -> Unit)? = null
 

@@ -43,7 +43,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':ReactiveAndroid-UI')
+    compile project(':reactiveandroid-ui')
 
     compile parent.ext.androidSupportV4
 

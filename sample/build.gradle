@@ -1,22 +1,20 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
     defaultConfig {
+        applicationId "com.github.kittinunf.reactiveandroid.sample"
         minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
     }
 
     buildTypes {
@@ -35,22 +33,15 @@ android {
         abortOnError false
     }
 
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile parent.ext.kotlinStdLib
+    compile parent.ext.androidAppCompatV7
 
     compile project(':reactiveandroid-ui')
-
-    compile parent.ext.androidAppCompatV7
-    compile parent.ext.androidSupportRecyclerView
-    compile parent.ext.androidSupportCardView
-
-    testCompile parent.ext.junit
-    testCompile parent.ext.robolectric
+    compile project(':reactiveandroid-appcompat-v7')
+    compile project(':reactiveandroid-support-v4')
 }
 
 buildscript {
@@ -60,16 +51,7 @@ buildscript {
 
     dependencies {
         classpath parent.ext.kotlinGradlePlugin
+        classpath parent.ext.kotlinAndroidExtensions
     }
 }
 
-publish {
-    artifactId = parent.ext.reactiveAndroidAppcompatV7
-    autoPublish = parent.ext.autoPublish
-    desc = parent.ext.desc
-    groupId = parent.ext.groupId
-    licences = parent.ext.licences
-    publishVersion = parent.ext.reactiveAndroidVersion
-    uploadName = parent.ext.uploadName
-    website = parent.ext.website
-}

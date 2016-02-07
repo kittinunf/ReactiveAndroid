@@ -79,7 +79,7 @@ private val ViewGroup._hierarchyChange: _ViewGroup_OnHierarchyChangeListener
         return listener
     }
 
-class _ViewGroup_OnHierarchyChangeListener : ViewGroup.OnHierarchyChangeListener {
+internal class _ViewGroup_OnHierarchyChangeListener : ViewGroup.OnHierarchyChangeListener {
 
     private var onChildViewRemoved: ((View?, View?) -> Unit)? = null
 
@@ -110,7 +110,7 @@ private val ViewGroup._layout_animation: _ViewGroup_AnimationListener
         return listener
     }
 
-class _ViewGroup_AnimationListener : Animation.AnimationListener {
+internal class _ViewGroup_AnimationListener : Animation.AnimationListener {
 
     private var onAnimationRepeat: ((Animation?) -> Unit)? = null
 

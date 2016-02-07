@@ -93,7 +93,9 @@ private var _rx_enabled: MutableProperty<Boolean>? = null
 val View.rx_enabled: MutableProperty<Boolean>
     get() {
         val getter = { isEnabled }
-        val setter: (Boolean) -> Unit = { isEnabled = it }
+        val setter: (Boolean) -> Unit = {
+            isEnabled = it
+        }
         
         if (_rx_enabled == null) {
             _rx_enabled = createMainThreadMutableProperty(getter, setter)

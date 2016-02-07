@@ -66,7 +66,7 @@ private val DrawerLayout._drawer: _DrawerLayout_DrawerListener
         return listener
     }
 
-class _DrawerLayout_DrawerListener : DrawerLayout.DrawerListener {
+internal class _DrawerLayout_DrawerListener : DrawerLayout.DrawerListener {
 
     private var onDrawerClosed: ((View?) -> Unit)? = null
 

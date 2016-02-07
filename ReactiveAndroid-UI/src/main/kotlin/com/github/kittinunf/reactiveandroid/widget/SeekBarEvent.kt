@@ -46,14 +46,14 @@ fun SeekBar.rx_stopTrackingTouch(): Observable<SeekBar> {
     }
 }
 
-val SeekBar._seekBarChange: _SeekBar_OnSeekBarChangeListener
+private val SeekBar._seekBarChange: _SeekBar_OnSeekBarChangeListener
     get() {
         val listener = _SeekBar_OnSeekBarChangeListener()
         setOnSeekBarChangeListener(listener)
         return listener
     }
 
-class _SeekBar_OnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
+internal class _SeekBar_OnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
 
     var onProgressChanged: ((SeekBar?, Int, Boolean) -> Unit)? = null
 

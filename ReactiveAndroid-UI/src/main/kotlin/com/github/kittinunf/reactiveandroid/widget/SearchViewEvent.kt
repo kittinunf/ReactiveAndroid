@@ -106,7 +106,7 @@ private val SearchView._suggestion: _SearchView_OnSuggestionListener
         return listener
     }
 
-class _SearchView_OnSuggestionListener : SearchView.OnSuggestionListener {
+internal class _SearchView_OnSuggestionListener : SearchView.OnSuggestionListener {
 
     private var onSuggestionSelect: ((Int) -> Boolean)? = null
 

@@ -43,7 +43,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':ReactiveAndroid')
+    compile project(':reactiveandroid')
 
     testCompile parent.ext.junit
     testCompile parent.ext.robolectric
