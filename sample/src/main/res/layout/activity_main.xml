@@ -27,13 +27,23 @@
         android:layout_below="@id/userNameEditText"
         />
 
+    <ProgressBar
+        android:id="@+id/loadingProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/passwordEditText"
+        />
+
     <Button
         android:id="@+id/signInButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign In"
         android:padding="@dimen/activity_horizontal_margin"
-        android:layout_below="@id/passwordEditText"
+        android:layout_below="@id/loadingProgressBar"
         />
 
 </RelativeLayout>

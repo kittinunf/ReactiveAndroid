@@ -1,18 +1,15 @@
-package com.github.kittinunf.reactiveandroid.widget
+package com.github.kittinunf.reactiveandroid.view
 
-import android.view.View
-import android.widget.Button
+import android.view.MenuItem
 import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.rx.addTo
-import com.github.kittinunf.reactiveandroid.view.rx_click
-import com.github.kittinunf.reactiveandroid.view.rx_enabled
 import rx.subscriptions.CompositeSubscription
 
-private var _rx_action: Action<View, *>? = null
+private var _rx_action: Action<MenuItem, *>? = null
 
 private var _rx_subscriptions: CompositeSubscription? = null
 
-var Button.rx_action: Action<View, *>?
+var MenuItem.rx_action: Action<MenuItem, *>?
     set(value) {
         _rx_action = value
 
@@ -25,12 +22,12 @@ var Button.rx_action: Action<View, *>?
 
             rx_enabled.bindTo(action.enabled).addTo(_rx_subscriptions!!)
 
-            rx_click().subscribe { view ->
-                action.execute(view)
+            rx_menuItemClick(true).subscribe { menuItem ->
+                action.execute(menuItem)
             }.addTo(_rx_subscriptions!!)
         }
     }
     get() {
         return _rx_action
     }
- 
+
