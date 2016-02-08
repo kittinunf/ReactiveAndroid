@@ -1,7 +1,6 @@
 package com.github.kittinunf.reactiveandroid
 
 import com.github.kittinunf.reactiveandroid.rx.addTo
-import com.github.kittinunf.reactiveandroid.rx.bindTo
 import rx.Observable
 import rx.subjects.PublishSubject
 import rx.subjects.ReplaySubject
