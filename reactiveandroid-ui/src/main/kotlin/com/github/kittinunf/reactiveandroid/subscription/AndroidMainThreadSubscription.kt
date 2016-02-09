@@ -5,10 +5,6 @@ import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import rx.Subscription
 import rx.subscriptions.BooleanSubscription
 
-/**
- * Created by Kittinun Vantasin on 2/1/16.
- */
-
 class AndroidMainThreadSubscription(private val unsubscriber: () -> Unit) : Subscription {
 
     val subscription = BooleanSubscription.create {

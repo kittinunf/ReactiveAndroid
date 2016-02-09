@@ -8,10 +8,6 @@ import rx.subscriptions.CompositeSubscription
 import rx.subscriptions.Subscriptions
 import org.hamcrest.CoreMatchers.`is` as isEqualTo
 
-/**
- * Created by Kittinun Vantasin on 2/3/16.
- */
-
 class SubscriptionExtensionTest {
 
     val compositeSubscription = CompositeSubscription()
