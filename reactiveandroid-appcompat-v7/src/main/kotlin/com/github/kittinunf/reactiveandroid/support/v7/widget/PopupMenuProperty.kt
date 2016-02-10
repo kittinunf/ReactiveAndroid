@@ -8,18 +8,10 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-private var _rx_gravity: MutableProperty<Int>? = null
-
 val PopupMenu.rx_gravity: MutableProperty<Int>
     get() {
         val getter = { gravity }
         val setter: (Int) -> Unit = { gravity = it }
 
-        if (_rx_gravity == null) {
-            _rx_gravity = createMainThreadMutableProperty(getter, setter)
-        } else {
-            _rx_gravity!!.value = getter()
-        }
-        return _rx_gravity!!
+        return createMainThreadMutableProperty(getter, setter)
     }
- 

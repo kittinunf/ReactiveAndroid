@@ -1,17 +1,24 @@
 package com.github.kittinunf.reactiveandroid.sample
 
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.rx.addTo
+import com.github.kittinunf.reactiveandroid.rx.bindTo
+import com.github.kittinunf.reactiveandroid.rx.lift
+import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
+import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import com.github.kittinunf.reactiveandroid.view.rx_visibility
 import com.github.kittinunf.reactiveandroid.widget.rx_action
 import com.github.kittinunf.reactiveandroid.widget.rx_textChanged
 import kotlinx.android.synthetic.main.activity_main.*
 import rx.Observable
 import rx.subscriptions.CompositeSubscription
+import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
@@ -21,10 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     val logInAction by lazy(LazyThreadSafetyMode.NONE) {
         val valid = isFormValid()
-
-        Action(valid) { button: View ->
-            Observable.just(Pair(userNameEditText.text.toString(), passwordEditText.text.toString())).delay(5, TimeUnit.SECONDS)
-        }
+        Action(valid) { button: View -> mockNetworkRequest() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +39,21 @@ class MainActivity : AppCompatActivity() {
         setUpProgressBar()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        logInAction.unsubscribe()
+        subscriptions.unsubscribe()
+    }
+
     private fun setUpButton() {
         signInButton.rx_action = logInAction
-        signInButton.rx_action!!.values.subscribe { Log.e(javaClass.simpleName, "Success: " + it.toString()) }
+        signInButton.rx_action!!.values.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this, MainActivity::handleSuccess).addTo(subscriptions)
+        signInButton.rx_action!!.errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this, MainActivity::handleFailure).addTo(subscriptions)
     }
 
     private fun setUpProgressBar() {
         loadingProgressBar.rx_visibility.bindTo(logInAction.executing.map { if (it) View.VISIBLE else View.INVISIBLE }).addTo(subscriptions)
+        loadingProgressBar.rx_visibility.value = View.INVISIBLE
     }
 
     private fun isFormValid() = Observable.combineLatest(isUsernameValid(), isPasswordValid()) { userValid, passValid ->
@@ -52,9 +64,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun isPasswordValid() = passwordEditText.rx_textChanged().map { it.text?.count() ?: 0 >= 6 }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        subscriptions.unsubscribe()
+    private fun mockNetworkRequest(): Observable<Pair<String, String>> {
+        return Observable.defer {
+            val r = Random()
+            //about 30% failure
+            if (r.nextInt(10) < 3) {
+                Observable.error<Pair<String, String>>(RuntimeException("Network failure, please try again.")).delay(3, TimeUnit.SECONDS)
+            } else {
+                Observable.just(Pair(userNameEditText.text.toString(), passwordEditText.text.toString())).delay(3, TimeUnit.SECONDS)
+            }
+        }
+    }
+
+    private fun handleSuccess() {
+        AlertDialog.Builder(this).apply {
+            setTitle("Success")
+            setMessage("Log In successfully")
+        }.create().show()
+    }
+
+    private fun handleFailure(e: Throwable) {
+        Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
     }
 
 }

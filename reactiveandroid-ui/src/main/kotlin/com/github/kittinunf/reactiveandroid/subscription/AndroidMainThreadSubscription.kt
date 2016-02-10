@@ -10,7 +10,7 @@ class AndroidMainThreadSubscription(private val unsubscriber: () -> Unit) : Subs
     val subscription = BooleanSubscription.create {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             unsubscriber()
-        } else {
+        
             AndroidThreadScheduler.mainThreadScheduler.createWorker()?.schedule(unsubscriber)
         }
     }

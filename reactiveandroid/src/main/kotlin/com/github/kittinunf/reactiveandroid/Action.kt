@@ -53,7 +53,7 @@ class Action<in T, U>(val enabledIf: Observable<Boolean>, val execution: (T) -> 
         val workObservable = execution(input)
         val connectable = workObservable.publish()
 
-        connectable.subscribe(buffer)
+        connectable.subscribe(buffer).addTo(subscriptions)
 
         buffer.subscribe({
             _values.onNext(it)
@@ -66,6 +66,10 @@ class Action<in T, U>(val enabledIf: Observable<Boolean>, val execution: (T) -> 
 
         connectable.connect()
         return buffer.asObservable()
+    }
+
+    fun unsubscribe() {
+        subscriptions.unsubscribe()
     }
 
 }
