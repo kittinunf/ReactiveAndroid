@@ -7,31 +7,41 @@ import rx.Subscription
 
 fun <T : RecyclerView.ViewHolder, U> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
                                                                onCreateViewHolder: (ViewGroup?, Int) -> T,
-                                                               onBindViewHolder: (T, Int, U) -> Unit): Subscription {
-
-    val proxyAdapter = RecyclerViewProxyAdapter(onCreateViewHolder, onBindViewHolder, emptyList<U>())
-    adapter = proxyAdapter
-    return observable.subscribe {
-        proxyAdapter.updateData(this, it)
-    }
+                                                               onBindViewHolder: (T, Int) -> Unit): Subscription {
+    val proxy = RecyclerViewImpl<U, T>(onCreateViewHolder, onBindViewHolder)
+    return rx_itemsWith(observable, proxy)
 }
 
-abstract class RecyclerViewAdapterItem<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
+class RecyclerViewImpl<T, VH: RecyclerView.ViewHolder>(override var createViewHolder: (ViewGroup?, Int) -> VH,
+                                                       override var bindViewHolder: (VH, Int) -> Unit) : RecyclerViewProxyAdapter<T, VH>()
+
+abstract class RecyclerViewProxyAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
+
     internal var items: List<T> = listOf()
+
+    abstract var createViewHolder: (ViewGroup?, Int) -> VH
+    abstract var bindViewHolder: (VH, Int) -> Unit
 
     override fun getItemCount(): Int = items.size
 
     fun getItem(position: Int) = items[position]
     operator fun get(position: Int) = items[position]
+
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH = createViewHolder.invoke(parent, viewType)
+
+    override fun onBindViewHolder(viewHolder: VH, position: Int) {
+        bindViewHolder.invoke(viewHolder, position)
+    }
+
 }
 
-fun <T : RecyclerView.ViewHolder, U, V : RecyclerViewAdapterItem<U, T>> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
-                                                               recyclerViewAdapter: V): Subscription {
-    adapter = recyclerViewAdapter
+fun <T : RecyclerView.ViewHolder, U, V : RecyclerViewProxyAdapter<U, T>> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
+                                                               recyclerProxyAdapter: V): Subscription {
+    adapter = recyclerProxyAdapter
     return observable.subscribe {
-        recyclerViewAdapter.items = it
+        recyclerProxyAdapter.items = it
         post {
-            recyclerViewAdapter.notifyDataSetChanged()
+            recyclerProxyAdapter.notifyDataSetChanged()
         }
     }
 }
