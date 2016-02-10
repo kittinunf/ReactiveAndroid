@@ -3,19 +3,21 @@ package com.github.kittinunf.reactiveandroid.sample
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.github.kittinunf.reactiveandroid.Action
+import com.github.kittinunf.reactiveandroid.Property
 import com.github.kittinunf.reactiveandroid.rx.addTo
-import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.rx.lift
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
-import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import com.github.kittinunf.reactiveandroid.view.rx_visibility
 import com.github.kittinunf.reactiveandroid.widget.rx_action
+import com.github.kittinunf.reactiveandroid.widget.rx_itemsWith
 import com.github.kittinunf.reactiveandroid.widget.rx_textChanged
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.spinner_item.view.*
 import rx.Observable
 import rx.subscriptions.CompositeSubscription
 import java.util.*
@@ -35,8 +37,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        title = ""
+
+        setUpToolbar()
         setUpButton()
         setUpProgressBar()
+    }
+
+    private fun setUpToolbar() {
+        setSupportActionBar(toolbar)
+
+        val property = Property(listOf("Item 1", "Item 2", "Item 3"))
+        toolbarSpinner.rx_itemsWith(property.observable, { position, item, convertView, parent ->
+            val view = LayoutInflater.from(this@MainActivity).inflate(R.layout.spinner_item, parent, false)
+            view.spinnerTextView.text = item
+            view
+        }, { position, item -> position.toLong() })
     }
 
     override fun onDestroy() {

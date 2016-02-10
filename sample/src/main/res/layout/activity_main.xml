@@ -4,46 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.github.kittinunf.reactiveandroid.sample.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <Spinner
+            android:id="@+id/toolbarSpinner"
+            style="?android:attr/spinnerDropDownItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </android.support.v7.widget.Toolbar>
+
 
     <EditText
         android:id="@+id/userNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/toolbar"
         android:inputType="textEmailAddress"
+        android:padding="@dimen/activity_horizontal_margin"
         />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/userNameEditText"
         android:inputType="textPassword"
         android:padding="@dimen/activity_horizontal_margin"
-        android:layout_below="@id/userNameEditText"
         />
 
     <ProgressBar
         android:id="@+id/loadingProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:padding="@dimen/activity_horizontal_margin"
         android:layout_below="@id/passwordEditText"
+        android:indeterminate="true"
+        android:padding="@dimen/activity_horizontal_margin"
         />
 
     <Button
         android:id="@+id/signInButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign In"
-        android:padding="@dimen/activity_horizontal_margin"
         android:layout_below="@id/loadingProgressBar"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:text="Sign In"
         />
 
 </RelativeLayout>

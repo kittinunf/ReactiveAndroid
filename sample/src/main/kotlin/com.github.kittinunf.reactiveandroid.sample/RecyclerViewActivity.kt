@@ -58,8 +58,7 @@ class RecyclerViewActivity : AppCompatActivity() {
             val view = LayoutInflater.from(this@RecyclerViewActivity).inflate(R.layout.recycler_item, parent, false)
             ViewHolder(view)
         }
-        override var bindViewHolder: (ViewHolder, Int) -> Unit = { viewHolder, position ->
-            val date = this[position]
+        override var bindViewHolder: (ViewHolder, Int, Date) -> Unit = { viewHolder, position, date ->
             viewHolder.textView1.text = date.toString()
             viewHolder.textView2.text = "Position $position"
         }
