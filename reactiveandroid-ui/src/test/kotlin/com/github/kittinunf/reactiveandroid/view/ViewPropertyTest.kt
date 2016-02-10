@@ -34,14 +34,16 @@ class ViewPropertyTest {
     fun alpha() {
         var result = -1f
 
-        view.rx_alpha.subscribe {
+        val alpha = view.rx_alpha
+
+        alpha.subscribe {
             result = it
         }
 
         assertThat(result, isEqualTo(1f))
 
         val o = Observable.just(0f)
-        view.rx_alpha.bindTo(o)
+        alpha.bindTo(o)
 
         assertThat(result, isEqualTo(0f))
     }
