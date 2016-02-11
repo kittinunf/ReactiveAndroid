@@ -17,6 +17,7 @@ dependencies {
     compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:0.2.2' //for base UI 
     compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:0.2.2' //for appcompat-v7 module 
     compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:0.2.2' //for support-v4 module 
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:0.2.2' //for design support module 
 }
 ```
 
