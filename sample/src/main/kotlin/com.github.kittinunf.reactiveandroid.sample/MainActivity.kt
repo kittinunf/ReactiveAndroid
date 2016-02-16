@@ -3,9 +3,9 @@ package com.github.kittinunf.reactiveandroid.sample
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.Property
@@ -30,7 +30,10 @@ class MainActivity : AppCompatActivity() {
 
     val logInAction by lazy(LazyThreadSafetyMode.NONE) {
         val valid = isFormValid()
-        Action(valid) { button: View -> mockNetworkRequest() }
+        Action(valid) { button: View -> mockNetworkRequest() }.apply {
+            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
+            errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleFailure).addTo(subscriptions)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +66,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpButton() {
         signInButton.rx_action = logInAction
-        signInButton.rx_action!!.values.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this, MainActivity::handleSuccess).addTo(subscriptions)
-        signInButton.rx_action!!.errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this, MainActivity::handleFailure).addTo(subscriptions)
     }
 
     private fun setUpProgressBar() {
@@ -84,8 +85,10 @@ class MainActivity : AppCompatActivity() {
         return Observable.defer {
             val r = Random()
             //about 30% failure
-            if (r.nextInt(10) < 3) {
-                Observable.error<Pair<String, String>>(RuntimeException("Network failure, please try again.")).delay(3, TimeUnit.SECONDS)
+            val i = r.nextInt(10)
+            Log.d(javaClass.simpleName, i.toString())
+            if (i < 3) {
+                Observable.error<Pair<String, String>>(RuntimeException("Network failure, please try again."))
             } else {
                 Observable.just(Pair(userNameEditText.text.toString(), passwordEditText.text.toString())).delay(3, TimeUnit.SECONDS)
             }
