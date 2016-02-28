@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     val logInAction by lazy(LazyThreadSafetyMode.NONE) {
         val valid = isFormValid()
-        Action(valid) { button: View -> mockNetworkRequest() }.apply {
+        Action(valid) { unit: Unit -> mockNetworkRequest() }.apply {
             values.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
             errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleFailure).addTo(subscriptions)
         }
@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpProgressBar() {
         loadingProgressBar.rx_visibility.bindTo(logInAction.executing.map { if (it) View.VISIBLE else View.INVISIBLE }).addTo(subscriptions)
-        loadingProgressBar.rx_visibility.value = View.INVISIBLE
     }
 
     private fun isFormValid() = Observable.combineLatest(isUsernameValid(), isPasswordValid()) { userValid, passValid ->

@@ -62,7 +62,6 @@ class RecyclerViewActivity : AppCompatActivity() {
             viewHolder.textView1.text = date.toString()
             viewHolder.textView2.text = "Position $position"
         }
-
-
     }
+
 }

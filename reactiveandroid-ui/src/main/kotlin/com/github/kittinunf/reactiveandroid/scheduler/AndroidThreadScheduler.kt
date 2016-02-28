@@ -14,7 +14,7 @@ object AndroidThreadScheduler {
 
     val mainThreadScheduler by lazy { MainThreadScheduler() }
 
-    public class MainThreadScheduler : Scheduler() {
+    class MainThreadScheduler : Scheduler() {
 
         private val mainThreadWorker by lazy { ThreadWorker(Handler(Looper.getMainLooper())) }
 

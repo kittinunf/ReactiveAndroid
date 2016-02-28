@@ -6,9 +6,9 @@ import rx.subjects.PublishSubject
 import rx.subjects.ReplaySubject
 import rx.subscriptions.CompositeSubscription
 
-class ActionErrorNotEnabled() : Throwable("Cannot execute Action is not enabled")
+class ActionErrorNotEnabled() : Throwable("Cannot execute Action, Action is not enabled")
 
-class Action<in T, U>(val enabledIf: Observable<Boolean>, val execution: (T) -> Observable<U>) {
+class Action<in T, U>(private val enabledIf: Observable<Boolean>, private val execution: (T) -> Observable<U>) {
 
     constructor(execution: (T) -> Observable<U>) : this(Observable.just(true), execution)
 

@@ -5,11 +5,11 @@ import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import rx.subscriptions.CompositeSubscription
 
-private var _rx_action: Action<MenuItem, *>? = null
+private var _rx_action: Action<Unit, *>? = null
 
 private var _rx_subscriptions: CompositeSubscription? = null
 
-var MenuItem.rx_action: Action<MenuItem, *>?
+var MenuItem.rx_action: Action<Unit, *>?
     set(value) {
         _rx_action = value
 
@@ -22,8 +22,8 @@ var MenuItem.rx_action: Action<MenuItem, *>?
 
             rx_enabled.bindTo(action.enabled).addTo(_rx_subscriptions!!)
 
-            rx_menuItemClick(true).subscribe { menuItem ->
-                action.execute(menuItem)
+            rx_menuItemClick(true).subscribe {
+                action.execute(Unit)
             }.addTo(_rx_subscriptions!!)
         }
     }
