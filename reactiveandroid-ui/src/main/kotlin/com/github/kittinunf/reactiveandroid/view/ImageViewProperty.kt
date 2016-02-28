@@ -36,6 +36,14 @@ val ImageView.rx_imageAlpha: MutableProperty<Int>
         return createMainThreadMutableProperty(getter, setter)
     }
 
+val ImageView.rx_imageLevel: MutableProperty<Int>
+    get() {
+        val getter = { drawable.level }
+        val setter: (Int) -> Unit = { setImageLevel(it) }
+
+        return createMainThreadMutableProperty(getter, setter)
+    }
+
 val ImageView.rx_imageMatrix: MutableProperty<Matrix>
     get() {
         val getter = { imageMatrix }
