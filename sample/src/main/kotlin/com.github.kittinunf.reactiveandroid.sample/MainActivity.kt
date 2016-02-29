@@ -5,9 +5,10 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import com.github.kittinunf.reactiveandroid.Action
-import com.github.kittinunf.reactiveandroid.Property
+import com.github.kittinunf.reactiveandroid.ConstantProperty
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.rx.lift
@@ -17,6 +18,7 @@ import com.github.kittinunf.reactiveandroid.view.rx_visibility
 import com.github.kittinunf.reactiveandroid.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.spinner_item.view.*
+import kotlinx.android.synthetic.main.spinner_item_dropdown.view.*
 import rx.Observable
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
@@ -66,14 +68,8 @@ class MainActivity : AppCompatActivity() {
     private fun setUpToolbar() {
         setSupportActionBar(toolbar)
 
-        val property = Property(listOf("Item 1", "Item 2", "Item 3"))
-        toolbarSpinner.rx_itemsWith(property.observable, { position, item, convertView, parent ->
-            val view = LayoutInflater.from(this@MainActivity).inflate(R.layout.spinner_item, parent, false)
-            view.spinnerTextView.text = item
-            view
-        }, { position, item ->
-            position.toLong()
-        }).addTo(subscriptions)
+        val property = ConstantProperty(listOf("Item 1", "Item 2", "Item 3"))
+        toolbarSpinner.rx_itemsWith(property.observable, ItemAdapter()).addTo(subscriptions)
     }
 
     private fun setUpTextInputLayout() {
@@ -120,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun mockSignUpRequest(email: String): Observable<String> {
         return Observable.defer {
-           val r = Random()
+            val r = Random()
             if (r.nextInt(10) > 3) {
                 Observable.error<String>(RuntimeException("Network failure, please try again."))
             } else {
@@ -146,4 +142,22 @@ class MainActivity : AppCompatActivity() {
         emailTextInputLayout.error = e.message
     }
 
+    inner class ItemAdapter : AdapterViewProxyAdapter<String>() {
+        override fun getItemId(position: Int) = position.toLong()
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
+            val view = convertView ?: LayoutInflater.from(this@MainActivity).inflate(R.layout.spinner_item, parent, false)
+            view.spinnerTextView.text = this[position]
+            return view
+        }
+
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View? {
+            val view = convertView ?: LayoutInflater.from(this@MainActivity).inflate(R.layout.spinner_item_dropdown, parent, false)
+            view.spinnerTextViewDropdown.text = this[position]
+            return view
+        }
+
+    }
 }
+
+
