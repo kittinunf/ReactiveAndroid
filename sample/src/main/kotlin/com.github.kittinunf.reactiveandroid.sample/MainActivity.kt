@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             if (isValid) "OK" else "Please enter valid email"
         }.bindTo(emailTextInputLayout.rx_hint).addTo(subscriptions)
 
-        emailEditText.rx_textChanged().map { false }.bindTo(emailTextInputLayout.rx_errorEnabled)
+        emailEditText.rx_textChanged().map { false }.bindTo(emailTextInputLayout.rx_errorEnabled).addTo(subscriptions)
     }
 
     private fun setUpButton() {
@@ -110,13 +110,12 @@ class MainActivity : AppCompatActivity() {
     private fun mockSignInRequest(username: String, password: String): Observable<Pair<String, String>> {
         return Observable.defer {
             val r = Random()
-            //about 30% failure
             if (r.nextInt(10) < 3) {
                 Observable.error<Pair<String, String>>(RuntimeException("Network failure, please try again."))
             } else {
                 Observable.just(username to password).delay(2, TimeUnit.SECONDS)
-            }.subscribeOn(Schedulers.io())
-        }
+            }
+        }.subscribeOn(Schedulers.io())
     }
 
     private fun mockSignUpRequest(email: String): Observable<String> {
@@ -126,16 +125,17 @@ class MainActivity : AppCompatActivity() {
                 Observable.error<String>(RuntimeException("Network failure, please try again."))
             } else {
                 Observable.just(email).delay(2, TimeUnit.SECONDS)
-            }.subscribeOn(Schedulers.io())
-        }
+            }
+        }.subscribeOn(Schedulers.io())
     }
 
     private fun handleSuccess(action: String) {
+        emailTextInputLayout.isErrorEnabled = false
+
         AlertDialog.Builder(this).apply {
             setTitle("Success")
             setMessage("$action successfully")
         }.create().show()
-        emailTextInputLayout.isErrorEnabled = false
     }
 
     private fun handleFailure(e: Throwable) {
