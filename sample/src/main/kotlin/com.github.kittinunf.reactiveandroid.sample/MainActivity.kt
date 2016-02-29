@@ -3,22 +3,22 @@ package com.github.kittinunf.reactiveandroid.sample
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.Property
 import com.github.kittinunf.reactiveandroid.rx.addTo
+import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.rx.lift
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
+import com.github.kittinunf.reactiveandroid.view.rx_focusChange
 import com.github.kittinunf.reactiveandroid.view.rx_visibility
-import com.github.kittinunf.reactiveandroid.widget.rx_action
-import com.github.kittinunf.reactiveandroid.widget.rx_itemsWith
-import com.github.kittinunf.reactiveandroid.widget.rx_textChanged
+import com.github.kittinunf.reactiveandroid.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.spinner_item.view.*
 import rx.Observable
+import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -28,11 +28,19 @@ class MainActivity : AppCompatActivity() {
 
     val subscriptions = CompositeSubscription()
 
-    val logInAction by lazy(LazyThreadSafetyMode.NONE) {
+    val signInAction by lazy(LazyThreadSafetyMode.NONE) {
         val valid = isFormValid()
-        Action(valid) { unit: Unit -> mockNetworkRequest() }.apply {
-            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
+        Action(valid) { unit: Unit -> mockSignInRequest(userNameEditText.text.toString(), passwordEditText.text.toString()) }.apply {
+            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).map { "Sign In" }.lift(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
             errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleFailure).addTo(subscriptions)
+        }
+    }
+
+    val signUpAction by lazy(LazyThreadSafetyMode.NONE) {
+        val valid = isEmailValid()
+        Action(valid) { unit: Unit -> mockSignUpRequest(emailEditText.text.toString()) }.apply {
+            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).map { "Sign Up" }.lift(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
+            errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleSignUpFailure).addTo(subscriptions)
         }
     }
 
@@ -43,8 +51,16 @@ class MainActivity : AppCompatActivity() {
         title = ""
 
         setUpToolbar()
+        setUpTextInputLayout()
         setUpButton()
         setUpProgressBar()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        signInAction.unsubscribe()
+        signUpAction.unsubscribe()
+        subscriptions.unsubscribe()
     }
 
     private fun setUpToolbar() {
@@ -55,21 +71,30 @@ class MainActivity : AppCompatActivity() {
             val view = LayoutInflater.from(this@MainActivity).inflate(R.layout.spinner_item, parent, false)
             view.spinnerTextView.text = item
             view
-        }, { position, item -> position.toLong() })
+        }, { position, item ->
+            position.toLong()
+        }).addTo(subscriptions)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        logInAction.unsubscribe()
-        subscriptions.unsubscribe()
+    private fun setUpTextInputLayout() {
+        val emailValid = isEmailValid()
+        val emailFocusChange = emailEditText.rx_focusChange().map { it.hasFocus }
+
+        Observable.combineLatest(emailValid, emailFocusChange) { isValid, hasFocus ->
+            if (!hasFocus) return@combineLatest "Email"
+            if (isValid) "OK" else "Please enter valid email"
+        }.bindTo(emailTextInputLayout.rx_hint).addTo(subscriptions)
+
+        emailEditText.rx_textChanged().map { false }.bindTo(emailTextInputLayout.rx_errorEnabled)
     }
 
     private fun setUpButton() {
-        signInButton.rx_action = logInAction
+        signInButton.rx_action = signInAction
+        signUpButton.rx_action = signUpAction
     }
 
     private fun setUpProgressBar() {
-        loadingProgressBar.rx_visibility.bindTo(logInAction.executing.map { if (it) View.VISIBLE else View.INVISIBLE }).addTo(subscriptions)
+        loadingProgressBar.rx_visibility.bindTo(signInAction.executing.map { if (it) View.VISIBLE else View.INVISIBLE }).addTo(subscriptions)
     }
 
     private fun isFormValid() = Observable.combineLatest(isUsernameValid(), isPasswordValid()) { userValid, passValid ->
@@ -80,29 +105,45 @@ class MainActivity : AppCompatActivity() {
 
     private fun isPasswordValid() = passwordEditText.rx_textChanged().map { it.text?.count() ?: 0 >= 6 }
 
-    private fun mockNetworkRequest(): Observable<Pair<String, String>> {
+    private fun isEmailValid() = emailEditText.rx_textChanged().map { Pattern.matches(".+@[a-zA-Z]{2,}\\.[a-zA-Z]{2,}", it.text) }
+
+    private fun mockSignInRequest(username: String, password: String): Observable<Pair<String, String>> {
         return Observable.defer {
             val r = Random()
             //about 30% failure
-            val i = r.nextInt(10)
-            Log.d(javaClass.simpleName, i.toString())
-            if (i < 3) {
+            if (r.nextInt(10) < 3) {
                 Observable.error<Pair<String, String>>(RuntimeException("Network failure, please try again."))
             } else {
-                Observable.just(Pair(userNameEditText.text.toString(), passwordEditText.text.toString())).delay(3, TimeUnit.SECONDS)
-            }
+                Observable.just(username to password).delay(2, TimeUnit.SECONDS)
+            }.subscribeOn(Schedulers.io())
         }
     }
 
-    private fun handleSuccess() {
+    private fun mockSignUpRequest(email: String): Observable<String> {
+        return Observable.defer {
+           val r = Random()
+            if (r.nextInt(10) > 3) {
+                Observable.error<String>(RuntimeException("Network failure, please try again."))
+            } else {
+                Observable.just(email).delay(2, TimeUnit.SECONDS)
+            }.subscribeOn(Schedulers.io())
+        }
+    }
+
+    private fun handleSuccess(action: String) {
         AlertDialog.Builder(this).apply {
             setTitle("Success")
-            setMessage("Log In successfully")
+            setMessage("$action successfully")
         }.create().show()
+        emailTextInputLayout.isErrorEnabled = false
     }
 
     private fun handleFailure(e: Throwable) {
         Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun handleSignUpFailure(e: Throwable) {
+        emailTextInputLayout.error = e.message
     }
 
 }

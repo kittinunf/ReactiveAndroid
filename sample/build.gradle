@@ -42,6 +42,7 @@ dependencies {
     compile project(':reactiveandroid-ui')
     compile project(':reactiveandroid-appcompat-v7')
     compile project(':reactiveandroid-support-v4')
+    compile project(':reactiveandroid-design')
 }
 
 buildscript {
