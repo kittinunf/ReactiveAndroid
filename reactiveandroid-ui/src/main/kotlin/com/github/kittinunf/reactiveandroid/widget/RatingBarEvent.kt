@@ -18,7 +18,7 @@ fun RatingBar.rx_ratingBarChange(): Observable<RatingBarChangeListener> {
         }
         
         subscriber.add(AndroidMainThreadSubscription {
-            setOnRatingBarChangeListener(null)
+            onRatingBarChangeListener = null
         })
     }
 }

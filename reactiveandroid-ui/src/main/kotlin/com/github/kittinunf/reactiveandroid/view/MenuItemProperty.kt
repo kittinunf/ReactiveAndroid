@@ -14,7 +14,7 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 val MenuItem.rx_actionView: MutableProperty<View>
     get() {
         val getter = { actionView }
-        val setter: (View) -> Unit = { setActionView(it) }
+        val setter: (View) -> Unit = { actionView = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }
@@ -22,7 +22,7 @@ val MenuItem.rx_actionView: MutableProperty<View>
 val MenuItem.rx_icon: MutableProperty<Drawable>
     get() {
         val getter = { icon }
-        val setter: (Drawable) -> Unit = { setIcon(it) }
+        val setter: (Drawable) -> Unit = { icon = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }
@@ -30,7 +30,7 @@ val MenuItem.rx_icon: MutableProperty<Drawable>
 val MenuItem.rx_checkable: MutableProperty<Boolean>
     get() {
         val getter = { isCheckable }
-        val setter: (Boolean) -> Unit = { setCheckable(it) }
+        val setter: (Boolean) -> Unit = { isCheckable = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }
@@ -38,7 +38,7 @@ val MenuItem.rx_checkable: MutableProperty<Boolean>
 val MenuItem.rx_checked: MutableProperty<Boolean>
     get() {
         val getter = { isChecked }
-        val setter: (Boolean) -> Unit = { setChecked(it) }
+        val setter: (Boolean) -> Unit = { isChecked = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }
@@ -46,7 +46,7 @@ val MenuItem.rx_checked: MutableProperty<Boolean>
 val MenuItem.rx_enabled: MutableProperty<Boolean>
     get() {
         val getter = { isEnabled }
-        val setter: (Boolean) -> Unit = { setEnabled(it) }
+        val setter: (Boolean) -> Unit = { isEnabled = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }
@@ -54,7 +54,7 @@ val MenuItem.rx_enabled: MutableProperty<Boolean>
 val MenuItem.rx_visible: MutableProperty<Boolean>
     get() {
         val getter = { isVisible }
-        val setter: (Boolean) -> Unit = { setVisible(it) }
+        val setter: (Boolean) -> Unit = { isVisible = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }
@@ -62,7 +62,7 @@ val MenuItem.rx_visible: MutableProperty<Boolean>
 val MenuItem.rx_title: MutableProperty<CharSequence>
     get() {
         val getter = { title }
-        val setter: (CharSequence) -> Unit = { setTitle(it) }
+        val setter: (CharSequence) -> Unit = { title = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }

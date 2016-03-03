@@ -102,7 +102,7 @@ fun View.rx_focusChange(): Observable<FocusChangeListener> {
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-            setOnFocusChangeListener(null)
+            onFocusChangeListener = null
         })
     }
 }

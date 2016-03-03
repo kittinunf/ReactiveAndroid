@@ -9,7 +9,6 @@ import rx.subscriptions.CompositeSubscription
 class ActionErrorNotEnabled() : Throwable("Cannot execute Action, Action is not enabled")
 
 class Action<in T, U>(private val enabledIf: Observable<Boolean>, private val execution: (T) -> Observable<U>) {
-
     constructor(execution: (T) -> Observable<U>) : this(Observable.just(true), execution)
 
     private val _errors = PublishSubject.create<Throwable>()
