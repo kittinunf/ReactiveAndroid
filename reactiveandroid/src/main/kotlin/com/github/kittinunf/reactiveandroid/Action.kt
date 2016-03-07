@@ -8,20 +8,20 @@ import rx.subscriptions.CompositeSubscription
 
 class ActionErrorNotEnabled() : Throwable("Cannot execute Action, Action is not enabled")
 
-class Action<in T, U>(private val enabledIf: Observable<Boolean>, private val execution: (T) -> Observable<U>) {
+open class Action<in T, U>(private val enabledIf: Observable<Boolean>, private val execution: (T) -> Observable<U>) {
     constructor(execution: (T) -> Observable<U>) : this(Observable.just(true), execution)
 
     private val _errors = PublishSubject.create<Throwable>()
-    val errors = _errors.asObservable()
+    open val errors = _errors.asObservable()
 
     private val _values = PublishSubject.create<U>()
-    val values = _values.asObservable()
+    open val values = _values.asObservable()
 
     private val _enabled = MutableProperty(false)
-    val enabled = _enabled.observable
+    open val enabled = _enabled.observable
 
     private val _executing = MutableProperty(false)
-    val executing = _executing.observable
+    open val executing = _executing.observable
 
     private val subscriptions = CompositeSubscription()
 

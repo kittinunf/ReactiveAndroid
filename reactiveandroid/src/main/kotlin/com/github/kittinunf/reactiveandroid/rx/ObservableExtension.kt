@@ -5,8 +5,8 @@ import rx.Observable
 import rx.Observer
 import rx.Subscription
 
-fun <T, U> Observable<T>.bindTo(u: U,
-                                onNext: U.(T) -> Unit,
+fun <T, U, X> Observable<T>.bindTo(u: U,
+                                onNext: U.(T) -> X,
                                 onError: (U.(Throwable?) -> Unit)? = null,
                                 onCompleted: (U.() -> Unit)? = null): Subscription {
 
@@ -29,8 +29,8 @@ fun <T, U> Observable<T>.bindTo(u: U,
     })
 }
 
-fun <T, U> Observable<T>.bindTo(u: U,
-                                onNext: U.() -> Unit,
+fun <T, U, X> Observable<T>.bindTo(u: U,
+                                onNext: U.() -> X,
                                 onError: (U.(Throwable?) -> Unit)? = null,
                                 onCompleted: (U.() -> Unit)? = null) : Subscription {
     return subscribe(object : Observer<T> {

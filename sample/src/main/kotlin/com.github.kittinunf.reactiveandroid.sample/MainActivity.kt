@@ -11,7 +11,6 @@ import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.ConstantProperty
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.rx.bindTo
-import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.view.rx_focusChange
 import com.github.kittinunf.reactiveandroid.view.rx_visibility
@@ -85,8 +84,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpButton() {
-        signInButton.rx_action = signInAction
-        signUpButton.rx_action = signUpAction
+        signInButton.rx_applyAction(signInAction).addTo(subscriptions)
+        signUpButton.rx_applyAction(signUpAction).addTo(subscriptions)
     }
 
     private fun setUpProgressBar() {
