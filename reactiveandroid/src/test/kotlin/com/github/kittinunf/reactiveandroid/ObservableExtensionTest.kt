@@ -1,6 +1,6 @@
 package com.github.kittinunf.reactiveandroid
 
-import com.github.kittinunf.reactiveandroid.rx.lift
+import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.rx.subscribe
 import org.junit.Assert.assertThat
 import org.junit.Test
@@ -28,14 +28,14 @@ class ObservableExtensionTest {
     fun liftWithVariableMethod() {
         val f = Foo()
 
-        Observable.range(0, 10).lift(f, Foo::plusWith)
+        Observable.range(0, 10).bindTo(f, Foo::plusWith)
 
         assertThat(f.value, isEqualTo(45))
     }
 
     @Test
     fun liftWithClassMethod() {
-        Observable.just("Hello observable").lift(this, ObservableExtensionTest::liftTest)
+        Observable.just("Hello observable").bindTo(this, ObservableExtensionTest::liftTest)
 
         assertThat(result, isEqualTo("Hello observable"))
     }

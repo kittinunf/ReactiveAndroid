@@ -11,7 +11,7 @@ import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.ConstantProperty
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.rx.bindTo
-import com.github.kittinunf.reactiveandroid.rx.lift
+import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.view.rx_focusChange
 import com.github.kittinunf.reactiveandroid.view.rx_visibility
@@ -33,16 +33,16 @@ class MainActivity : AppCompatActivity() {
     val signInAction by lazy(LazyThreadSafetyMode.NONE) {
         val valid = isFormValid()
         Action(valid) { unit: Unit -> mockSignInRequest(userNameEditText.text.toString(), passwordEditText.text.toString()) }.apply {
-            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).map { "Sign In" }.lift(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
-            errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleFailure).addTo(subscriptions)
+            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).map { "Sign In" }.bindTo(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
+            errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).bindTo(this@MainActivity, MainActivity::handleFailure).addTo(subscriptions)
         }
     }
 
     val signUpAction by lazy(LazyThreadSafetyMode.NONE) {
         val valid = isEmailValid()
         Action(valid) { unit: Unit -> mockSignUpRequest(emailEditText.text.toString()) }.apply {
-            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).map { "Sign Up" }.lift(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
-            errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).lift(this@MainActivity, MainActivity::handleSignUpFailure).addTo(subscriptions)
+            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).map { "Sign Up" }.bindTo(this@MainActivity, MainActivity::handleSuccess).addTo(subscriptions)
+            errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).bindTo(this@MainActivity, MainActivity::handleSignUpFailure).addTo(subscriptions)
         }
     }
 
