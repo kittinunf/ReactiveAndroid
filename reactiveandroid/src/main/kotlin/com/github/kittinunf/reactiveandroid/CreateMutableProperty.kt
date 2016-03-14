@@ -2,8 +2,17 @@ package com.github.kittinunf.reactiveandroid
 
 import rx.Scheduler
 
-fun <T> createMutableProperty(getter: () -> T, setter: (T) -> Unit, observeScheduler: Scheduler): MutableProperty<T> {
+inline fun <T> createMutableProperty(getter: () -> T, crossinline setter: (T) -> Unit, observeScheduler: Scheduler): MutableProperty<T> {
     return MutableProperty(getter()).apply {
+        observable.observeOn(observeScheduler).subscribe {
+            setter(it)
+        }
+    }
+}
+
+inline fun <reified T : Any> createMutableProperty(crossinline setter: (T) -> Unit, observeScheduler: Scheduler): MutableProperty<T> {
+    val t = T::class.java.newInstance()
+    return MutableProperty(t).apply {
         observable.observeOn(observeScheduler).subscribe {
             setter(it)
         }
