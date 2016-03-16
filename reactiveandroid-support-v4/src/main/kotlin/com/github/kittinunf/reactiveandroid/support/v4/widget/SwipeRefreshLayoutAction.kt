@@ -9,9 +9,7 @@ import rx.subscriptions.CompositeSubscription
 
 fun SwipeRefreshLayout.rx_applyAction(action: Action<Unit, *>): Subscription {
     val subscriptions = CompositeSubscription()
-    rx_refreshing.bindTo(action.enabled).addTo(subscriptions)
+    rx_refreshing.bindTo(action.executing).addTo(subscriptions)
     rx_refresh().map { Unit }.bindTo(action, Action<Unit, *>::execute).addTo(subscriptions)
     return subscriptions
 }
-
- 
