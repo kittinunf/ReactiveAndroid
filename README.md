@@ -14,10 +14,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:0.2.6' //for base UI
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:0.2.6' //for appcompat-v7 module
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:0.2.6' //for support-v4 module
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:0.2.6' //for design support module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:0.2.7' //for base UI
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:0.2.7' //for appcompat-v7 module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:0.2.7' //for support-v4 module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:0.2.7' //for design support module
 }
 ```
 
