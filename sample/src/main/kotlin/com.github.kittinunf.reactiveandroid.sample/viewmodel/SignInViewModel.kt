@@ -1,14 +1,11 @@
 package com.github.kittinunf.reactiveandroid.sample.viewmodel
 
+import android.util.Log
 import android.view.View
 import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.MutableProperty
-import com.github.kittinunf.reactiveandroid.rx.addTo
-import com.github.kittinunf.reactiveandroid.rx.bindTo
-import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import rx.Observable
 import rx.schedulers.Schedulers
-import rx.subscriptions.CompositeSubscription
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
@@ -18,47 +15,30 @@ interface SignInViewAction {
     fun passwordObservable(): Observable<String>
     fun signInObservable(): Observable<View>
 
-    fun handleSuccess(message: String)
-    fun handleFailure(e: Throwable)
+    fun username(): MutableProperty<String>
+    fun password(): MutableProperty<String>
 }
 
 class SignInViewModel(val viewAction: SignInViewAction) {
 
-    val subscriptions = CompositeSubscription()
-
     val signInAction by lazy(LazyThreadSafetyMode.NONE) {
-        val valid = isFormValid()
-        Action(valid) { unit: Unit -> mockSignInRequest(username.value, password.value) }.apply {
-            values.observeOn(AndroidThreadScheduler.mainThreadScheduler).map { "You have successfully SignUp, please check your email at ${it.first}" }.bindTo(viewAction, SignInViewAction::handleSuccess)
-            errors.observeOn(AndroidThreadScheduler.mainThreadScheduler).bindTo(viewAction, SignInViewAction::handleFailure)
-        }
+        Action(formValidObservable) { unit: Unit -> mockSignInRequest(viewAction.username().value, viewAction.password().value) }
     }
 
-    private val username = MutableProperty("")
-    private val password = MutableProperty("")
+    val usernameAndPasswordObservable: Observable<Pair<String, String>>
+    val formValidObservable: Observable<Boolean>
 
-    private val usernameValid = MutableProperty(false)
-    private val passwordValid = MutableProperty(false)
+    init {
+        usernameAndPasswordObservable = Observable.combineLatest(viewAction.usernameObservable(), viewAction.passwordObservable()) { u, p -> u to p }
 
-    fun subscribe() {
-        username.bindTo(viewAction.usernameObservable()).addTo(subscriptions)
-        password.bindTo(viewAction.passwordObservable()).addTo(subscriptions)
-        usernameValid.bindTo(isUsernameValid()).addTo(subscriptions)
-        passwordValid.bindTo(isPasswordValid()).addTo(subscriptions)
+        val usernameValidObservable = viewAction.usernameObservable().map { Pattern.matches(".+@[a-zA-Z]{2,}\\.[a-zA-Z]{2,}", it) }
+        val passwordValidObservable = viewAction.passwordObservable().map { it.count() >= 6 }
+
+        formValidObservable = Observable.combineLatest(usernameValidObservable, passwordValidObservable) { u, p -> u && p }
     }
-
-    fun unsubscribe() {
-        signInAction.unsubscribe()
-        subscriptions.unsubscribe()
-    }
-
-    private fun isUsernameValid() = viewAction.usernameObservable().map { Pattern.matches(".+@[a-zA-Z]{2,}\\.[a-zA-Z]{2,}", it) }
-
-    private fun isPasswordValid() = viewAction.passwordObservable().map { it.count() >= 6 }
-
-    private fun isFormValid() = Observable.combineLatest(usernameValid.observable, passwordValid.observable) { u, p -> u && p }
 
     private fun mockSignInRequest(username: String, password: String): Observable<Pair<String, String>> {
+        Log.i("SignInViewModel", "$username : $password")
         return Observable.defer {
             val r = Random()
             if (r.nextInt(10) < 3) {
