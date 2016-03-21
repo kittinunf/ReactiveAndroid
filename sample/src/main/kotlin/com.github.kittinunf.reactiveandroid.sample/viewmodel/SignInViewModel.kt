@@ -1,7 +1,6 @@
 package com.github.kittinunf.reactiveandroid.sample.viewmodel
 
 import android.util.Log
-import android.view.View
 import com.github.kittinunf.reactiveandroid.Action
 import com.github.kittinunf.reactiveandroid.MutableProperty
 import rx.Observable
@@ -13,7 +12,6 @@ import java.util.regex.Pattern
 interface SignInViewAction {
     fun usernameObservable(): Observable<String>
     fun passwordObservable(): Observable<String>
-    fun signInObservable(): Observable<View>
 
     fun username(): MutableProperty<String>
     fun password(): MutableProperty<String>

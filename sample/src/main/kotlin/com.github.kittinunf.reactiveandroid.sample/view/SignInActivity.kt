@@ -11,7 +11,6 @@ import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignInViewAction
 import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignInViewModel
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
-import com.github.kittinunf.reactiveandroid.view.rx_click
 import com.github.kittinunf.reactiveandroid.view.rx_visibility
 import com.github.kittinunf.reactiveandroid.widget.rx_afterTextChanged
 import com.github.kittinunf.reactiveandroid.widget.rx_applyAction
@@ -57,8 +56,6 @@ class SignInActivity : AppCompatActivity(), SignInViewAction {
     override fun usernameObservable() = userNameEditText.rx_afterTextChanged().map { it.toString() }
 
     override fun passwordObservable() = passwordEditText.rx_afterTextChanged().map { it.toString() }
-
-    override fun signInObservable() = signInButton.rx_click()
 
     override fun username() = userNameEditText.rx_text
 
