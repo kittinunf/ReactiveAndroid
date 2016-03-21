@@ -13,13 +13,6 @@
         android:layout_height="?android:actionBarSize"
         android:background="@color/colorPrimary">
 
-        <!--<Spinner-->
-            <!--android:id="@+id/toolbarSpinner"-->
-            <!--style="?android:attr/spinnerDropDownItemStyle"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--/>-->
-
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
@@ -64,38 +57,6 @@
                 android:padding="@dimen/activity_horizontal_margin"
                 android:text="Sign In"
                 />
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<android.support.design.widget.TextInputLayout-->
-                    <!--android:id="@+id/emailTextInputLayout"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="2"-->
-                    <!--&gt;-->
-
-                    <!--<EditText-->
-                        <!--android:id="@+id/emailEditText"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:hint="Email"-->
-                        <!--android:inputType="textEmailAddress"-->
-                        <!--/>-->
-
-                <!--</android.support.design.widget.TextInputLayout>-->
-
-                <!--<Button-->
-                    <!--android:id="@+id/signUpButton"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="Sign Up"-->
-                    <!--/>-->
-
-            <!--</LinearLayout>-->
 
         </LinearLayout>
 

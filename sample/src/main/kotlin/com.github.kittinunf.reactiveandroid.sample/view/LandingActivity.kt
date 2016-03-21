@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_landing.*
 import kotlinx.android.synthetic.main.spinner_item.view.*
 import kotlinx.android.synthetic.main.spinner_item_dropdown.view.*
 import rx.subscriptions.CompositeSubscription
+import kotlin.reflect.KClass
 
 class LandingActivity : AppCompatActivity() {
 
@@ -43,11 +44,12 @@ class LandingActivity : AppCompatActivity() {
     }
 
     private fun setUpButtons() {
-        toSignInPageButton.rx_click().map { SignInActivity::class.java }.bindTo(this, LandingActivity::start).addTo(subscriptions)
+        toSignInPageButton.rx_click().map { SignInActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
+        toSignUpPageButton.rx_click().map { SignUpActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
     }
 
-    fun start(clazz: Class<*>) {
-        startActivity(Intent(this, clazz))
+    fun start(clazz: KClass<*>) {
+        startActivity(Intent(this, clazz.java))
     }
 
     inner class ItemAdapter : AdapterViewProxyAdapter<String>() {

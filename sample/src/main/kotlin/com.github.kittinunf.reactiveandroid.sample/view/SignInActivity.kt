@@ -25,6 +25,7 @@ class SignInActivity : AppCompatActivity(), SignInViewAction {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+        title = javaClass.simpleName
     }
 
     override fun onStart() {

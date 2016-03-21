@@ -8,16 +8,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.SignInActivity">
-        </activity>
-        <activity android:name=".RecyclerViewActivity">
-        </activity>
         <activity android:name=".view.LandingActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.SignInActivity">
+        </activity>
+
+        <activity android:name=".view.SignUpActivity">
+        </activity>
+
+        <activity android:name=".view.RecyclerViewActivity">
+        </activity>
+
     </application>
 
 </manifest>

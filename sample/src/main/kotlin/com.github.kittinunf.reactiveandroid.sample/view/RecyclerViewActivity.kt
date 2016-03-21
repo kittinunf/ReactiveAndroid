@@ -1,4 +1,4 @@
-package com.github.kittinunf.reactiveandroid.sample
+package com.github.kittinunf.reactiveandroid.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.github.kittinunf.reactiveandroid.rx.addTo
+import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.v7.widget.RecyclerViewProxyAdapter
 import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_itemsWith
 import kotlinx.android.synthetic.main.activity_recyclerview.*
