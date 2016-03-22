@@ -1,7 +1,6 @@
 package com.github.kittinunf.reactiveandroid.sample.view
 
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
@@ -34,7 +33,7 @@ class SignInActivity : AppCompatActivity(), SignInViewAction {
         //button
         viewModel.signInAction.apply {
             values.observeOn(AndroidThreadScheduler.mainThreadScheduler)
-                    .map { "Your account have been successfully created, please check your email inbox at ${it.first}" }
+                    .map { "Yey! Sign In successfully" }
                     .bindTo(this@SignInActivity, SignInActivity::handleSuccess)
                     .addTo(subscriptions)
 
@@ -62,15 +61,11 @@ class SignInActivity : AppCompatActivity(), SignInViewAction {
     override fun password() = passwordEditText.rx_text
 
     fun handleSuccess(message: String) {
-        AlertDialog.Builder(this).apply {
-            setTitle("Success")
-            setMessage(message)
-            setPositiveButton("OK", null)
-        }.create().show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun handleFailure(e: Throwable) {
-        Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+    fun handleFailure(throwable: Throwable) {
+        Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
     }
 
 }
