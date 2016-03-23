@@ -46,6 +46,7 @@ class LandingActivity : AppCompatActivity() {
     private fun setUpButtons() {
         toSignInPageButton.rx_click().map { SignInActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
         toSignUpPageButton.rx_click().map { SignUpActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
+        toListPageButton.rx_click().map { RecyclerViewActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
     }
 
     fun start(clazz: KClass<*>) {

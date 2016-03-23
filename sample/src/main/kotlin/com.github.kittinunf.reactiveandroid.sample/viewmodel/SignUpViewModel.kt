@@ -22,7 +22,7 @@ data class SignUpViewModel(val email: String = "") {
     fun emailValidObservable() = Observable.just(email).map { Pattern.matches(".+@[a-zA-Z]{2,}\\.[a-zA-Z]{2,}", it) }
 
     private fun mockSignUpRequest(username: String): Observable<String> {
-        Log.i("SignUpViewModel", "$username")
+        Log.i(javaClass.simpleName, "$username")
         return Observable.defer {
             val r = Random()
             if (r.nextInt(10) < 3) {

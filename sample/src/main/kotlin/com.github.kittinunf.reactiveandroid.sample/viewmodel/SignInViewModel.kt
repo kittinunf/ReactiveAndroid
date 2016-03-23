@@ -36,7 +36,7 @@ class SignInViewModel(val viewAction: SignInViewAction) {
     }
 
     private fun mockSignInRequest(username: String, password: String): Observable<Pair<String, String>> {
-        Log.i("SignInViewModel", "$username : $password")
+        Log.i(javaClass.simpleName, "$username : $password")
         return Observable.defer {
             val r = Random()
             if (r.nextInt(10) < 3) {
