@@ -32,6 +32,4 @@ data class SignUpViewModel(val email: String = "") {
             }
         }.subscribeOn(Schedulers.computation())
     }
-
 }
-

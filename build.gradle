@@ -17,7 +17,7 @@ buildscript {
 allprojects {
     ext {
         //publish
-        reactiveAndroidVersion = '0.2.7'
+        reactiveAndroidVersion = '0.2.8'
 
         reactiveAndroid = 'reactiveandroid'
         reactiveAndroidAppcompatV7 = 'reactiveandroid-appcompat-v7'
@@ -33,9 +33,10 @@ allprojects {
         website = 'https://github.com/kittinunf/ReactiveAndroid'
 
         //kotlin
-        kotlinGradlePlugin = 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0'
-        kotlinStdLib = 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0'
-        kotlinAndroidExtensions = 'org.jetbrains.kotlin:kotlin-android-extensions:1.0.0'
+        kotlinVersion = '1.0.1'
+        kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
 
         //android
         supportVersion = '23.1.1'
