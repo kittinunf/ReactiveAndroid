@@ -25,24 +25,22 @@ abstract class RecyclerViewProxyAdapter<T, VH : RecyclerView.ViewHolder> : Recyc
 
 }
 
-fun <T : RecyclerView.ViewHolder, U> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
-                                                               onCreateViewHolder: (ViewGroup?, Int) -> T,
-                                                               onBindViewHolder: (T, Int, U) -> Unit): Subscription {
-    val proxyAdapter = object : RecyclerViewProxyAdapter<U, T>() {
-        override var createViewHolder: (ViewGroup?, Int) -> T = onCreateViewHolder
+fun <VH : RecyclerView.ViewHolder, U> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
+                                                               onCreateViewHolder: (ViewGroup?, Int) -> VH,
+                                                               onBindViewHolder: (VH, Int, U) -> Unit): Subscription {
+    val proxyAdapter = object : RecyclerViewProxyAdapter<U, VH>() {
+        override var createViewHolder: (ViewGroup?, Int) -> VH = onCreateViewHolder
 
-        override var bindViewHolder: (T, Int, U) -> Unit = onBindViewHolder
+        override var bindViewHolder: (VH, Int, U) -> Unit = onBindViewHolder
     }
     return rx_itemsWith(observable, proxyAdapter)
 }
 
-fun <T : RecyclerView.ViewHolder, U, V : RecyclerViewProxyAdapter<U, T>> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
-                                                                                                   recyclerProxyAdapter: V): Subscription {
+fun <VH : RecyclerView.ViewHolder, U, A : RecyclerViewProxyAdapter<U, VH>> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
+                                                                                                   recyclerProxyAdapter: A): Subscription {
     adapter = recyclerProxyAdapter
     return observable.subscribe {
         recyclerProxyAdapter.items = it
-        post {
-            recyclerProxyAdapter.notifyDataSetChanged()
-        }
+        post { recyclerProxyAdapter.notifyDataSetChanged() }
     }
 }
