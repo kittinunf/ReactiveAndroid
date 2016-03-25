@@ -1,3 +1,401 @@
 <resources>
     <string name="app_name">Sample</string>
+
+    <string-array name="countries">
+        <item> Afghanistan </item>
+        <item> Albania </item>
+        <item> Algeria </item>
+        <item> Andorra </item>
+        <item> Angola </item>
+        <item> Antigua </item>
+        <item> Argentina </item>
+        <item> Armenia </item>
+        <item> Australia </item>
+        <item> Austria </item>
+        <item> Azerbaijan </item>
+        <item> Bahamas </item>
+        <item> Bahrain </item>
+        <item> Bangladesh </item>
+        <item> Barbados </item>
+        <item> Belarus </item>
+        <item> Belgium </item>
+        <item> Belize </item>
+        <item> Benin </item>
+        <item> Bhutan </item>
+        <item> Bolivia </item>
+        <item> Bosnia and Herzegovina </item>
+        <item> Botswana </item>
+        <item> Brazil </item>
+        <item> Brunei </item>
+        <item> Bulgaria </item>
+        <item> Burkina </item>
+        <item> Burundi </item>
+        <item> Cambodia </item>
+        <item> Cameroon </item>
+        <item> Canada </item>
+        <item> Cape </item>
+        <item> Central African Republic </item>
+        <item> Chad </item>
+        <item> Chile </item>
+        <item> China </item>
+        <item> Colombia </item>
+        <item> Comoros </item>
+        <item> Congo, </item>
+        <item> Congo, </item>
+        <item> Costa </item>
+        <item> Cote </item>
+        <item> Croatia </item>
+        <item> Cuba </item>
+        <item> Cyprus </item>
+        <item> Czech </item>
+        <item> Denmark </item>
+        <item> Djibouti </item>
+        <item> Dominica </item>
+        <item> Dominican </item>
+        <item> East </item>
+        <item> Ecuador </item>
+        <item> Egypt </item>
+        <item> El </item>
+        <item> Equatorial </item>
+        <item> Eritrea </item>
+        <item> Estonia </item>
+        <item> Ethiopia </item>
+        <item> Fiji </item>
+        <item> Finland </item>
+        <item> France </item>
+        <item> Gabon </item>
+        <item> The </item>
+        <item> Georgia </item>
+        <item> Germany </item>
+        <item> Ghana </item>
+        <item> Greece </item>
+        <item> Grenada </item>
+        <item> Guatemala </item>
+        <item> Guinea </item>
+        <item> Guinea-Bissau </item>
+        <item> Guyana </item>
+        <item> Haiti </item>
+        <item> Honduras </item>
+        <item> Hungary </item>
+        <item> Iceland </item>
+        <item> India </item>
+        <item> Indonesia </item>
+        <item> Iran </item>
+        <item> Iraq </item>
+        <item> Ireland </item>
+        <item> Israel </item>
+        <item> Italy </item>
+        <item> Jamaica </item>
+        <item> Japan </item>
+        <item> Jordan </item>
+        <item> Kazakhstan </item>
+        <item> Kenya </item>
+        <item> Kiribati </item>
+        <item> Korea, </item>
+        <item> Korea, </item>
+        <item> Kosovo </item>
+        <item> Kuwait </item>
+        <item> Kyrgyzstan </item>
+        <item> Laos </item>
+        <item> Latvia </item>
+        <item> Lebanon </item>
+        <item> Lesotho </item>
+        <item> Liberia </item>
+        <item> Libya </item>
+        <item> Liechtenstein </item>
+        <item> Lithuania </item>
+        <item> Luxembourg </item>
+        <item> Macedonia </item>
+        <item> Madagascar </item>
+        <item> Malawi </item>
+        <item> Malaysia </item>
+        <item> Maldives </item>
+        <item> Mali </item>
+        <item> Malta </item>
+        <item> Marshall </item>
+        <item> Mauritania </item>
+        <item> Mauritius </item>
+        <item> Mexico </item>
+        <item> Micronesia, </item>
+        <item> Moldova </item>
+        <item> Monaco </item>
+        <item> Mongolia </item>
+        <item> Montenegro </item>
+        <item> Morocco </item>
+        <item> Mozambique </item>
+        <item> Myanmar </item>
+        <item> Namibia </item>
+        <item> Nauru </item>
+        <item> Nepal </item>
+        <item> Netherlands </item>
+        <item> New </item>
+        <item> Nicaragua </item>
+        <item> Niger </item>
+        <item> Nigeria </item>
+        <item> Norway </item>
+        <item> Oman </item>
+        <item> Pakistan </item>
+        <item> Palau </item>
+        <item> Panama </item>
+        <item> Papua </item>
+        <item> Paraguay </item>
+        <item> Peru </item>
+        <item> Philippines </item>
+        <item> Poland </item>
+        <item> Portugal </item>
+        <item> Qatar </item>
+        <item> Romania </item>
+        <item> Russia </item>
+        <item> Rwanda </item>
+        <item> Saint </item>
+        <item> Saint </item>
+        <item> Saint </item>
+        <item> Samoa </item>
+        <item> San </item>
+        <item> Sao </item>
+        <item> Saudi </item>
+        <item> Senegal </item>
+        <item> Serbia </item>
+        <item> Seychelles </item>
+        <item> Sierra </item>
+        <item> Singapore </item>
+        <item> Slovakia </item>
+        <item> Slovenia </item>
+        <item> Solomon </item>
+        <item> Somalia </item>
+        <item> South </item>
+        <item> South </item>
+        <item> Spain </item>
+        <item> Sri </item>
+        <item> Sudan </item>
+        <item> Suriname </item>
+        <item> Swaziland </item>
+        <item> Sweden </item>
+        <item> Switzerland </item>
+        <item> Syria </item>
+        <item> Taiwan </item>
+        <item> Tajikistan </item>
+        <item> Tanzania </item>
+        <item> Thailand </item>
+        <item> Togo </item>
+        <item> Tonga </item>
+        <item> Trinidad </item>
+        <item> Tunisia </item>
+        <item> Turkey </item>
+        <item> Turkmenistan </item>
+        <item> Tuvalu </item>
+        <item> Uganda </item>
+        <item> Ukraine </item>
+        <item> United </item>
+        <item> United </item>
+        <item> United </item>
+        <item> Uruguay </item>
+        <item> Uzbekistan </item>
+        <item> Vanuatu </item>
+        <item> Vatican </item>
+        <item> Venezuela </item>
+        <item> Vietnam </item>
+        <item> Yemen </item>
+        <item> Zambia </item>
+        <item> Zimbabwe </item>
+    </string-array>
+
+    <string-array name="capitals">
+        <item> Kabul </item>
+        <item> Tirane </item>
+        <item> Algiers </item>
+        <item> Andorra la Vella </item>
+        <item> Luanda </item>
+        <item> and Barbuda Saint John’s </item>
+        <item> Buenos Aires </item>
+        <item> Yerevan </item>
+        <item> Canberra </item>
+        <item> Vienna </item>
+        <item> Baku </item>
+        <item> Nassau </item>
+        <item> Manama </item>
+        <item> Dhaka </item>
+        <item> Bridgetown </item>
+        <item> Minsk </item>
+        <item> Brussels </item>
+        <item> Belmopan </item>
+        <item> Porto-Novo </item>
+        <item> Thimphu </item>
+        <item> Sucre (constitutional); La Paz (administrative) </item>
+        <item> Sarajevo </item>
+        <item> Gaborone </item>
+        <item> Brasilia </item>
+        <item> Bandar Seri Begawan </item>
+        <item> Sofia </item>
+        <item> Faso Ouagadougou </item>
+        <item> Bujumbura </item>
+        <item> Phnom Penh </item>
+        <item> Yaounde </item>
+        <item> Ottawa </item>
+        <item> Verde Praia </item>
+        <item> Bangui </item>
+        <item> N’Djamena </item>
+        <item> Santiago </item>
+        <item> Beijing </item>
+        <item> Bogota </item>
+        <item> Moroni </item>
+        <item> Republic of the Brazzaville </item>
+        <item> Democratic Republic of the Kinshasa </item>
+        <item> Rica San Jose </item>
+        <item> d’Ivoire (Ivory Coast) Yamoussoukro </item>
+        <item> Zagreb </item>
+        <item> Havana </item>
+        <item> Nicosia </item>
+        <item> Republic Prague </item>
+        <item> Copenhagen </item>
+        <item> Djibouti </item>
+        <item> Roseau </item>
+        <item> Republic Santo Domingo </item>
+        <item> Timor (Timor-Leste) Dili </item>
+        <item> Quito </item>
+        <item> Cairo </item>
+        <item> Salvador San Salvador </item>
+        <item> Guinea Malabo </item>
+        <item> Asmara </item>
+        <item> Tallinn </item>
+        <item> Addis Ababa </item>
+        <item> Suva </item>
+        <item> Helsinki </item>
+        <item> Paris </item>
+        <item> Libreville </item>
+        <item> Gambia Banjul </item>
+        <item> Tbilisi </item>
+        <item> Berlin </item>
+        <item> Accra </item>
+        <item> Athens </item>
+        <item> Saint George’s </item>
+        <item> Guatemala City </item>
+        <item> Conakry </item>
+        <item> Bissau </item>
+        <item> Georgetown </item>
+        <item> Port-au-Prince </item>
+        <item> Tegucigalpa </item>
+        <item> Budapest </item>
+        <item> Reykjavik </item>
+        <item> New Delhi </item>
+        <item> Jakarta </item>
+        <item> Tehran </item>
+        <item> Baghdad </item>
+        <item> Dublin </item>
+        <item> Jerusalem* </item>
+        <item> Rome </item>
+        <item> Kingston </item>
+        <item> Tokyo </item>
+        <item> Amman </item>
+        <item> Astana </item>
+        <item> Nairobi </item>
+        <item> Tarawa Atoll </item>
+        <item> North Pyongyang </item>
+        <item> South Seoul </item>
+        <item> Pristina </item>
+        <item> Kuwait City </item>
+        <item> Bishkek </item>
+        <item> Vientiane </item>
+        <item> Riga </item>
+        <item> Beirut </item>
+        <item> Maseru </item>
+        <item> Monrovia </item>
+        <item> Tripoli </item>
+        <item> Vaduz </item>
+        <item> Vilnius </item>
+        <item> Luxembourg </item>
+        <item> Skopje </item>
+        <item> Antananarivo </item>
+        <item> Lilongwe </item>
+        <item> Kuala Lumpur </item>
+        <item> Male </item>
+        <item> Bamako </item>
+        <item> Valletta </item>
+        <item> Islands Majuro </item>
+        <item> Nouakchott </item>
+        <item> Port Louis </item>
+        <item> Mexico City </item>
+        <item> Federated States of Palikir </item>
+        <item> Chisinau </item>
+        <item> Monaco </item>
+        <item> Ulaanbaatar </item>
+        <item> Podgorica </item>
+        <item> Rabat </item>
+        <item> Maputo </item>
+        <item> (Burma) Naypyidaw </item>
+        <item> Windhoek </item>
+        <item> Yaren (de facto) </item>
+        <item> Kathmandu </item>
+        <item> (Holland) Amsterdam </item>
+        <item> Zealand Wellington </item>
+        <item> Managua </item>
+        <item> Niamey </item>
+        <item> Abuja </item>
+        <item> Oslo </item>
+        <item> Muscat </item>
+        <item> Islamabad </item>
+        <item> Melekeok </item>
+        <item> Panama City </item>
+        <item> New Guinea Port Moresby </item>
+        <item> Asuncion </item>
+        <item> Lima </item>
+        <item> Manila </item>
+        <item> Warsaw </item>
+        <item> Lisbon </item>
+        <item> Doha </item>
+        <item> Bucharest </item>
+        <item> Moscow </item>
+        <item> Kigali </item>
+        <item> Kitts and Nevis Basseterre </item>
+        <item> Lucia Castries </item>
+        <item> Vincent and the Grenadines Kingstown </item>
+        <item> Apia </item>
+        <item> Marino San Marino </item>
+        <item> Tome and Principe Sao Tome </item>
+        <item> Arabia Riyadh </item>
+        <item> Dakar </item>
+        <item> Belgrade </item>
+        <item> Victoria </item>
+        <item> Leone Freetown </item>
+        <item> Singapore </item>
+        <item> Bratislava </item>
+        <item> Ljubljana </item>
+        <item> Islands Honiara </item>
+        <item> Mogadishu </item>
+        <item> Africa Pretoria (administrative); Cape Town (legislative); Bloemfontein (judiciary) </item>
+        <item> Sudan Juba </item>
+        <item> Madrid </item>
+        <item> Lanka Sri Jayewardenepura Kotte (administrative); Colombo (trade) </item>
+        <item> Khartoum </item>
+        <item> Paramaribo </item>
+        <item> Mbabane(Administrative) / Lobamba (Royal and Legislative) </item>
+        <item> Stockholm </item>
+        <item> Bern </item>
+        <item> Damascus </item>
+        <item> Taipei </item>
+        <item> Dushanbe </item>
+        <item> Dodoma (administrative); Dar es Salaam </item>
+        <item> Bangkok </item>
+        <item> Lome </item>
+        <item> Nuku’alofa </item>
+        <item> and Tobago Port-of-Spain </item>
+        <item> Tunis </item>
+        <item> Ankara </item>
+        <item> Ashgabat </item>
+        <item> Funafuti province </item>
+        <item> Kampala </item>
+        <item> Kyiv </item>
+        <item> Arab Emirates Abu Dhabi </item>
+        <item> Kingdom London </item>
+        <item> States of America Washington D.C. </item>
+        <item> Montevideo </item>
+        <item> Tashkent </item>
+        <item> Port-Vila </item>
+        <item> City (Holy See) Vatican City </item>
+        <item> Caracas </item>
+        <item> Hanoi </item>
+        <item> Sanaa </item>
+        <item> Lusaka </item>
+        <item> Harare </item>
+    </string-array>
 </resources>
