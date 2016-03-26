@@ -25,18 +25,18 @@ abstract class RecyclerViewProxyAdapter<T, VH : RecyclerView.ViewHolder> : Recyc
 
 }
 
-fun <VH : RecyclerView.ViewHolder, U> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
+fun <VH : RecyclerView.ViewHolder, T, C: List<T>> RecyclerView.rx_itemsWith(observable: Observable<C>,
                                                                onCreateViewHolder: (ViewGroup?, Int) -> VH,
-                                                               onBindViewHolder: (VH, Int, U) -> Unit): Subscription {
-    val proxyAdapter = object : RecyclerViewProxyAdapter<U, VH>() {
+                                                               onBindViewHolder: (VH, Int, T) -> Unit): Subscription {
+    val proxyAdapter = object : RecyclerViewProxyAdapter<T, VH>() {
         override var createViewHolder: (ViewGroup?, Int) -> VH = onCreateViewHolder
 
-        override var bindViewHolder: (VH, Int, U) -> Unit = onBindViewHolder
+        override var bindViewHolder: (VH, Int, T) -> Unit = onBindViewHolder
     }
     return rx_itemsWith(observable, proxyAdapter)
 }
 
-fun <VH : RecyclerView.ViewHolder, U, A : RecyclerViewProxyAdapter<U, VH>> RecyclerView.rx_itemsWith(observable: Observable<List<U>>,
+fun <VH : RecyclerView.ViewHolder, T, C: List<T>, A : RecyclerViewProxyAdapter<T, VH>> RecyclerView.rx_itemsWith(observable: Observable<C>,
                                                                                                    recyclerProxyAdapter: A): Subscription {
     adapter = recyclerProxyAdapter
     return observable.subscribe {

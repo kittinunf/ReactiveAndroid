@@ -75,7 +75,7 @@ abstract class SectionedRecyclerViewProxyAdapter<T, S : SectionModelType<T>, VH 
 
 }
 
-fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>> RecyclerView.rx_itemsWith(observable: Observable<List<S>>,
+fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C: List<S>> RecyclerView.rx_itemsWith(observable: Observable<C>,
                                                                                          onCreateViewHolder: (ViewGroup?, Int) -> VH,
                                                                                          onBindHeaderViewHolder: (VH, Int, S) -> Unit,
                                                                                          onBindItemViewHolder: (VH, Int, T) -> Unit): Subscription {
@@ -91,7 +91,7 @@ fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>> RecyclerView.rx_i
     return rx_itemsWith(observable, proxyAdapter)
 }
 
-fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, A : SectionedRecyclerViewProxyAdapter<T, S, VH>> RecyclerView.rx_itemsWith(observable: Observable<List<S>>,
+fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C: List<S>, A : SectionedRecyclerViewProxyAdapter<T, S, VH>> RecyclerView.rx_itemsWith(observable: Observable<C>,
                                                                                                                                           sectionedRecyclerViewProxyAdapter: A): Subscription {
     adapter = sectionedRecyclerViewProxyAdapter
     return observable.subscribe {

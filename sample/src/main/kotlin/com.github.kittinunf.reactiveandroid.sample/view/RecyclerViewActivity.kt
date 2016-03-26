@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.recycler_item.view.*
 import rx.Observable
 import rx.subscriptions.CompositeSubscription
 
-class Section(val name: String, override var items: List<Item>) : SectionModelType<Item>
+class Section(val name: Char, override var items: List<Item>) : SectionModelType<Item>
 
 class Item(val country: String, val capital: String)
 
@@ -38,20 +38,20 @@ class RecyclerViewActivity : AppCompatActivity() {
         val rawCountries = resources.getStringArray(R.array.countries)
         val rawCapitals = resources.getStringArray(R.array.capitals)
 
-        val items = rawCountries.mapIndexedTo(mutableListOf()) { index, country ->
+        val items = rawCountries.mapIndexed { index, country ->
             val capital = rawCapitals[index]
             Item(country, capital)
         }
 
-        val itemMap = items.groupBy { it.country.first() }.mapTo(mutableListOf()) { Section(it.key.toString(), it.value)}
+        val itemMap = items.groupBy { it.country.first() }.map { Section(it.key, it.value)}
 
-        val o = Observable.just(itemMap as List<Section>)
+        val o = Observable.just(itemMap)
         recyclerView.rx_itemsWith(o, { parent, viewType ->
             val resId = if (viewType == SECTION_HEADER_VIEW_TYPE) R.layout.recycler_header_item else R.layout.recycler_item
             val view = LayoutInflater.from(parent?.context).inflate(resId, parent, false)
             ViewHolder(view)
         }, { holder, position, section ->
-            holder.headerTextView.text = section.name
+            holder.headerTextView.text = section.name.toString()
         }, { holder, position, item ->
             holder.textView1.text = item.country
             holder.textView2.text = item.capital
