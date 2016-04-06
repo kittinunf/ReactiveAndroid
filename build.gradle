@@ -39,7 +39,7 @@ allprojects {
         kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
 
         //android
-        supportVersion = '23.1.1'
+        supportVersion = '23.2.1'
         androidSupportV4 = "com.android.support:support-v4:$supportVersion"
         androidAppCompatV7 = "com.android.support:appcompat-v7:$supportVersion"
         androidSupportRecyclerView = "com.android.support:recyclerview-v7:$supportVersion"

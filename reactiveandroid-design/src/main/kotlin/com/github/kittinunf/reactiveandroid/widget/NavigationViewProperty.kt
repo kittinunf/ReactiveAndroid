@@ -10,10 +10,10 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties 
 //================================================================================
 
-val NavigationView.rx_itemBackground: MutableProperty<Drawable>
+val NavigationView.rx_itemBackground: MutableProperty<Drawable?>
     get() {
         val getter = { itemBackground }
-        val setter: (Drawable) -> Unit = { itemBackground = it }
+        val setter: (Drawable?) -> Unit = { itemBackground = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }

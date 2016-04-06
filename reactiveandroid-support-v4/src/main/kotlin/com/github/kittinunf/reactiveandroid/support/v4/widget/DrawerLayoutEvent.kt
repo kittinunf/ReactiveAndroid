@@ -16,7 +16,7 @@ fun DrawerLayout.rx_drawerClosed(): Observable<View> {
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-            setDrawerListener(null)
+            removeDrawerListener(_drawer)
         })
     }
 }
@@ -28,7 +28,7 @@ fun DrawerLayout.rx_drawerStateChanged(): Observable<Int> {
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-            setDrawerListener(null)
+            removeDrawerListener(_drawer)
         })
     }
 }
@@ -42,7 +42,7 @@ fun DrawerLayout.rx_drawerSlide(): Observable<DrawerSlideListener> {
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-            setDrawerListener(null)
+            removeDrawerListener(_drawer)
         })
     }
 }
@@ -54,7 +54,7 @@ fun DrawerLayout.rx_drawerOpened(): Observable<View> {
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-            setDrawerListener(null)
+            removeDrawerListener(_drawer)
         })
     }
 }
@@ -62,7 +62,7 @@ fun DrawerLayout.rx_drawerOpened(): Observable<View> {
 private val DrawerLayout._drawer: _DrawerLayout_DrawerListener
     get() {
         val listener = _DrawerLayout_DrawerListener()
-        setDrawerListener(listener)
+        addDrawerListener(listener)
         return listener
     }
 
