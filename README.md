@@ -67,19 +67,25 @@ There are couple of sample code that take advantage power of `ReactiveAndroid`. 
 
 ## Terminology
 
-As we want to be familiar as much as possible to the Android SDK. Events from Android UI try to follow naming convention of Android SDK as much as possible. 
+We want to be familiar as much as possible to the Android SDK. So that `Event` and `Property` from Android elements follow naming convention of Android SDK whenever it can.
 
 ### Events
 
 You should think about listener from Android SDK of your choice, then remove the word "on" and also the word "listener". Then, append the after `rx_`. 
 
-For example, View.OnClickListener => view.rx_click(), RatingBar.OnRatingBarChangeListener => ratingBar.rx_ratingBarChange(), MenuItem.OnMenuItemClickListener => menuItem.menuItemClick() etc.
+For example, 
+* `View.OnClickListener` => `view.rx_click()` 
+* `RatingBar.OnRatingBarChangeListener` => `ratingBar.rx_ratingBarChange()`
+* `MenuItem.OnMenuItemClickListener` => `menuItem.menuItemClick()` etc.
 
 ### Properties
 
 Think about name of property of UI element from Android SDK. Remove {set|get|is|has}. Then, append after `rx_`.
 
-For example, View.setEnabled/isEnabled => view.rx_enabled, DatePicker.setMinDate/getMinDate => datePicker.rx_minDate, RecyclerView.setHasFixedSize/hasFixedSize => recyclerView.rx_hasFixedSize
+For example, 
+* `View.setEnabled/isEnabled` => `view.rx_enabled`
+* `DatePicker.setMinDate/getMinDate` => `datePicker.rx_minDate`
+* `RecyclerView.setHasFixedSize/hasFixedSize` => `recyclerView.rx_hasFixedSize` etc.
 
 ## Credits
 
@@ -88,5 +94,3 @@ ReactiveAndroid is brought to you by [contributors](https://github.com/kittinunf
 ## Licenses
 
 ReactiveAndroid is released under the [MIT](http://opensource.org/licenses/MIT) license.
-
-
