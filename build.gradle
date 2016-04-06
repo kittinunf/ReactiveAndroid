@@ -48,7 +48,7 @@ allprojects {
         androidSupportDesign = "com.android.support:design:$supportVersion"
 
         //rxjava
-        reactivexRxJava = 'io.reactivex:rxjava:1.1.0'
+        reactivexRxJava = 'io.reactivex:rxjava:1.1.2'
 
         //test
         robolectric = 'org.robolectric:robolectric:3.0'

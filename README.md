@@ -6,6 +6,10 @@ Reactive events and properties with RxJava for Android
 
 ## Installation
 
+### Dependency
+
+* [RxJava](https://github.com/ReactiveX/RxJava)
+
 ### Gradle
 
 ``` Groovy
@@ -14,10 +18,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:0.2.8' //for base UI
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:0.2.8' //for appcompat-v7 module
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:0.2.8' //for support-v4 module
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:0.2.8' //for design support module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:0.2.9' //for base UI
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:0.2.9' //for appcompat-v7 module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:0.2.9' //for support-v4 module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:0.2.9' //for design support module
 }
 ```
 
