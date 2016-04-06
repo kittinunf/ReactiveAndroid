@@ -32,7 +32,7 @@ class SignInViewModel(val viewAction: SignInViewAction) {
         val usernameValidObservable = viewAction.usernameObservable().map { Pattern.matches(".+@[a-zA-Z]{2,}\\.[a-zA-Z]{2,}", it) }
         val passwordValidObservable = viewAction.passwordObservable().map { it.count() >= 6 }
 
-        formValidObservable = Observable.combineLatest(usernameValidObservable, passwordValidObservable) { u, p -> u && p }
+        formValidObservable = Observable.combineLatest(usernameValidObservable, passwordValidObservable) { u, p -> u and p }
     }
 
     private fun mockSignInRequest(username: String, password: String): Observable<Pair<String, String>> {

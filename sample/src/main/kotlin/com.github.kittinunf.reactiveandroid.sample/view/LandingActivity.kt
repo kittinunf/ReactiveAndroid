@@ -10,13 +10,18 @@ import com.github.kittinunf.reactiveandroid.ConstantProperty
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.sample.R
+import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.view.rx_click
 import com.github.kittinunf.reactiveandroid.widget.AdapterViewProxyAdapter
 import com.github.kittinunf.reactiveandroid.widget.rx_itemsWith
+import com.github.kittinunf.reactiveandroid.widget.rx_text
 import kotlinx.android.synthetic.main.activity_landing.*
 import kotlinx.android.synthetic.main.spinner_item.view.*
 import kotlinx.android.synthetic.main.spinner_item_dropdown.view.*
+import rx.Observable
+import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
+import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 class LandingActivity : AppCompatActivity() {
@@ -28,6 +33,7 @@ class LandingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_landing)
         setUpToolbar()
         setUpButtons()
+        setUpTextView()
     }
 
     override fun onDestroy() {
@@ -47,6 +53,14 @@ class LandingActivity : AppCompatActivity() {
         toSignInPageButton.rx_click().map { SignInActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
         toSignUpPageButton.rx_click().map { SignUpActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
         toListPageButton.rx_click().map { RecyclerViewActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
+    }
+
+    private fun setUpTextView() {
+        Observable.interval(5, TimeUnit.SECONDS, Schedulers.computation())
+                .map { it.toString() }
+                .observeOn(AndroidThreadScheduler.mainThreadScheduler)
+                .bindTo(resultTextView.rx_text)
+                .addTo(subscriptions)
     }
 
     fun start(clazz: KClass<*>) {
