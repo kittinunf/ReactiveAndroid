@@ -56,7 +56,7 @@ Observable.combineLatest(emailValids, passwordValids) { user, pass -> user and p
 
 ## Terminology
 
-As we want to be familiar as much as possible to the Android SDK. Events from Android UI try to follow naming convention of Android SDK as much as possible. 
+We want to be familiar as much as possible to the Android SDK. Events/Properties from Android elements are named in a way that follows naming convention of Android SDK as much as possible. 
 
 ### Events
 
@@ -77,5 +77,3 @@ ReactiveAndroid is brought to you by [contributors](https://github.com/kittinunf
 ## Licenses
 
 ReactiveAndroid is released under the [MIT](http://opensource.org/licenses/MIT) license.
-
-
