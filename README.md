@@ -40,7 +40,8 @@ val o = Observable.just("Hello")
 o.map { "$it Bob" }.bindTo(textView.rx_text)
 ```
 
-From above example, whenever `Observable` emits next, `bindTo` will bind with Property text of TextView. This makes it easy to perform data binding with help of RxJava.
+From above example, whenever `Observable` emits next, `bindTo` will bind with `setText(value)` / `getText()` of TextView. 
+This makes it easy to perform data binding with help of RxJava.
 
 Another example is register form. You probably want to know whether input email & input password are valid or not.
 
@@ -51,30 +52,30 @@ val passwords = passwordEditText.rx_afterTextChanged().map { it.toString() } // 
 val emailValids = emails.map { Pattern.matches(EMAIL_PATTERN, it) }
 val passwordValids = passwords.map { it.length > PASSWORD_LENGTH }
 
-Observable.combineLatest(emailValids, passwordValids) { user, pass -> user and pass }.bindTo(signInButton.rx_enabled)
+val emailAndPasswordValids = Observable.combineLatest(emailValids, passwordValids) { user, pass -> user and pass } // becomes Observable<Boolean> for validity
+
+emailAndPasswordValids.bindTo(signInButton.rx_enabled) // bind validity value with button
 ```
+
+## Sample
+
+There are couple of sample code that take advantage power of `ReactiveAndroid`. You can checkout in `sample` folder.
 
 ## Terminology
 
-We want to be familiar as much as possible to the Android SDK. Events/Properties from Android elements are named in a way that follows naming convention of Android SDK as much as possible. 
+As we want to be familiar as much as possible to the Android SDK. Events from Android UI try to follow naming convention of Android SDK as much as possible. 
 
 ### Events
 
 You should think about listener from Android SDK of your choice, then remove the word "on" and also the word "listener". Then, append the after `rx_`. 
 
-For example:
-* `View.OnClickListener` => `view.rx_click()`
-* `RatingBar.OnRatingBarChangeListener` => `ratingBar.rx_ratingBarChange()`
-* `MenuItem.OnMenuItemClickListener` => `menuItem.menuItemClick()` etc.
+For example, View.OnClickListener => view.rx_click(), RatingBar.OnRatingBarChangeListener => ratingBar.rx_ratingBarChange(), MenuItem.OnMenuItemClickListener => menuItem.menuItemClick() etc.
 
 ### Properties
 
-Think about name of property of UI element from Android SDK. Remove `{set|get|is|has}`. Then, append after `rx_`.
+Think about name of property of UI element from Android SDK. Remove {set|get|is|has}. Then, append after `rx_`.
 
-For example:
-* `View.setEnabled/isEnabled` => `view.rx_enabled`
-* `DatePicker.setMinDate/getMinDate` => `datePicker.rx_minDate`
-* `RecyclerView.setHasFixedSize/hasFixedSize` => `recyclerView.rx_hasFixedSize`
+For example, View.setEnabled/isEnabled => view.rx_enabled, DatePicker.setMinDate/getMinDate => datePicker.rx_minDate, RecyclerView.setHasFixedSize/hasFixedSize => recyclerView.rx_hasFixedSize
 
 ## Credits
 
@@ -83,3 +84,5 @@ ReactiveAndroid is brought to you by [contributors](https://github.com/kittinunf
 ## Licenses
 
 ReactiveAndroid is released under the [MIT](http://opensource.org/licenses/MIT) license.
+
+
