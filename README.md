@@ -62,13 +62,19 @@ We want to be familiar as much as possible to the Android SDK. Events/Properties
 
 You should think about listener from Android SDK of your choice, then remove the word "on" and also the word "listener". Then, append the after `rx_`. 
 
-For example, View.OnClickListener => view.rx_click(), RatingBar.OnRatingBarChangeListener => ratingBar.rx_ratingBarChange(), MenuItem.OnMenuItemClickListener => menuItem.menuItemClick() etc.
+For example:
+* `View.OnClickListener` => `view.rx_click()`
+* `RatingBar.OnRatingBarChangeListener` => `ratingBar.rx_ratingBarChange()`
+* `MenuItem.OnMenuItemClickListener` => `menuItem.menuItemClick()` etc.
 
 ### Properties
 
-Think about name of property of UI element from Android SDK. Remove {set|get|is|has}. Then, append after `rx_`.
+Think about name of property of UI element from Android SDK. Remove `{set|get|is|has}`. Then, append after `rx_`.
 
-For example, View.setEnabled/isEnabled => view.rx_enabled, DatePicker.setMinDate/getMinDate => datePicker.rx_minDate, RecyclerView.setHasFixedSize/hasFixedSize => recyclerView.rx_hasFixedSize
+For example:
+* `View.setEnabled/isEnabled` => `view.rx_enabled`
+* `DatePicker.setMinDate/getMinDate` => `datePicker.rx_minDate`
+* `RecyclerView.setHasFixedSize/hasFixedSize` => `recyclerView.rx_hasFixedSize`
 
 ## Credits
 
