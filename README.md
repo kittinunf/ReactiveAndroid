@@ -27,7 +27,8 @@ dependencies {
 
 ## Why you might need this?
 
-Have you ever wish Android SDK had supported RxJava by default? Well, you have it there with `ReactiveAndroid`.
+Have you ever wish Android SDK had supported RxJava by default? Well, you have that wish with `ReactiveAndroid`.
+
 Let's say, you need to observe view being clicked. Yes, you definitely can do it with [View.OnClickListener](https://developer.android.com/reference/android/view/View.OnClickListener.html).
 However, with `ReactiveAndroid`, you can simply do this:
 
@@ -45,9 +46,9 @@ o.map { "$it Bob" }.bindTo(textView.rx_text)
 ```
 
 From above example, whenever `Observable` emits next, `bindTo` will bind with `setText(value)` / `getText()` of TextView. 
-This makes it easy to perform data binding with help of RxJava.
+This makes `ReactiveAndroid` a powerful tool to perform data binding in your MV* architecture (MVP, MVVM).
 
-Another example is register form. You probably want to know whether input email & input password are valid or not.
+Another example is registeration form. You probably want to know whether input email & password are valid or not. So that, you could disable/enable button as user types.
 
 ``` Kotlin
 val emails = emailEditText.rx_afterTextChanged().map { it.toString() } // becomes Observable<String> for email
@@ -71,7 +72,7 @@ We want to be familiar as much as possible to the Android SDK. So that `Event` a
 
 ### Events
 
-You should think about listener from Android SDK of your choice, then remove the word "on" and also the word "listener". Then, append the after `rx_`. 
+Think about listener from Android SDK of your choice, then remove the word "on" and also the word "listener". Then, append that "name" after `rx_`. 
 
 For example, 
 * `View.OnClickListener` => `view.rx_click()` 
@@ -80,7 +81,7 @@ For example,
 
 ### Properties
 
-Think about name of property of UI element from Android SDK. Remove {set|get|is|has}. Then, append after `rx_`.
+Think about name of property of UI element from Android SDK. Remove {set|get|is|has}. Then, append after `rx_` in the similar fashion as Events.
 
 For example, 
 * `View.setEnabled/isEnabled` => `view.rx_enabled`
