@@ -18,10 +18,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:0.2.10' //for base UI
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:0.2.10' //for appcompat-v7 module
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:0.2.10' //for support-v4 module
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:0.2.10' //for design support module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:0.2.11' //for base UI
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:0.2.11' //for appcompat-v7 module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:0.2.11' //for support-v4 module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:0.2.11' //for design support module
 }
 ```
 
@@ -46,9 +46,26 @@ o.map { "$it Bob" }.bindTo(textView.rx_text)
 ```
 
 From above example, whenever `Observable` emits next, `bindTo` will bind with `setText(value)` / `getText()` of TextView. 
-This makes `ReactiveAndroid` a powerful tool to perform data binding in your MV* architecture (MVP, MVVM).
 
-Another example is registeration form. You probably want to know whether input email & password are valid or not. So that, you could disable/enable button as user types.
+`Observable<T>.bindTo` in `ReactiveAndroid` is built in a flexible way. You could bind to any method you like as long as the signature of desire method is either `(T) -> X` or `() -> X`.
+ 
+``` Kotlin
+val imageStream = .... // Observable<String>
+
+fun ImageView.setImageUrl(url: String) {
+    //you could use image loader library of your choice, in this case I use Picasso as an example
+    Picasso.with(context).load(url).into(this);
+}
+
+//usage
+imageStream.bindTo(imageView, ImageView::setImageUrl) // bindTo will call side-effect whenever the stream emits String
+```
+
+In this way, you could construct your logic as Observable<T> in Presenter or ViewModel, then bind it with your view to make it updated.
+
+This makes `ReactiveAndroid` a powerful tool to perform data binding in your MV* architecture (MVP, MVVM). 
+
+Another example is registration form. You probably want to know whether input email & password are valid or not. So that, you could disable/enable button as user types.
 
 ``` Kotlin
 val emails = emailEditText.rx_afterTextChanged().map { it.toString() } // becomes Observable<String> for email

@@ -1,6 +1,7 @@
 package com.github.kittinunf.reactiveandroid.widget
 
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.widget.TextView
 import com.github.kittinunf.reactiveandroid.MutableProperty
 import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
@@ -45,6 +46,14 @@ val TextView.rx_textColors: MutableProperty<ColorStateList>
     get() {
         val getter = { textColors }
         val setter: (ColorStateList) -> Unit = { setTextColor(it) }
+
+        return createMainThreadMutableProperty(getter, setter)
+    }
+
+val TextView.rx_typeface: MutableProperty<Typeface>
+    get() {
+        val getter = { typeface }
+        val setter: (Typeface) -> Unit = { typeface = it }
 
         return createMainThreadMutableProperty(getter, setter)
     }
