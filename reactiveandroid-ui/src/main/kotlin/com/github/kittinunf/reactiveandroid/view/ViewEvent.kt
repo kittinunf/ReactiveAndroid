@@ -153,5 +153,59 @@ fun View.rx_createContextMenu(): Observable<CreateContextMenuListener> {
     }
 }
 
+fun View.rx_attachedToWindow(): Observable<View> {
+    return Observable.create { subscriber ->
+        _attachStateChange.onViewAttachedToWindow {
+            subscriber.onNext(it)
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            removeOnAttachStateChangeListener(_attachStateChange)
+        })
+    }
+}
+
+fun View.rx_detachedFromWindow(): Observable<View> {
+    return Observable.create { subscriber ->
+        _attachStateChange.onViewDetachedFromWindow {
+            subscriber.onNext(it)
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            removeOnAttachStateChangeListener(_attachStateChange)
+        })
+    }
+}
+
+private val View._attachStateChange: _View_AttachStateChangeListener
+    get() {
+        val listener = _View_AttachStateChangeListener()
+        addOnAttachStateChangeListener(listener)
+        return listener
+    }
+
+private class _View_AttachStateChangeListener : View.OnAttachStateChangeListener {
+
+    private var onViewDetachedFromWindow: ((View?) -> Unit)? = null
+
+    private var onViewAttachedToWindow: ((View?) -> Unit)? = null
+
+    fun onViewDetachedFromWindow(listener: (View?) -> Unit) {
+        onViewDetachedFromWindow = listener
+    }
+
+    override fun onViewDetachedFromWindow(v: View?) {
+        onViewDetachedFromWindow?.invoke(v)
+    }
+
+    fun onViewAttachedToWindow(listener: (View?) -> Unit) {
+        onViewAttachedToWindow = listener
+    }
+
+    override fun onViewAttachedToWindow(v: View?) {
+        onViewAttachedToWindow?.invoke(v)
+    }
+
+}
 
 
