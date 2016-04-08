@@ -55,16 +55,4 @@ class PropertyTest {
         assertThat(p2.value, isEqualTo(42))
     }
 
-    @Test
-    fun constantPropertySubscribing() {
-        val cp = ConstantProperty("string")
-
-        var result = ""
-        cp.subscribe { result = it  }
-
-        //cp.value = 4 //not compiled
-
-        assertThat(result, isEqualTo("string"))
-    }
-
 }
