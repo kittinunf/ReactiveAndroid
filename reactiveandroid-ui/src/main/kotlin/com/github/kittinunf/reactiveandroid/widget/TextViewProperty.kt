@@ -26,10 +26,10 @@ val TextView.rx_hint: MutableProperty<CharSequence>
         return createMainThreadMutableProperty(getter, setter)
     }
 
-val TextView.rx_text: MutableProperty<String>
+val TextView.rx_text: MutableProperty<CharSequence>
     get() {
-        val getter = { text.toString() }
-        val setter: (String) -> Unit = {
+        val getter = { text }
+        val setter: (CharSequence) -> Unit = {
             text = it
         }
 
