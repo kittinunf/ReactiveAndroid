@@ -29,19 +29,7 @@ interface MutablePropertyType<T> : PropertyType<T> {
 
 }
 
-class ConstantProperty<T>(private val init: T) : PropertyType<T> {
-
-    override val observable: Observable<T>
-        get() = sink
-
-    override val value: T = init
-        get() = synchronized(this) { field }
-
-    private val sink = BehaviorSubject.create(init)
-
-}
-
-class Property<T>(private val init: T) : PropertyType<T> {
+class Property<T>(init: T) : PropertyType<T> {
 
     override val observable: Observable<T>
         get() = sink
@@ -60,7 +48,7 @@ class Property<T>(private val init: T) : PropertyType<T> {
             field
         }
 
-    private val sink = BehaviorSubject.create(_value)
+    private val sink = BehaviorSubject.create<T>(init)
 
     private val subscriptions = CompositeSubscription()
 
@@ -76,7 +64,7 @@ class Property<T>(private val init: T) : PropertyType<T> {
 
 }
 
-class MutableProperty<T>(private val init: T) : MutablePropertyType<T> {
+class MutableProperty<T>(init: T) : MutablePropertyType<T> {
 
     override val observable: Observable<T>
         get() = sink
@@ -90,23 +78,20 @@ class MutableProperty<T>(private val init: T) : MutablePropertyType<T> {
             }
         }
 
-    private val sink = BehaviorSubject.create(init)
-
-    private val subscriptions = CompositeSubscription()
+    private val sink = BehaviorSubject.create<T>(init)
 
     fun bindTo(observable: Observable<T>) = modify(observable)
 
     fun bindTo(propertyType: PropertyType<T>) = modify(propertyType.observable)
 
     private fun modify(observable: Observable<T>): Subscription {
-        subscriptions += observable.subscribe({
+        return observable.subscribe({
             value = it
         }, {
             throw UnsupportedOperationException("Property doesn't support onError")
         }, {
-            subscriptions.unsubscribe()
+            //do nothing
         })
-        return subscriptions
     }
 
 }
