@@ -13,14 +13,14 @@ interface SignInViewAction {
     fun usernameObservable(): Observable<String>
     fun passwordObservable(): Observable<String>
 
-    fun username(): MutableProperty<String>
-    fun password(): MutableProperty<String>
+    fun username(): MutableProperty<CharSequence>
+    fun password(): MutableProperty<CharSequence>
 }
 
 class SignInViewModel(val viewAction: SignInViewAction) {
 
     val signInAction by lazy(LazyThreadSafetyMode.NONE) {
-        Action(formValidObservable) { unit: Unit -> mockSignInRequest(viewAction.username().value, viewAction.password().value) }
+        Action(formValidObservable) { unit: Unit -> mockSignInRequest(viewAction.username().value.toString(), viewAction.password().value.toString()) }
     }
 
     val usernameAndPasswordObservable: Observable<Pair<String, String>>

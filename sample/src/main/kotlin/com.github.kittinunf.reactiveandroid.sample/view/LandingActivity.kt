@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.kittinunf.reactiveandroid.ConstantProperty
+import com.github.kittinunf.reactiveandroid.Property
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.sample.R
@@ -44,7 +44,7 @@ class LandingActivity : AppCompatActivity() {
     private fun setUpToolbar() {
         setSupportActionBar(toolbar)
 
-        val property = ConstantProperty(listOf("Item 1", "Item 2", "Item 3"))
+        val property = Property(listOf("Item 1", "Item 2", "Item 3"))
         toolbarSpinner.rx_itemsWith(property.observable, ItemAdapter()).addTo(subscriptions)
         title = ""
     }

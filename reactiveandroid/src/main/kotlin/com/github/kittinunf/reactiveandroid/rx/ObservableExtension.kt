@@ -85,7 +85,7 @@ fun <T : Triple<A, B, C>, A, B, C, O, X> Observable<T>.bindTo(o: O,
     })
 }
 
-fun <T> Observable<T>.bindTo(property: MutablePropertyType<T>): Subscription {
+fun <T : R, R> Observable<T>.bindTo(property: MutablePropertyType<R>): Subscription {
     return subscribe {
         property.value = it
     }
