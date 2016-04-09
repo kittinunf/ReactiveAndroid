@@ -17,7 +17,7 @@ buildscript {
 allprojects {
     ext {
         //publish
-        reactiveAndroidVersion = '0.2.15'
+        reactiveAndroidVersion = '0.2.16'
 
         reactiveAndroid = 'reactiveandroid'
         reactiveAndroidAppcompatV7 = 'reactiveandroid-appcompat-v7'

@@ -50,7 +50,7 @@ fun RecyclerView.rx_recycler(): Observable<RecyclerView.ViewHolder> {
     }
 }
 
-fun RecyclerView.onChildViewAttachedToWindow(): Observable<View> {
+fun RecyclerView.rx_onChildViewAttachedToWindow(): Observable<View> {
     return Observable.create { subscriber ->
         _childAttachStateChange.onChildViewAttachedToWindow {
             subscriber.onNext(it)
@@ -62,7 +62,7 @@ fun RecyclerView.onChildViewAttachedToWindow(): Observable<View> {
     }
 }
 
-fun RecyclerView.onChildViewDetachedFromWindow(): Observable<View> {
+fun RecyclerView.rx_onChildViewDetachedFromWindow(): Observable<View> {
     return Observable.create { subscriber ->
         _childAttachStateChange.onChildViewDetachedFromWindow {
             subscriber.onNext(it)
@@ -76,7 +76,7 @@ fun RecyclerView.onChildViewDetachedFromWindow(): Observable<View> {
 
 data class TouchEventListener(val recyclerView: RecyclerView?, val event: MotionEvent?)
 
-fun RecyclerView.touchEvent() : Observable<TouchEventListener> {
+fun RecyclerView.rx_touchEvent() : Observable<TouchEventListener> {
     return Observable.create { subscriber ->
         _itemTouch.onTouchEvent { recyclerView, motionEvent ->
             subscriber.onNext(TouchEventListener(recyclerView, motionEvent))
@@ -84,6 +84,20 @@ fun RecyclerView.touchEvent() : Observable<TouchEventListener> {
 
         subscriber.add(AndroidMainThreadSubscription {
             removeOnItemTouchListener(_itemTouch)
+        })
+    }
+}
+
+fun RecyclerView.rx_dataChanged() : Observable<Unit> {
+    return Observable.create { subscriber ->
+        _adapterDataObserver.onChanged {
+            subscriber.onNext(Unit)
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            adapter?.let {
+                it.unregisterAdapterDataObserver(_adapterDataObserver)
+            }
         })
     }
 }
@@ -187,6 +201,59 @@ internal class _RecyclerView_OnScrollListener : RecyclerView.OnScrollListener() 
 
     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
         onScrolled?.invoke(recyclerView, dx, dy)
+    }
+
+}
+
+private val RecyclerView._adapterDataObserver: _RecyclerView_AdapterDataObserver
+    get() {
+        val listener = _RecyclerView_AdapterDataObserver()
+        adapter?.let {
+            it.registerAdapterDataObserver(listener)
+        }
+        return listener
+    }
+
+internal class _RecyclerView_AdapterDataObserver : RecyclerView.AdapterDataObserver() {
+
+    private var onChanged: (() -> Unit)? = null
+
+    private var onItemRangeInserted: ((Int, Int) -> Unit)? = null
+
+    private var onItemRangeMoved: ((Int, Int, Int) -> Unit)? = null
+
+    private var onItemRangeRemoved: ((Int, Int) -> Unit)? = null
+
+    fun onChanged(listener: () -> Unit) {
+        onChanged = listener
+    }
+
+    override fun onChanged() {
+        onChanged?.invoke()
+    }
+
+    fun onItemRangeInserted(listener: (Int, Int) -> Unit) {
+        onItemRangeInserted = listener
+    }
+
+    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+        onItemRangeInserted?.invoke(positionStart, itemCount)
+    }
+
+    fun onItemRangeMoved(listener: (Int, Int, Int) -> Unit) {
+        onItemRangeMoved = listener
+    }
+
+    override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+        onItemRangeMoved?.invoke(fromPosition, toPosition, itemCount)
+    }
+
+    fun onItemRangeRemoved(listener: (Int, Int) -> Unit) {
+        onItemRangeRemoved = listener
+    }
+
+    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+        onItemRangeRemoved?.invoke(positionStart, itemCount)
     }
 
 }
