@@ -14,6 +14,14 @@ interface SectionModelType<T> {
     fun size(): Int = items.size
 }
 
+class SimpleSection<T>(val name: String, override var items: List<T>) : SectionModelType<T>
+
+fun<T, X> List<T>.mapToSection(sectionName: (T) -> X): List<SimpleSection<T>> = this.groupBy { sectionName(it) }.mapTo(mutableListOf()) {
+    SimpleSection(it.key.toString(), it.value)
+}.toList()
+
+fun<T, X> Observable<List<T>>.mapToSection(sectionName: (T) -> X): Observable<List<SimpleSection<T>>> = this.map { it.mapToSection(sectionName) }
+
 val SECTION_HEADER_VIEW_TYPE = 1000
 val SECTION_ITEM_VIEW_TYPE = 1001
 
@@ -75,10 +83,10 @@ abstract class SectionedRecyclerViewProxyAdapter<T, S : SectionModelType<T>, VH 
 
 }
 
-fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C: List<S>> RecyclerView.rx_itemsWith(observable: Observable<C>,
-                                                                                         onCreateViewHolder: (ViewGroup?, Int) -> VH,
-                                                                                         onBindHeaderViewHolder: (VH, Int, S) -> Unit,
-                                                                                         onBindItemViewHolder: (VH, Int, T) -> Unit): Subscription {
+fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C : List<S>> RecyclerView.rx_itemsWith(observable: Observable<C>,
+                                                                                                      onCreateViewHolder: (ViewGroup?, Int) -> VH,
+                                                                                                      onBindHeaderViewHolder: (VH, Int, S) -> Unit,
+                                                                                                      onBindItemViewHolder: (VH, Int, T) -> Unit): Subscription {
     val proxyAdapter = object : SectionedRecyclerViewProxyAdapter<T, S, VH>() {
 
         override var createViewHolder: (ViewGroup?, Int) -> VH = onCreateViewHolder
@@ -91,8 +99,8 @@ fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C: List<S>> Recyc
     return rx_itemsWith(observable, proxyAdapter)
 }
 
-fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C: List<S>, A : SectionedRecyclerViewProxyAdapter<T, S, VH>> RecyclerView.rx_itemsWith(observable: Observable<C>,
-                                                                                                                                          sectionedRecyclerViewProxyAdapter: A): Subscription {
+fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C : List<S>, A : SectionedRecyclerViewProxyAdapter<T, S, VH>> RecyclerView.rx_itemsWith(observable: Observable<C>,
+                                                                                                                                                       sectionedRecyclerViewProxyAdapter: A): Subscription {
     adapter = sectionedRecyclerViewProxyAdapter
     return observable.subscribe {
         sectionedRecyclerViewProxyAdapter.sections = it
