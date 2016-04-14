@@ -18,10 +18,6 @@ import kotlinx.android.synthetic.main.recycler_item.view.*
 import rx.Observable
 import rx.subscriptions.CompositeSubscription
 
-class Section(val name: Char, override var items: List<Item>) : SectionModelType<Item>
-
-class Item(val country: String, val capital: String)
-
 class RecyclerViewActivity : AppCompatActivity() {
 
     val compositeSubscription = CompositeSubscription()
@@ -43,7 +39,7 @@ class RecyclerViewActivity : AppCompatActivity() {
             Item(country, capital)
         }
 
-        val itemMap = items.groupBy { it.country.first() }.map { Section(it.key, it.value)}
+        val itemMap = items.groupBy { it.country.first() }.map { Section(it.key, it.value) }
 
         val o = Observable.just(itemMap)
         recyclerView.rx_itemsWith(o, { parent, viewType ->
@@ -62,6 +58,10 @@ class RecyclerViewActivity : AppCompatActivity() {
         super.onDestroy()
         compositeSubscription.unsubscribe()
     }
+
+    class Section(val name: Char, override var items: List<Item>) : SectionModelType<Item>
+
+    class Item(val country: String, val capital: String)
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val headerTextView: TextView by lazy(LazyThreadSafetyMode.NONE) { view.recyclerHeaderTextView }

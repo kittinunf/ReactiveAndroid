@@ -20,13 +20,13 @@ abstract class AdapterViewProxyAdapter<T> : BaseAdapter() {
 
 fun <T> AdapterView<*>.rx_itemsWith(observable: Observable<List<T>>,
                                     getView: (Int, T, View?, ViewGroup?) -> View,
-                                    getItemId: (Int, T) -> Long): Subscription {
+                                    getItemId: ((Int, T) -> Long)? = null): Subscription {
 
     val proxyAdapter = object : AdapterViewProxyAdapter<T>() {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? = getView.invoke(position, items[position], convertView, parent)
 
-        override fun getItemId(position: Int): Long = getItemId.invoke(position, items[position])
+        override fun getItemId(position: Int): Long = getItemId?.invoke(position, items[position]) ?: position.toLong()
 
     }
     return rx_itemsWith(observable, proxyAdapter)
