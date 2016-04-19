@@ -11,12 +11,18 @@ import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.v7.widget.SECTION_HEADER_VIEW_TYPE
 import com.github.kittinunf.reactiveandroid.support.v7.widget.SectionModelType
+import com.github.kittinunf.reactiveandroid.support.v7.widget.mapToSection
 import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_itemsWith
 import kotlinx.android.synthetic.main.activity_recyclerview.*
 import kotlinx.android.synthetic.main.recycler_header_item.view.*
 import kotlinx.android.synthetic.main.recycler_item.view.*
 import rx.Observable
 import rx.subscriptions.CompositeSubscription
+
+
+//Manual way -> class Section(val name: Char, override var items: List<Item>) : SectionModelType<Item>
+
+class Item(val country: String, val capital: String)
 
 class RecyclerViewActivity : AppCompatActivity() {
 
@@ -38,8 +44,9 @@ class RecyclerViewActivity : AppCompatActivity() {
             val capital = rawCapitals[index]
             Item(country, capital)
         }
-
-        val itemMap = items.groupBy { it.country.first() }.map { Section(it.key, it.value) }
+        
+        //Manual way -> val itemMapManual = items.groupBy { it.country.first() }.map { Section(it.key, it.value) }
+        val itemMap = items.mapToSection { it.country.first().toString() }
 
         val o = Observable.just(itemMap)
         recyclerView.rx_itemsWith(o, { parent, viewType ->
@@ -47,7 +54,7 @@ class RecyclerViewActivity : AppCompatActivity() {
             val view = LayoutInflater.from(parent?.context).inflate(resId, parent, false)
             ViewHolder(view)
         }, { holder, position, section ->
-            holder.headerTextView.text = section.name.toString()
+            holder.headerTextView.text = section.name
         }, { holder, position, item ->
             holder.textView1.text = item.country
             holder.textView2.text = item.capital
