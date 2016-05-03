@@ -9,22 +9,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.LandingActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".view.SignInActivity">
         </activity>
-
         <activity android:name=".view.SignUpActivity">
         </activity>
-
         <activity android:name=".view.RecyclerViewActivity">
         </activity>
-
+        <activity
+            android:name=".view.FragmentPagerActivity"
+            android:label="@string/title_activity_fragment_pager"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>
