@@ -15,20 +15,11 @@ abstract class FragmentPagerProxyAdapter<ARG>(fragmentManager: FragmentManager) 
 
     internal var items: List<ARG> = listOf()
 
-    open var pageWidth: ((Int) -> Float)? = null
-
     open var pageTitle: ((Int, ARG) -> String)? = null
 
     abstract var item: ((Int, ARG) -> Fragment)
 
     override fun getItem(position: Int): Fragment? = item.invoke(position, items[position])
-
-    override fun getPageWidth(position: Int): Float =
-            pageWidth?.let {
-                it.invoke(position)
-            } ?: {
-                super.getPageWidth(position)
-            }()
 
     override fun getPageTitle(position: Int): CharSequence? =
             pageTitle?.let {
@@ -43,21 +34,20 @@ abstract class FragmentPagerProxyAdapter<ARG>(fragmentManager: FragmentManager) 
 
 }
 
-fun <ARG, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, fragmentManager: FragmentManager,
-                                                    getItem: (Int, ARG) -> Fragment,
-                                                    getPageTitle: ((Int, ARG) -> String)? = null,
-                                                    getPageWidth: ((Int) -> Float)? = null): Subscription {
+fun <ARG, L : List<ARG>> ViewPager.rx_itemsWith(observable: Observable<L>, fragmentManager: FragmentManager,
+                                                getItem: (Int, ARG) -> Fragment,
+                                                getPageTitle: ((Int, ARG) -> String)? = null,
+                                                getPageWidth: ((Int) -> Float)? = null): Subscription {
     val proxyAdapter = object : FragmentPagerProxyAdapter<ARG>(fragmentManager) {
 
         override var item: (Int, ARG) -> Fragment = getItem
         override var pageTitle: ((Int, ARG) -> String)? = getPageTitle
-        override var pageWidth: ((Int) -> Float)? = getPageWidth
 
     }
-    return rx_fragmentsWith(observable, proxyAdapter)
+    return rx_itemsWith(observable, proxyAdapter)
 }
 
-fun <ARG, ADT : FragmentPagerProxyAdapter<ARG>, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, fragmentPagerProxyAdapter: ADT): Subscription {
+fun <ARG, ADT : FragmentPagerProxyAdapter<ARG>, L : List<ARG>> ViewPager.rx_itemsWith(observable: Observable<L>, fragmentPagerProxyAdapter: ADT): Subscription {
     adapter = fragmentPagerProxyAdapter
     return observable.subscribe {
         fragmentPagerProxyAdapter.items = it

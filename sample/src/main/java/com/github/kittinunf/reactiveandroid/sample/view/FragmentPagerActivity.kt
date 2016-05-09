@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 
 import com.github.kittinunf.reactiveandroid.sample.R
-import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_fragmentsWith
+import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_itemsWith
 import com.judrummer.androidbestrhythm.viewpager.section.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_fragment_pager.*
 import rx.Observable
@@ -23,7 +23,7 @@ class FragmentPagerActivity : AppCompatActivity() {
 
     fun setUpUI() {
         setSupportActionBar(toolbar)
-        viewPager.rx_fragmentsWith(Observable.just(listOf("section1", "section2", "section3")), supportFragmentManager,
+        viewPager.rx_itemsWith(Observable.just(listOf("section1", "section2", "section3")), supportFragmentManager,
                 { position, item ->
                     PlaceholderFragment.newInstance(item)
                 },
@@ -34,6 +34,9 @@ class FragmentPagerActivity : AppCompatActivity() {
                     0.9f
                 }
         )
+        tlPager.apply {
+            setupWithViewPager(viewPager)
+        }
     }
 
 }
