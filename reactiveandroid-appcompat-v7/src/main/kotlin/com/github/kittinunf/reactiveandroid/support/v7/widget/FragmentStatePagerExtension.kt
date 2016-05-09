@@ -39,6 +39,6 @@ fun <ARG, ADT : FragmentStatePagerProxyAdapter<ARG>, L : List<ARG>> ViewPager.rx
     adapter = fragmentPagerProxyAdapter
     return observable.subscribe {
         fragmentPagerProxyAdapter.items = it
-        fragmentPagerProxyAdapter.notifyDataSetChanged()
+        post { fragmentPagerProxyAdapter.notifyDataSetChanged() }
     }
 }

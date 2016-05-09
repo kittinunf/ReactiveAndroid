@@ -3,7 +3,6 @@ package com.github.kittinunf.reactiveandroid.support.v7.widget
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import rx.Observable
 import rx.Subscription
@@ -42,6 +41,6 @@ fun <ARG, ADT : FragmentPagerProxyAdapter<ARG>, L : List<ARG>> ViewPager.rx_frag
     adapter = fragmentPagerProxyAdapter
     return observable.subscribe {
         fragmentPagerProxyAdapter.items = it
-        fragmentPagerProxyAdapter.notifyDataSetChanged()
+        post { fragmentPagerProxyAdapter.notifyDataSetChanged() }
     }
 }
