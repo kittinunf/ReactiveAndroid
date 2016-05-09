@@ -54,6 +54,16 @@
         android:text="To List"
         />
 
+
+    <Button
+        android:id="@+id/toFragmentPagerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:text="To FragmentPager"
+        />
+
     <TextView
         android:id="@+id/resultTextView"
         android:layout_width="wrap_content"

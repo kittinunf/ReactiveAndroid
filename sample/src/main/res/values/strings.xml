@@ -398,4 +398,5 @@
         <item> Lusaka </item>
         <item> Harare </item>
     </string-array>
+    <string name="title_activity_fragment_pager">FragmentPagerActivity</string>
 </resources>
