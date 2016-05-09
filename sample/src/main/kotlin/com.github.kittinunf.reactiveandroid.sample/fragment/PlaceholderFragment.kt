@@ -8,14 +8,6 @@ import android.view.ViewGroup
 import com.github.kittinunf.reactiveandroid.sample.R
 import kotlinx.android.synthetic.main.fragment_place_holder.view.*
 
-/**
- * Created by tipatai on 4/28/16 AD.
- */
-
-
-/**
- * A placeholder fragment containing a simple view.
- */
 class PlaceholderFragment : Fragment() {
 
     lateinit var rootView: View
