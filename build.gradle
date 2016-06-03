@@ -33,7 +33,7 @@ allprojects {
         website = 'https://github.com/kittinunf/ReactiveAndroid'
 
         //kotlin
-        kotlinVersion = '1.0.1'
+        kotlinVersion = '1.0.2'
         kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
