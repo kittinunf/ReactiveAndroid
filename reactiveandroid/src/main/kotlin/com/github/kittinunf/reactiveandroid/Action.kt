@@ -37,7 +37,7 @@ open class Action<in T, U>(private val enabledIf: Observable<Boolean>, private v
 
         var willBeExecuted = false
 
-        if (_enabled.value) {
+        if (_enabled.value!!) {
             _executing.value = true
             willBeExecuted = true
         }

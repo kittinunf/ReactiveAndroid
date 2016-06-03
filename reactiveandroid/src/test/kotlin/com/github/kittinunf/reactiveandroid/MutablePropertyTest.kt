@@ -1,5 +1,6 @@
 package com.github.kittinunf.reactiveandroid
 
+import org.hamcrest.CoreMatchers.nullValue
 import org.junit.Assert.assertThat
 import org.junit.Test
 import rx.Observable
@@ -46,7 +47,6 @@ class MutablePropertyTest {
     @Test
     fun mutablePropertyBindToAnotherProperty() {
         val mp1 = MutableProperty('a')
-
         val mp2 = MutableProperty('z')
 
         mp2.bindTo(mp1)
@@ -56,6 +56,47 @@ class MutablePropertyTest {
         mp1.value = 'd'
 
         assertThat(mp2.value, isEqualTo('d'))
+    }
+
+    @Test
+    fun mutablePropertyWithoutInitialValue() {
+        val mp = MutableProperty<Int>()
+
+        assertThat(mp.value, nullValue())
+    }
+
+    @Test
+    fun mutablePropertyWithoutInitialValueSubscribing() {
+        val mp = MutableProperty<Int>()
+
+        var called = false
+        mp.subscribe {
+            called = true
+        }
+
+        assertThat(called, isEqualTo(false))
+    }
+
+    @Test
+    fun mutablePropertyWithoutInitialValueCanChangeValue() {
+        val mp = MutableProperty<String>()
+
+        var text = ""
+        mp.subscribe {
+            text = it
+        }
+
+        mp.value = "hello world!!"
+        assertThat(text, isEqualTo("hello world!!"))
+    }
+
+    @Test
+    fun mutablePropertyWithoutInitialValueBindTo() {
+        val mp = MutableProperty<Int>()
+        val o = Observable.just(68)
+
+        mp.bindTo(o)
+        assertThat(mp.value, isEqualTo(68))
     }
 
 }

@@ -9,7 +9,7 @@ import rx.subscriptions.CompositeSubscription
 
 interface PropertyType<T> {
 
-    val value: T
+    val value: T?
 
     val observable: Observable<T>
 
@@ -25,7 +25,7 @@ interface PropertyType<T> {
 
 interface MutablePropertyType<T> : PropertyType<T> {
 
-    override var value: T
+    override var value: T?
 
 }
 
@@ -52,7 +52,7 @@ class Property<T>(init: T) : PropertyType<T> {
 
     private val subscriptions = CompositeSubscription()
 
-    constructor(propertyType: PropertyType<T>) : this(propertyType.value) {
+    constructor(propertyType: PropertyType<T>) : this(propertyType.value!!) {
         subscriptions += propertyType.observable.subscribe({
             _value = it
         }, {
@@ -64,12 +64,15 @@ class Property<T>(init: T) : PropertyType<T> {
 
 }
 
-class MutableProperty<T>(init: T) : MutablePropertyType<T> {
+class MutableProperty<T>(init: T?) : MutablePropertyType<T> {
+
+    constructor() : this(null) {
+    }
 
     override val observable: Observable<T>
-        get() = sink
+        get() = sink.filter { it != null }
 
-    override var value: T = init
+    override var value: T? = init
         get() = synchronized(this) { field }
         set(value) {
             field = synchronized(this) {
