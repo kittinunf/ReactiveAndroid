@@ -16,11 +16,11 @@ interface SectionModelType<T> {
 
 class SimpleSection<T>(val name: String, override var items: List<T>) : SectionModelType<T>
 
-fun<T, X> List<T>.mapToSection(sectionName: (T) -> X): List<SimpleSection<T>> = this.groupBy { sectionName(it) }.mapTo(mutableListOf()) {
+fun<T, X> List<T>.mapToSection(sectionName: (T) -> X): List<SimpleSection<T>> = groupBy { sectionName(it) }.mapTo(mutableListOf()) {
     SimpleSection(it.key.toString(), it.value)
-}.toList()
+}
 
-fun<T, X> Observable<List<T>>.mapToSection(sectionName: (T) -> X): Observable<List<SimpleSection<T>>> = this.map { it.mapToSection(sectionName) }
+fun<T, X> Observable<List<T>>.mapToSection(sectionName: (T) -> X): Observable<List<SimpleSection<T>>> = map { it.mapToSection(sectionName) }
 
 val SECTION_HEADER_VIEW_TYPE = 1000
 val SECTION_ITEM_VIEW_TYPE = 1001

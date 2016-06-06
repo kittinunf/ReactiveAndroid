@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
+import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import rx.Observable
 import rx.Subscription
 
@@ -39,8 +40,8 @@ fun <ARG, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, f
 
 fun <ARG, ADT : FragmentPagerProxyAdapter<ARG>, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, fragmentPagerProxyAdapter: ADT): Subscription {
     adapter = fragmentPagerProxyAdapter
-    return observable.subscribe {
+    return observable.observeOn(AndroidThreadScheduler.mainThreadScheduler).subscribe {
         fragmentPagerProxyAdapter.items = it
-        post { fragmentPagerProxyAdapter.notifyDataSetChanged() }
+        fragmentPagerProxyAdapter.notifyDataSetChanged()
     }
 }

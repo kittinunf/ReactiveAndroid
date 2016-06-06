@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_fragmentsWith
-import com.judrummer.androidbestrhythm.viewpager.section.PlaceholderFragment
+import com.github.kittinunf.reactiveandroid.sample.fragment.PlaceholderFragment
 import kotlinx.android.synthetic.main.activity_fragment_pager.*
 import rx.Observable
 
