@@ -5,60 +5,70 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.widget.TextView
+import com.github.kittinunf.reactiveandroid.MutableProperty
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
-import com.github.kittinunf.reactiveandroid.support.v7.widget.SECTION_HEADER_VIEW_TYPE
-import com.github.kittinunf.reactiveandroid.support.v7.widget.SectionModelType
-import com.github.kittinunf.reactiveandroid.support.v7.widget.mapToSection
 import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_itemsWith
-import kotlinx.android.synthetic.main.activity_recyclerview.*
-import kotlinx.android.synthetic.main.recycler_header_item.view.*
+import com.github.kittinunf.reactiveandroid.view.rx_click
+import com.github.kittinunf.reactiveandroid.view.rx_longClick
+import com.github.kittinunf.reactiveandroid.view.rx_menuItemClick
+import kotlinx.android.synthetic.main.activity_recycler_view.*
 import kotlinx.android.synthetic.main.recycler_item.view.*
-import rx.Observable
 import rx.subscriptions.CompositeSubscription
-
-
-//Manual way -> class Section(val name: Char, override var items: List<Item>) : SectionModelType<Item>
-
-class Item(val country: String, val capital: String)
+import java.util.*
 
 class RecyclerViewActivity : AppCompatActivity() {
 
     val compositeSubscription = CompositeSubscription()
 
+    //back storage
+    val _items = mutableListOf<String>()
+
+    val items = MutableProperty<List<String>>()
+
+    lateinit var countries: Array<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recyclerview)
+        setContentView(R.layout.activity_recycler_view)
+        setSupportActionBar(toolbar)
+
+        countries = resources.getStringArray(R.array.countries)
 
         titleTextView.text = javaClass.simpleName
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val rawCountries = resources.getStringArray(R.array.countries)
-        val rawCapitals = resources.getStringArray(R.array.capitals)
-
-        val items = rawCountries.mapIndexed { index, country ->
-            val capital = rawCapitals[index]
-            Item(country, capital)
-        }
-        
-        //Manual way -> val itemMapManual = items.groupBy { it.country.first() }.map { Section(it.key, it.value) }
-        val itemMap = items.mapToSection { it.country.first().toString() }
-
-        val o = Observable.just(itemMap)
-        recyclerView.rx_itemsWith(o, { parent, viewType ->
-            val resId = if (viewType == SECTION_HEADER_VIEW_TYPE) R.layout.recycler_header_item else R.layout.recycler_item
-            val view = LayoutInflater.from(parent?.context).inflate(resId, parent, false)
-            ViewHolder(view)
-        }, { holder, position, section ->
-            holder.headerTextView.text = section.name
+        recyclerView.rx_itemsWith(items.observable, { parent, viewType ->
+            val view = LayoutInflater.from(parent?.context).inflate(R.layout.recycler_item, parent, false)
+            val vh = ViewHolder(view)
+            vh.itemView.rx_click().subscribe {
+                _items[vh.layoutPosition] = countries.random()
+                items.value = _items.toList()
+            }
+            vh.itemView.rx_longClick(true).subscribe {
+                _items.removeAt(vh.layoutPosition)
+                items.value = _items.toList()
+            }
+            vh
         }, { holder, position, item ->
-            holder.textView1.text = item.country
-            holder.textView2.text = item.capital
+            holder.textView1.text = item
         }).addTo(compositeSubscription)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.let {
+            menuInflater.inflate(R.menu.menus, menu)
+            menu.findItem(R.id.menu_add).rx_menuItemClick(true).subscribe {
+                _items.add(_items.size.random(), countries.random())
+                items.value = _items.toList()
+            }.addTo(compositeSubscription)
+        }
+        return true
     }
 
     override fun onDestroy() {
@@ -66,15 +76,13 @@ class RecyclerViewActivity : AppCompatActivity() {
         compositeSubscription.unsubscribe()
     }
 
-    class Section(val name: Char, override var items: List<Item>) : SectionModelType<Item>
-
-    class Item(val country: String, val capital: String)
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val headerTextView: TextView by lazy(LazyThreadSafetyMode.NONE) { view.recyclerHeaderTextView }
-
         val textView1: TextView by lazy(LazyThreadSafetyMode.NONE) { view.recyclerItemTextView1 }
         val textView2: TextView by lazy(LazyThreadSafetyMode.NONE) { view.recyclerItemTextView2 }
     }
+
+    fun Int.random() = Random().nextInt(this + 1)
+
+    fun <T> Array<T>.random() = this[this.size.random()]
 
 }

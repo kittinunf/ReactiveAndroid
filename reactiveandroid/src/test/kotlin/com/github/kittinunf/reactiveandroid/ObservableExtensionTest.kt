@@ -1,10 +1,12 @@
 package com.github.kittinunf.reactiveandroid
 
 import com.github.kittinunf.reactiveandroid.rx.bindTo
+import com.github.kittinunf.reactiveandroid.rx.cachedPrevious
 import com.github.kittinunf.reactiveandroid.rx.subscribe
 import org.junit.Assert.assertThat
 import org.junit.Test
 import rx.Observable
+import rx.subjects.ReplaySubject
 import org.hamcrest.CoreMatchers.`is` as isEqualTo
 
 class ObservableExtensionTest {
@@ -14,7 +16,6 @@ class ObservableExtensionTest {
     fun liftTest(input: String) {
         result = input
     }
-
 
     class Foo {
         var value = 0
@@ -71,6 +72,18 @@ class ObservableExtensionTest {
         assertThat(a, isEqualTo(1))
         assertThat(b, isEqualTo(2))
         assertThat(c, isEqualTo(3))
+    }
+
+    @Test
+    fun cachedPrevious() {
+        val subject = ReplaySubject.create<Pair<Int?, Int?>>()
+        val ints = Observable.just(1, 2, 3, 4)
+        ints.cachedPrevious().subscribe(subject)
+
+        val v = subject.values
+        assertThat(v[1] as Pair<Int, Int>, isEqualTo(1 to 2))
+        assertThat(v[2] as Pair<Int, Int>, isEqualTo(2 to 3))
+        assertThat(v[3] as Pair<Int, Int>, isEqualTo(3 to 4))
     }
 
 }

@@ -54,6 +54,14 @@
         android:text="To List"
         />
 
+    <Button
+        android:id="@+id/toSectionListPageButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:text="To Section List"
+        />
 
     <Button
         android:id="@+id/toFragmentPagerButton"

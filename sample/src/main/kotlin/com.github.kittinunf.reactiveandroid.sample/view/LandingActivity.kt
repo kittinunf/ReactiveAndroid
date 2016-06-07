@@ -53,6 +53,7 @@ class LandingActivity : AppCompatActivity() {
         toSignInPageButton.rx_click().map { SignInActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
         toSignUpPageButton.rx_click().map { SignUpActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
         toListPageButton.rx_click().map { RecyclerViewActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
+        toSectionListPageButton.rx_click().map { SectionRecyclerViewActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
         toFragmentPagerButton.rx_click().map { FragmentPagerActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
     }
 

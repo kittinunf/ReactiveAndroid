@@ -128,3 +128,10 @@ fun <T : Triple<A, B, C>, A, B, C> Observable<T>.subscribe(onNext: (A, B, C) -> 
         }
     })
 }
+
+fun <T> Observable<T>.cachedPrevious(): Observable<Pair<T?, T?>> {
+    return scan(Pair<T?, T?>(null, null)) { accum, item ->
+        val (i, j) = accum
+        j to item
+    }.skip(1)
+}
