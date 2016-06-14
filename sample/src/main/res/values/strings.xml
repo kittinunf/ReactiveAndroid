@@ -43,7 +43,7 @@
         <item> Congo, Republic of the </item>
         <item> Congo, Democratic Republic of the </item>
         <item> Costa </item>
-        <item> Cote </item>
+        <item> Cote d’Ivoire (Ivory Coast) </item>
         <item> Croatia </item>
         <item> Cuba </item>
         <item> Cyprus </item>
@@ -55,7 +55,7 @@
         <item> East </item>
         <item> Ecuador </item>
         <item> Egypt </item>
-        <item> El </item>
+        <item> El Salvador </item>
         <item> Equatorial </item>
         <item> Eritrea </item>
         <item> Estonia </item>
@@ -91,8 +91,8 @@
         <item> Kazakhstan </item>
         <item> Kenya </item>
         <item> Kiribati </item>
-        <item> Korea, </item>
-        <item> Korea, </item>
+        <item> Korea </item>
+        <item> Korea </item>
         <item> Kosovo </item>
         <item> Kuwait </item>
         <item> Kyrgyzstan </item>
@@ -186,13 +186,13 @@
         <item> Tuvalu </item>
         <item> Uganda </item>
         <item> Ukraine </item>
-        <item> United </item>
-        <item> United </item>
-        <item> United </item>
+        <item> United Arab Emirates </item>
+        <item> United Kingdom </item>
+        <item> United States of America </item>
         <item> Uruguay </item>
         <item> Uzbekistan </item>
         <item> Vanuatu </item>
-        <item> Vatican </item>
+        <item> Vatican City (Holy See) </item>
         <item> Venezuela </item>
         <item> Vietnam </item>
         <item> Yemen </item>
@@ -242,7 +242,7 @@
         <item> Brazzaville </item>
         <item> Kinshasa </item>
         <item> Rica San Jose </item>
-        <item> d’Ivoire (Ivory Coast) Yamoussoukro </item>
+        <item> Yamoussoukro </item>
         <item> Zagreb </item>
         <item> Havana </item>
         <item> Nicosia </item>
@@ -254,7 +254,7 @@
         <item> Timor (Timor-Leste) Dili </item>
         <item> Quito </item>
         <item> Cairo </item>
-        <item> Salvador San Salvador </item>
+        <item> San Salvador </item>
         <item> Guinea Malabo </item>
         <item> Asmara </item>
         <item> Tallinn </item>
@@ -385,18 +385,17 @@
         <item> Funafuti province </item>
         <item> Kampala </item>
         <item> Kyiv </item>
-        <item> Arab Emirates Abu Dhabi </item>
-        <item> Kingdom London </item>
-        <item> States of America Washington D.C. </item>
+        <item> Abu Dhabi </item>
+        <item> London </item>
+        <item> Washington D.C. </item>
         <item> Montevideo </item>
         <item> Tashkent </item>
         <item> Port-Vila </item>
-        <item> City (Holy See) Vatican City </item>
+        <item> Vatican City </item>
         <item> Caracas </item>
         <item> Hanoi </item>
         <item> Sanaa </item>
         <item> Lusaka </item>
         <item> Harare </item>
     </string-array>
-    <string name="title_activity_fragment_pager">FragmentPagerActivity</string>
 </resources>
