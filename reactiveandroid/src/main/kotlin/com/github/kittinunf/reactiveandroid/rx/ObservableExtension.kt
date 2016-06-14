@@ -25,7 +25,19 @@ fun <T : R, O, R, X> Observable<T>.bindTo(o: O,
     })
 }
 
-fun <T : R, O, R, X> Observable<T>.bindNext(o: O, next: O.(R) -> X): Subscription = subscribe { o.next(it) }
+fun <T : R, O, R, X> Observable<T>.bindNext(o: O, next: O.(R) -> X): Subscription {
+    return subscribe(object : Observer<T> {
+        override fun onNext(t: T) {
+            o.next(t)
+        }
+
+        override fun onError(e: Throwable?) {
+        }
+
+        override fun onCompleted() {
+        }
+    })
+}
 
 fun <T : R, O, R> Observable<T>.bindError(o: O, error: O.(Throwable?) -> Unit): Subscription {
     return subscribe(object : Observer<T> {
@@ -75,7 +87,19 @@ fun <T, O, X> Observable<T>.bindTo(o: O,
     })
 }
 
-fun <T, O, X> Observable<T>.bindNext(o: O, next: O.() -> X): Subscription = subscribe { o.next() }
+fun <T, O, X> Observable<T>.bindNext(o: O, next: O.() -> X): Subscription {
+    return subscribe(object : Observer<T> {
+        override fun onNext(t: T) {
+            o.next()
+        }
+
+        override fun onError(e: Throwable?) {
+        }
+
+        override fun onCompleted() {
+        }
+    })
+}
 
 fun <T : Pair<A, B>, A, B, O, X> Observable<T>.bindTo(o: O,
                                                       onNext: O.(A, B) -> X,
@@ -97,11 +121,20 @@ fun <T : Pair<A, B>, A, B, O, X> Observable<T>.bindTo(o: O,
     })
 }
 
-fun <T : Pair<A, B>, A, B, O, X> Observable<T>.bindNext(o: O, next: O.(A, B) -> X): Subscription =
-        subscribe {
-            val (first, second) = it
+fun <T : Pair<A, B>, A, B, O, X> Observable<T>.bindNext(o: O, next: O.(A, B) -> X): Subscription {
+    return subscribe(object : Observer<T> {
+        override fun onNext(t: T) {
+            val (first, second) = t
             o.next(first, second)
         }
+
+        override fun onCompleted() {
+        }
+
+        override fun onError(e: Throwable?) {
+        }
+    })
+}
 
 fun <T : Triple<A, B, C>, A, B, C, O, X> Observable<T>.bindTo(o: O,
                                                               onNext: O.(A, B, C) -> X,
@@ -123,11 +156,20 @@ fun <T : Triple<A, B, C>, A, B, C, O, X> Observable<T>.bindTo(o: O,
     })
 }
 
-fun <T : Triple<A, B, C>, A, B, C, O, X> Observable<T>.bindNext(o: O, next: O.(A, B, C) -> X): Subscription =
-        subscribe {
-            val (first, second, third) = it
+fun <T : Triple<A, B, C>, A, B, C, O, X> Observable<T>.bindNext(o: O, next: O.(A, B, C) -> X): Subscription {
+    return subscribe(object : Observer<T> {
+        override fun onNext(t: T) {
+            val (first, second, third) = t
             o.next(first, second, third)
         }
+
+        override fun onCompleted() {
+        }
+
+        override fun onError(e: Throwable?) {
+        }
+    })
+}
 
 fun <T : R, R> Observable<T>.bindTo(property: MutablePropertyType<R>): Subscription {
     return subscribe {
