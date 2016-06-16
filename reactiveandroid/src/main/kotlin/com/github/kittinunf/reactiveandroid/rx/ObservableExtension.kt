@@ -7,7 +7,7 @@ import rx.Subscription
 
 fun <T : R, O, R, X> Observable<T>.bindTo(o: O,
                                           onNext: O.(R) -> X,
-                                          onError: (O.(Throwable?) -> Unit)? = null,
+                                          onError: (O.(Throwable) -> Unit)? = null,
                                           onCompleted: (O.() -> Unit)? = null): Subscription {
 
     return subscribe(object : Observer<T> {
@@ -16,7 +16,10 @@ fun <T : R, O, R, X> Observable<T>.bindTo(o: O,
         }
 
         override fun onError(e: Throwable?) {
-            onError?.let { o.onError(e) }
+            if (onError == null) return
+            if (e == null) return
+
+            onError.let { o.onError(e) }
         }
 
         override fun onCompleted() {
@@ -39,12 +42,13 @@ fun <T : R, O, R, X> Observable<T>.bindNext(o: O, next: O.(R) -> X): Subscriptio
     })
 }
 
-fun <T : R, O, R> Observable<T>.bindError(o: O, error: O.(Throwable?) -> Unit): Subscription {
+fun <T, O> Observable<T>.bindError(o: O, error: O.(Throwable) -> Unit): Subscription {
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
         }
 
         override fun onError(e: Throwable?) {
+            if (e == null) return
             o.error(e)
         }
 
@@ -53,7 +57,7 @@ fun <T : R, O, R> Observable<T>.bindError(o: O, error: O.(Throwable?) -> Unit): 
     })
 }
 
-fun <T : R, O, R> Observable<T>.bindCompleted(o: O, completed: O.() -> Unit): Subscription {
+fun <T, O> Observable<T>.bindCompleted(o: O, completed: O.() -> Unit): Subscription {
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
         }
@@ -69,7 +73,7 @@ fun <T : R, O, R> Observable<T>.bindCompleted(o: O, completed: O.() -> Unit): Su
 
 fun <T, O, X> Observable<T>.bindTo(o: O,
                                    onNext: O.() -> X,
-                                   onError: (O.(Throwable?) -> Unit)? = null,
+                                   onError: (O.(Throwable) -> Unit)? = null,
                                    onCompleted: (O.() -> Unit)? = null): Subscription {
 
     return subscribe(object : Observer<T> {
@@ -78,7 +82,10 @@ fun <T, O, X> Observable<T>.bindTo(o: O,
         }
 
         override fun onError(e: Throwable?) {
-            onError?.let { o.onError(e) }
+            if (onError == null) return
+            if (e == null) return
+
+            onError.let { o.onError(e) }
         }
 
         override fun onCompleted() {
@@ -103,7 +110,7 @@ fun <T, O, X> Observable<T>.bindNext(o: O, next: O.() -> X): Subscription {
 
 fun <T : Pair<A, B>, A, B, O, X> Observable<T>.bindTo(o: O,
                                                       onNext: O.(A, B) -> X,
-                                                      onError: (O.(Throwable?) -> Unit)? = null,
+                                                      onError: (O.(Throwable) -> Unit)? = null,
                                                       onCompleted: (O.() -> Unit)? = null): Subscription {
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
@@ -112,7 +119,10 @@ fun <T : Pair<A, B>, A, B, O, X> Observable<T>.bindTo(o: O,
         }
 
         override fun onError(e: Throwable?) {
-            onError?.let { o.onError(e) }
+            if (onError == null) return
+            if (e == null) return
+
+            onError.let { o.onError(e) }
         }
 
         override fun onCompleted() {
@@ -138,7 +148,7 @@ fun <T : Pair<A, B>, A, B, O, X> Observable<T>.bindNext(o: O, next: O.(A, B) -> 
 
 fun <T : Triple<A, B, C>, A, B, C, O, X> Observable<T>.bindTo(o: O,
                                                               onNext: O.(A, B, C) -> X,
-                                                              onError: (O.(Throwable?) -> Unit)? = null,
+                                                              onError: (O.(Throwable) -> Unit)? = null,
                                                               onCompleted: (O.() -> Unit)? = null): Subscription {
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
@@ -147,7 +157,10 @@ fun <T : Triple<A, B, C>, A, B, C, O, X> Observable<T>.bindTo(o: O,
         }
 
         override fun onError(e: Throwable?) {
-            onError?.let { o.onError(e) }
+            if (onError == null) return
+            if (e == null) return
+
+            onError.let { o.onError(e) }
         }
 
         override fun onCompleted() {
@@ -178,7 +191,7 @@ fun <T : R, R> Observable<T>.bindTo(property: MutablePropertyType<R>): Subscript
 }
 
 fun <T : Pair<A, B>, A, B> Observable<T>.subscribe(onNext: (A, B) -> Unit,
-                                                   onError: ((Throwable?) -> Unit)? = null,
+                                                   onError: ((Throwable) -> Unit)? = null,
                                                    onCompleted: (() -> Unit)? = null): Subscription {
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
@@ -187,7 +200,10 @@ fun <T : Pair<A, B>, A, B> Observable<T>.subscribe(onNext: (A, B) -> Unit,
         }
 
         override fun onError(e: Throwable?) {
-            onError?.let { it(e) }
+            if (onError == null) return
+            if (e == null) return
+
+            onError.let { it(e) }
         }
 
         override fun onCompleted() {
@@ -197,7 +213,7 @@ fun <T : Pair<A, B>, A, B> Observable<T>.subscribe(onNext: (A, B) -> Unit,
 }
 
 fun <T : Triple<A, B, C>, A, B, C> Observable<T>.subscribe(onNext: (A, B, C) -> Unit,
-                                                           onError: ((Throwable?) -> Unit)? = null,
+                                                           onError: ((Throwable) -> Unit)? = null,
                                                            onCompleted: (() -> Unit)? = null): Subscription {
     return subscribe(object : Observer<T> {
         override fun onNext(t: T) {
@@ -206,7 +222,10 @@ fun <T : Triple<A, B, C>, A, B, C> Observable<T>.subscribe(onNext: (A, B, C) -> 
         }
 
         override fun onError(e: Throwable?) {
-            onError?.let { it(e) }
+            if (onError == null) return
+            if (e == null) return
+
+            onError.let { it(e) }
         }
 
         override fun onCompleted() {

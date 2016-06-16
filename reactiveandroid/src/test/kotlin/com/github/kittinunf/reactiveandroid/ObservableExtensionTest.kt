@@ -1,8 +1,6 @@
 package com.github.kittinunf.reactiveandroid
 
-import com.github.kittinunf.reactiveandroid.rx.bindTo
-import com.github.kittinunf.reactiveandroid.rx.cachedPrevious
-import com.github.kittinunf.reactiveandroid.rx.subscribe
+import com.github.kittinunf.reactiveandroid.rx.*
 import org.junit.Assert.assertThat
 import org.junit.Test
 import rx.Observable
@@ -15,6 +13,10 @@ class ObservableExtensionTest {
 
     fun liftTest(input: String) {
         result = input
+    }
+
+    fun liftTestError(e: Throwable) {
+        result = e.message ?: ""
     }
 
     class Foo {
@@ -39,6 +41,20 @@ class ObservableExtensionTest {
         Observable.just("Hello observable").bindTo(this, ObservableExtensionTest::liftTest)
 
         assertThat(result, isEqualTo("Hello observable"))
+    }
+
+    @Test
+    fun bindNextWithVariableMethod() {
+        Observable.just("hello observable bindNext").bindNext(this, ObservableExtensionTest::liftTest)
+
+        assertThat(result, isEqualTo("hello observable bindNext"))
+    }
+
+    @Test
+    fun bindErrorWithVariableMethod() {
+        Observable.error<Int>(RuntimeException("error")).bindError(this, ObservableExtensionTest::liftTestError)
+
+        assertThat(result, isEqualTo("error"))
     }
 
     @Test
