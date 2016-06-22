@@ -3,6 +3,7 @@ package com.github.kittinunf.reactiveandroid.support.v7.widget
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.github.kittinunf.reactiveandroid.rx.cachedPrevious
+import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import difflib.Delta
 import difflib.DiffUtils
 import rx.Observable
@@ -42,27 +43,27 @@ fun <VH : RecyclerView.ViewHolder, T, C : List<T>> RecyclerView.rx_itemsWith(obs
 fun <VH : RecyclerView.ViewHolder, T, C : List<T>, A : RecyclerViewProxyAdapter<T, VH>> RecyclerView.rx_itemsWith(observable: Observable<C>,
                                                                                                                   recyclerProxyAdapter: A): Subscription {
     adapter = recyclerProxyAdapter
-    return observable.cachedPrevious().subscribe {
+    return observable.cachedPrevious().observeOn(AndroidThreadScheduler.mainThreadScheduler).subscribe {
         val (previous, current) = it
         recyclerProxyAdapter.items = current!!
 
         //calculate diff
         val diffPatch = DiffUtils.diff(previous ?: listOf(), current)
         if (diffPatch.deltas.size > 20) {
-            post { recyclerProxyAdapter.notifyDataSetChanged() }
+            recyclerProxyAdapter.notifyDataSetChanged()
         } else if (diffPatch.deltas.size > 0) {
             for (d in diffPatch.deltas) {
                 val original = d.original
                 val revised = d.revised
                 when (d.type) {
                     Delta.TYPE.DELETE -> {
-                        post { recyclerProxyAdapter.notifyItemRangeRemoved(original.position, original.size()) }
+                        recyclerProxyAdapter.notifyItemRangeRemoved(original.position, original.size())
                     }
                     Delta.TYPE.CHANGE -> {
-                        post { recyclerProxyAdapter.notifyItemRangeChanged(revised.position, revised.size()) }
+                        recyclerProxyAdapter.notifyItemRangeChanged(revised.position, revised.size())
                     }
                     Delta.TYPE.INSERT -> {
-                        post { recyclerProxyAdapter.notifyItemRangeInserted(revised.position, revised.size()) }
+                        recyclerProxyAdapter.notifyItemRangeInserted(revised.position, revised.size())
                     }
                     else -> {
                     }
