@@ -56,17 +56,13 @@ fun <VH : RecyclerView.ViewHolder, T, C : List<T>, A : RecyclerViewProxyAdapter<
                 val revised = d.revised
                 when (d.type) {
                     Delta.TYPE.DELETE -> {
-                        val deletedIndices = original.lines.mapTo(mutableListOf()) { previous!!.indexOf(it) }
-                        deletedIndices.forEach { recyclerProxyAdapter.notifyItemRemoved(it) }
+                        post { recyclerProxyAdapter.notifyItemRangeRemoved(original.position, original.size()) }
                     }
                     Delta.TYPE.CHANGE -> {
-                        val changeIndices = revised.lines.mapTo(mutableListOf()) { current.indexOf(it) }
-                        changeIndices.forEach { recyclerProxyAdapter.notifyItemChanged(it) }
+                        post { recyclerProxyAdapter.notifyItemRangeChanged(revised.position, revised.size()) }
                     }
                     Delta.TYPE.INSERT -> {
-                        //first inserting, insert range
-                        val insertedIndices = revised.lines.mapTo(mutableListOf()) { current.indexOf(it) }
-                        insertedIndices.forEach { recyclerProxyAdapter.notifyItemInserted(it) }
+                        post { recyclerProxyAdapter.notifyItemRangeInserted(revised.position, revised.size()) }
                     }
                     else -> {
                     }
