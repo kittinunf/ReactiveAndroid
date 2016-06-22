@@ -57,7 +57,7 @@ fun <VH : RecyclerView.ViewHolder, T, C : List<T>, A : RecyclerViewProxyAdapter<
                 val revised = d.revised
                 when (d.type) {
                     Delta.TYPE.DELETE -> {
-                        recyclerProxyAdapter.notifyItemRangeRemoved(original.position, original.size())
+                        recyclerProxyAdapter.notifyItemRangeRemoved(revised.position, original.size())
                     }
                     Delta.TYPE.CHANGE -> {
                         recyclerProxyAdapter.notifyItemRangeChanged(revised.position, revised.size())
