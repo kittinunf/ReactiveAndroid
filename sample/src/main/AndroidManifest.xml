@@ -35,6 +35,10 @@
             android:name=".view.RecyclerViewActivity"
             android:label="">
         </activity>
+
+        <activity android:name=".view.NestedRecyclerViewActivity"
+                  android:label="">
+        </activity>
     </application>
 
 </manifest>
