@@ -43,7 +43,7 @@ fun <VH : RecyclerView.ViewHolder, T, C : List<T>> RecyclerView.rx_itemsWith(obs
 fun <VH : RecyclerView.ViewHolder, T, C : List<T>, A : RecyclerViewProxyAdapter<T, VH>> RecyclerView.rx_itemsWith(observable: Observable<C>,
                                                                                                                   recyclerProxyAdapter: A): Subscription {
     adapter = recyclerProxyAdapter
-    return observable.cachedPrevious().observeOn(AndroidThreadScheduler.mainThreadScheduler).subscribe {
+    return observable.cachedPrevious().observeOn(AndroidThreadScheduler.main).subscribe {
         val (previous, current) = it
         recyclerProxyAdapter.items = current!!
 

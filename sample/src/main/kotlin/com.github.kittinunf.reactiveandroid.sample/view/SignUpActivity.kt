@@ -33,12 +33,12 @@ class SignUpActivity : AppCompatActivity() {
 
         viewModelObservable.subscribe {
             val buttonAction = it.createSignUpAction()
-            buttonAction.values.observeOn(AndroidThreadScheduler.mainThreadScheduler)
+            buttonAction.values.observeOn(AndroidThreadScheduler.main)
                     .map{ "You have created account successfully, please check you inbox at $it" }
                     .bindTo(this@SignUpActivity, SignUpActivity::handleSuccess)
                     .addTo(compositeSubscription)
 
-            buttonAction.errors.observeOn(AndroidThreadScheduler.mainThreadScheduler)
+            buttonAction.errors.observeOn(AndroidThreadScheduler.main)
                     .bindTo(this@SignUpActivity, SignUpActivity::handleError)
                     .addTo(compositeSubscription)
 

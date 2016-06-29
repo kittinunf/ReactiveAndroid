@@ -4,6 +4,6 @@ import rx.android.schedulers.AndroidSchedulers
 
 object AndroidThreadScheduler {
 
-    val mainThreadScheduler by lazy { AndroidSchedulers.mainThread() }
+    val main by lazy { AndroidSchedulers.mainThread() }
 
 }

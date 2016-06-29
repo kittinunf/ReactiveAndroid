@@ -40,7 +40,7 @@ fun <ARG, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, f
 
 fun <ARG, ADT : FragmentPagerProxyAdapter<ARG>, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, fragmentPagerProxyAdapter: ADT): Subscription {
     adapter = fragmentPagerProxyAdapter
-    return observable.observeOn(AndroidThreadScheduler.mainThreadScheduler).subscribe {
+    return observable.observeOn(AndroidThreadScheduler.main).subscribe {
         fragmentPagerProxyAdapter.items = it
         fragmentPagerProxyAdapter.notifyDataSetChanged()
     }

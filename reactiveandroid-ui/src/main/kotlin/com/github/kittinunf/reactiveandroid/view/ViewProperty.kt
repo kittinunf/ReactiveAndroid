@@ -10,7 +10,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-
 val View.rx_activated: MutableProperty<Boolean>
     get() {
         val getter = { isActivated }

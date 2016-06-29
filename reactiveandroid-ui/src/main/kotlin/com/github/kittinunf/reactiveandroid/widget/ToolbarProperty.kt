@@ -9,7 +9,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties 
 //================================================================================
 
-
 val Toolbar.rx_logo: MutableProperty<Drawable>
     get() {
         val getter = { logo }

@@ -10,7 +10,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties 
 //================================================================================
 
-
 val ProgressBar.rx_indeterminateDrawable: MutableProperty<Drawable>
     get() {
         val getter = { indeterminateDrawable }

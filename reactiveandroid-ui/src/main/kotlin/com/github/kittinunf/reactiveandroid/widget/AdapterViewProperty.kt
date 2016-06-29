@@ -9,7 +9,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-
 val AdapterView<*>.rx_emptyView: MutableProperty<View>
     get() {
         val getter = { emptyView }

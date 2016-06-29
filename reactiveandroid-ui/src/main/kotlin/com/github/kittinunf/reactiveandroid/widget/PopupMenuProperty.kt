@@ -8,7 +8,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties 
 //================================================================================
 
-
 val PopupMenu.rx_gravity: MutableProperty<Int>
     get() {
         val getter = { gravity }

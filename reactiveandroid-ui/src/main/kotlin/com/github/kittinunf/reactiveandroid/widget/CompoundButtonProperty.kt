@@ -9,7 +9,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties 
 //================================================================================
 
-
 val CompoundButton.rx_buttonDrawable: MutableProperty<Drawable>
     get() {
         val getter = { buttonDrawable }

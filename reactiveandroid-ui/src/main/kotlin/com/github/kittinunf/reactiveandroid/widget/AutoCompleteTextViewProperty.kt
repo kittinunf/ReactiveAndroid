@@ -2,15 +2,12 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.graphics.drawable.Drawable
 import android.widget.AutoCompleteTextView
-import android.widget.Filterable
-import android.widget.ListAdapter
 import com.github.kittinunf.reactiveandroid.MutableProperty
 import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 
 //================================================================================
 // Properties 
 //================================================================================
-
 
 val AutoCompleteTextView.rx_dropdownBackground: MutableProperty<Drawable>
     get() {

@@ -32,12 +32,12 @@ class SignInActivity : AppCompatActivity(), SignInViewAction {
 
         //button
         viewModel.signInAction.apply {
-            values.observeOn(AndroidThreadScheduler.mainThreadScheduler)
+            values.observeOn(AndroidThreadScheduler.main)
                     .map { "Yey! Sign In successfully" }
                     .bindTo(this@SignInActivity, SignInActivity::handleSuccess)
                     .addTo(subscriptions)
 
-            errors.observeOn(AndroidThreadScheduler.mainThreadScheduler)
+            errors.observeOn(AndroidThreadScheduler.main)
                     .bindTo(this@SignInActivity, SignInActivity::handleFailure)
                     .addTo(subscriptions)
         }

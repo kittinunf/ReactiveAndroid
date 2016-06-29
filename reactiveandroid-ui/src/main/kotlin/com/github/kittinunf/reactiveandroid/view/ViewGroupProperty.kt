@@ -10,7 +10,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-
 val ViewGroup.rx_layoutAnimation: MutableProperty<LayoutAnimationController>
     get() {
         val getter = { layoutAnimation }

@@ -9,7 +9,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-
 val ActionMenuView.rx_overflowIcon: MutableProperty<Drawable?>
     get() {
         val getter = { overflowIcon }

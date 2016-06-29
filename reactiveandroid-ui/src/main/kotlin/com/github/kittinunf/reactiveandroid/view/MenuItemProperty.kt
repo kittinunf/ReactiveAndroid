@@ -10,7 +10,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-
 val MenuItem.rx_actionView: MutableProperty<View>
     get() {
         val getter = { actionView }

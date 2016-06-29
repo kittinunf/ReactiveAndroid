@@ -61,7 +61,7 @@ class LandingActivity : AppCompatActivity() {
     private fun setUpTextView() {
         Observable.interval(5, TimeUnit.SECONDS, Schedulers.computation())
                 .map { it.toString() }
-                .observeOn(AndroidThreadScheduler.mainThreadScheduler)
+                .observeOn(AndroidThreadScheduler.main)
                 .bindTo(resultTextView.rx_text)
                 .addTo(subscriptions)
     }

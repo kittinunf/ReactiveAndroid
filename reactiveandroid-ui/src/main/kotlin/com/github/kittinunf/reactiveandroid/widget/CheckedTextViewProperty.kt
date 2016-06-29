@@ -11,7 +11,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties 
 //================================================================================
 
-
 val CheckedTextView.rx_checkMarkDrawable: MutableProperty<Drawable>
     get() {
         val getter = { checkMarkDrawable }
