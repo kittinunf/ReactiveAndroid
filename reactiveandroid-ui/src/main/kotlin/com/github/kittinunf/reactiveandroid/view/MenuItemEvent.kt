@@ -1,6 +1,7 @@
 package com.github.kittinunf.reactiveandroid.view
 
 import android.view.MenuItem
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -14,14 +15,14 @@ fun MenuItem.rx_actionExpand(expanded: Boolean): Observable<MenuItem> {
             subscriber.onNext(it)
             expanded
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
             setOnActionExpandListener(null)
         })
     }
 }
 
-fun MenuItem.rx_actionCollapse(collapsed: Boolean) : Observable<MenuItem> {
+fun MenuItem.rx_actionCollapse(collapsed: Boolean): Observable<MenuItem> {
     return Observable.create { subscriber ->
         _actionExpand.onMenuItemActionCollapse {
             subscriber.onNext(it)
@@ -42,17 +43,13 @@ fun MenuItem.rx_menuItemClick(consumed: Boolean): Observable<MenuItem> {
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-           setOnMenuItemClickListener(null)
+            setOnMenuItemClickListener(null)
         })
     }
 }
 
 private val MenuItem._actionExpand: _MenuItem_ActionExpandListener
-    get () {
-        val listener = _MenuItem_ActionExpandListener()
-        setOnActionExpandListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _MenuItem_ActionExpandListener() }, { setOnActionExpandListener(it) })
 
 private class _MenuItem_ActionExpandListener : MenuItem.OnActionExpandListener {
 

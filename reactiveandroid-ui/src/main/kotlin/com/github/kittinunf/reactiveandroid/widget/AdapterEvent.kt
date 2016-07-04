@@ -2,6 +2,7 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.database.DataSetObserver
 import android.widget.Adapter
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -34,11 +35,7 @@ fun Adapter.rx_invalidated(): Observable<Unit> {
 }
 
 private val Adapter._dataSet: _Adapter_DataSetObserver
-    get() {
-        val listener = _Adapter_DataSetObserver()
-        registerDataSetObserver(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _Adapter_DataSetObserver() }, { registerDataSetObserver(it) })
 
 private class _Adapter_DataSetObserver : DataSetObserver() {
 

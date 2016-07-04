@@ -2,6 +2,7 @@ package com.github.kittinunf.reactiveandroid.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.github.kittinunf.reactiveandroid.rx.addTo
@@ -14,6 +15,7 @@ import com.github.kittinunf.reactiveandroid.view.rx_visibility
 import com.github.kittinunf.reactiveandroid.widget.rx_afterTextChanged
 import com.github.kittinunf.reactiveandroid.widget.rx_applyAction
 import com.github.kittinunf.reactiveandroid.widget.rx_text
+import com.github.kittinunf.reactiveandroid.widget.rx_textChanged
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import rx.subscriptions.CompositeSubscription
 
@@ -45,6 +47,14 @@ class SignInActivity : AppCompatActivity(), SignInViewAction {
 
         //progressBar
         loadingProgressBar.rx_visibility.bindTo(viewModel.signInAction.executing.map { if (it) View.VISIBLE else View.INVISIBLE }).addTo(subscriptions)
+
+        userNameEditText.rx_textChanged().subscribe {
+            Log.e(javaClass.simpleName, "typing username ...")
+        }
+
+        passwordEditText.rx_textChanged().subscribe {
+            Log.e(javaClass.simpleName, "typing password ...")
+        }
     }
 
     override fun onDestroy() {

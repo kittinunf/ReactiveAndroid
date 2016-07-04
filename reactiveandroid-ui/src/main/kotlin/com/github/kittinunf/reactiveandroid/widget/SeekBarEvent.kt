@@ -1,6 +1,7 @@
 package com.github.kittinunf.reactiveandroid.widget
 
 import android.widget.SeekBar
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -47,11 +48,7 @@ fun SeekBar.rx_stopTrackingTouch(): Observable<SeekBar> {
 }
 
 private val SeekBar._seekBarChange: _SeekBar_OnSeekBarChangeListener
-    get() {
-        val listener = _SeekBar_OnSeekBarChangeListener()
-        setOnSeekBarChangeListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _SeekBar_OnSeekBarChangeListener() }, { setOnSeekBarChangeListener(it) })
 
 internal class _SeekBar_OnSeekBarChangeListener : SeekBar.OnSeekBarChangeListener {
 

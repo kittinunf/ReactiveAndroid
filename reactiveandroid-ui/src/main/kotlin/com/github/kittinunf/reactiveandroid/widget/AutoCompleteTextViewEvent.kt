@@ -3,6 +3,7 @@ package com.github.kittinunf.reactiveandroid.widget
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -16,7 +17,7 @@ fun AutoCompleteTextView.rx_click(): Observable<View> {
             subscriber.onNext(it)
 
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
             setOnClickListener(null)
         })
@@ -29,7 +30,7 @@ fun AutoCompleteTextView.rx_dismiss(): Observable<Unit> {
             subscriber.onNext(Unit)
 
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
             setOnDismissListener(null)
         })
@@ -41,7 +42,7 @@ fun AutoCompleteTextView.rx_itemClick(): Observable<ItemClickListener> {
         setOnItemClickListener { parent, view, position, id ->
             subscriber.onNext(ItemClickListener(parent, view, position, id))
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
             onItemClickListener = null
         })
@@ -73,13 +74,4 @@ fun AutoCompleteTextView.rx_nothingSelected(): Observable<AdapterView<*>> {
 }
 
 private val AutoCompleteTextView._itemSelected: _AdapterView_OnItemSelectedListener
-    get() {
-        val listener = _AdapterView_OnItemSelectedListener()
-        onItemSelectedListener = listener
-        return listener
-    }
-
-
-
-
- 
+        by ExtensionFieldDelegate({ _AdapterView_OnItemSelectedListener() }, { onItemSelectedListener = it })

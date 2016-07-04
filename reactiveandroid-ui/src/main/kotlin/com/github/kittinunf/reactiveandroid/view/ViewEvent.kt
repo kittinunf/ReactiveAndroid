@@ -1,6 +1,7 @@
 package com.github.kittinunf.reactiveandroid.view
 
 import android.view.*
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -178,11 +179,7 @@ fun View.rx_detachedFromWindow(): Observable<View> {
 }
 
 private val View._attachStateChange: _View_AttachStateChangeListener
-    get() {
-        val listener = _View_AttachStateChangeListener()
-        addOnAttachStateChangeListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _View_AttachStateChangeListener() }, { addOnAttachStateChangeListener(it) })
 
 private class _View_AttachStateChangeListener : View.OnAttachStateChangeListener {
 
