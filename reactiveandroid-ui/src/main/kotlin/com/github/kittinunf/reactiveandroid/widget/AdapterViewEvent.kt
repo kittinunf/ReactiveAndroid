@@ -2,6 +2,7 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.view.View
 import android.widget.AdapterView
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -65,11 +66,7 @@ fun AdapterView<*>.rx_nothingSelected(): Observable<AdapterView<*>> {
 }
 
 private val AdapterView<*>._itemSelected: _AdapterView_OnItemSelectedListener
-    get() {
-        val listener = _AdapterView_OnItemSelectedListener()
-        onItemSelectedListener = listener
-        return listener
-    }
+        by ExtensionFieldDelegate({ _AdapterView_OnItemSelectedListener() }, { onItemSelectedListener = it })
 
 internal class _AdapterView_OnItemSelectedListener : AdapterView.OnItemSelectedListener {
 

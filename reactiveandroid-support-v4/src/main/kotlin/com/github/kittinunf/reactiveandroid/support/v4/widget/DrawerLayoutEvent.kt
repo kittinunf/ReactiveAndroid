@@ -2,6 +2,7 @@ package com.github.kittinunf.reactiveandroid.support.v4.widget
 
 import android.support.v4.widget.DrawerLayout
 import android.view.View
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -60,11 +61,7 @@ fun DrawerLayout.rx_drawerOpened(): Observable<View> {
 }
 
 private val DrawerLayout._drawer: _DrawerLayout_DrawerListener
-    get() {
-        val listener = _DrawerLayout_DrawerListener()
-        addDrawerListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _DrawerLayout_DrawerListener() }, { addDrawerListener(it) })
 
 internal class _DrawerLayout_DrawerListener : DrawerLayout.DrawerListener {
 

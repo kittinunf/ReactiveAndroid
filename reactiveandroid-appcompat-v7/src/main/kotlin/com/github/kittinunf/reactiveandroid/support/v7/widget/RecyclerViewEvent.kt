@@ -3,6 +3,7 @@ package com.github.kittinunf.reactiveandroid.support.v7.widget
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -76,7 +77,7 @@ fun RecyclerView.rx_onChildViewDetachedFromWindow(): Observable<View> {
 
 data class TouchEventListener(val recyclerView: RecyclerView?, val event: MotionEvent?)
 
-fun RecyclerView.rx_touchEvent() : Observable<TouchEventListener> {
+fun RecyclerView.rx_touchEvent(): Observable<TouchEventListener> {
     return Observable.create { subscriber ->
         _itemTouch.onTouchEvent { recyclerView, motionEvent ->
             subscriber.onNext(TouchEventListener(recyclerView, motionEvent))
@@ -88,7 +89,22 @@ fun RecyclerView.rx_touchEvent() : Observable<TouchEventListener> {
     }
 }
 
-fun RecyclerView.rx_dataChanged() : Observable<Unit> {
+data class InterceptTouchEventListener(val recyclerView: RecyclerView?, val event: MotionEvent?)
+
+fun RecyclerView.rx_interceptTouchEvent(consumed: Boolean): Observable<InterceptTouchEventListener> {
+    return Observable.create { subscriber ->
+        _itemTouch.onInterceptTouchEvent { recyclerView, motionEvent ->
+            subscriber.onNext(InterceptTouchEventListener(recyclerView, motionEvent))
+            consumed
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            removeOnItemTouchListener(_itemTouch)
+        })
+    }
+}
+
+fun RecyclerView.rx_dataChanged(): Observable<Unit> {
     return Observable.create { subscriber ->
         _adapterDataObserver.onChanged {
             subscriber.onNext(Unit)
@@ -102,12 +118,50 @@ fun RecyclerView.rx_dataChanged() : Observable<Unit> {
     }
 }
 
-private val RecyclerView._itemTouch: _RecyclerView_OnItemTouchListener
-    get() {
-        val listener = _RecyclerView_OnItemTouchListener()
-        addOnItemTouchListener(listener)
-        return listener
+data class ItemRangeInsertedListener(val positionStart: Int, val itemCount: Int)
+
+fun RecyclerView.rx_itemRangeInserted(): Observable<ItemRangeInsertedListener> {
+    return Observable.create { subscriber ->
+        _adapterDataObserver.onItemRangeInserted { positionStart, itemCount ->
+            subscriber.onNext(ItemRangeInsertedListener(positionStart, itemCount))
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            adapter?.unregisterAdapterDataObserver(_adapterDataObserver)
+        })
     }
+}
+
+data class ItemRangeMovedListener(val fromPosition: Int, val toPosition: Int, val itemCount: Int)
+
+fun RecyclerView.rx_itemRangeMoved(): Observable<ItemRangeMovedListener> {
+    return Observable.create { subscriber ->
+        _adapterDataObserver.onItemRangeMoved { fromPosition, toPosition, itemCount ->
+            subscriber.onNext(ItemRangeMovedListener(fromPosition, toPosition, itemCount))
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            adapter?.unregisterAdapterDataObserver(_adapterDataObserver)
+        })
+    }
+}
+
+data class ItemRangeRemovedListener(val positionStart: Int, val itemCount: Int)
+
+fun RecyclerView.rx_itemRangeRemoved(): Observable<ItemRangeRemovedListener> {
+    return Observable.create { subscriber ->
+        _adapterDataObserver.onItemRangeRemoved { positionStart, itemCount ->
+            subscriber.onNext(ItemRangeRemovedListener(positionStart, itemCount))
+        }
+
+        subscriber.add(AndroidMainThreadSubscription {
+            adapter?.unregisterAdapterDataObserver(_adapterDataObserver)
+        })
+    }
+}
+
+private val RecyclerView._itemTouch: _RecyclerView_OnItemTouchListener
+        by ExtensionFieldDelegate({ _RecyclerView_OnItemTouchListener() }, { addOnItemTouchListener(it) })
 
 internal class _RecyclerView_OnItemTouchListener : RecyclerView.OnItemTouchListener {
 
@@ -144,11 +198,7 @@ internal class _RecyclerView_OnItemTouchListener : RecyclerView.OnItemTouchListe
 }
 
 private val RecyclerView._childAttachStateChange: _RecyclerView_OnChildAttachStateChangeListener
-    get() {
-        val listener = _RecyclerView_OnChildAttachStateChangeListener()
-        addOnChildAttachStateChangeListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _RecyclerView_OnChildAttachStateChangeListener() }, { addOnChildAttachStateChangeListener(it) })
 
 internal class _RecyclerView_OnChildAttachStateChangeListener : RecyclerView.OnChildAttachStateChangeListener {
 
@@ -175,11 +225,7 @@ internal class _RecyclerView_OnChildAttachStateChangeListener : RecyclerView.OnC
 }
 
 private val RecyclerView._scroll: _RecyclerView_OnScrollListener
-    get() {
-        val listener = _RecyclerView_OnScrollListener()
-        addOnScrollListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _RecyclerView_OnScrollListener() }, { addOnScrollListener(it) })
 
 internal class _RecyclerView_OnScrollListener : RecyclerView.OnScrollListener() {
 
@@ -206,13 +252,7 @@ internal class _RecyclerView_OnScrollListener : RecyclerView.OnScrollListener() 
 }
 
 private val RecyclerView._adapterDataObserver: _RecyclerView_AdapterDataObserver
-    get() {
-        val listener = _RecyclerView_AdapterDataObserver()
-        adapter?.let {
-            it.registerAdapterDataObserver(listener)
-        }
-        return listener
-    }
+        by ExtensionFieldDelegate({ _RecyclerView_AdapterDataObserver() }, { adapter?.registerAdapterDataObserver(it) })
 
 internal class _RecyclerView_AdapterDataObserver : RecyclerView.AdapterDataObserver() {
 

@@ -3,6 +3,7 @@ package com.github.kittinunf.reactiveandroid.view
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -73,11 +74,7 @@ fun ViewGroup.rx_childViewAdded(): Observable<HierarchyChangeListener> {
 }
 
 private val ViewGroup._hierarchyChange: _ViewGroup_OnHierarchyChangeListener
-    get() {
-        val listener = _ViewGroup_OnHierarchyChangeListener()
-        setOnHierarchyChangeListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _ViewGroup_OnHierarchyChangeListener() }, { setOnHierarchyChangeListener(it) })
 
 internal class _ViewGroup_OnHierarchyChangeListener : ViewGroup.OnHierarchyChangeListener {
 
@@ -104,11 +101,7 @@ internal class _ViewGroup_OnHierarchyChangeListener : ViewGroup.OnHierarchyChang
 }
 
 private val ViewGroup._layout_animation: _ViewGroup_AnimationListener
-    get() {
-        val listener = _ViewGroup_AnimationListener()
-        layoutAnimationListener = listener
-        return listener
-    }
+        by ExtensionFieldDelegate({ _ViewGroup_AnimationListener() }, { layoutAnimationListener = it })
 
 internal class _ViewGroup_AnimationListener : Animation.AnimationListener {
 

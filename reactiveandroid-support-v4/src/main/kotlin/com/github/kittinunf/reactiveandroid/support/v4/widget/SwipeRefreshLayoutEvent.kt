@@ -19,4 +19,3 @@ fun SwipeRefreshLayout.rx_refresh(): Observable<Unit> {
         })
     }
 }
-

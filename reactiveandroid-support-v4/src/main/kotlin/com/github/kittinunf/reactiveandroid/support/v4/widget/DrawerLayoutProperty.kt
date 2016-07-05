@@ -9,7 +9,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-
 val DrawerLayout.rx_drawerElevation: MutableProperty<Float>
     get() {
         val getter = { drawerElevation }

@@ -2,6 +2,7 @@ package com.github.kittinunf.reactiveandroid.support.v4.widget
 
 import android.support.v4.widget.SlidingPaneLayout
 import android.view.View
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -16,7 +17,7 @@ fun SlidingPaneLayout.rx_panelSlide(): Observable<PanelSlideListener> {
         _panelSlide.onPanelSlide { view, offset ->
             subscriber.onNext(PanelSlideListener(view, offset))
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
             setPanelSlideListener(null)
         })
@@ -48,11 +49,7 @@ fun SlidingPaneLayout.rx_panelClosed(): Observable<View> {
 }
 
 private val SlidingPaneLayout._panelSlide: _SlidingPaneLayout_PanelSlideListener
-    get() {
-        val listener = _SlidingPaneLayout_PanelSlideListener()
-        setPanelSlideListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _SlidingPaneLayout_PanelSlideListener() }, { setPanelSlideListener(it) })
 
 internal class _SlidingPaneLayout_PanelSlideListener : SlidingPaneLayout.PanelSlideListener {
 

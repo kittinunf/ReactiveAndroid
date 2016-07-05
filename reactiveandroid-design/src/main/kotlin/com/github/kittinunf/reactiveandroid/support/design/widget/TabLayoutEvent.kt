@@ -1,6 +1,7 @@
-package com.github.kittinunf.reactiveandroid.widget
+package com.github.kittinunf.reactiveandroid.support.design.widget
 
 import android.support.design.widget.TabLayout
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -20,7 +21,7 @@ fun TabLayout.rx_tabSelected(): Observable<TabLayout.Tab> {
     }
 }
 
-fun TabLayout.rx_tabUnSelected(): Observable<TabLayout.Tab> {
+fun TabLayout.rx_tabUnselected(): Observable<TabLayout.Tab> {
     return Observable.create { subscriber ->
         _tabSelected.onTabUnselected {
             subscriber.onNext(it)
@@ -32,7 +33,7 @@ fun TabLayout.rx_tabUnSelected(): Observable<TabLayout.Tab> {
     }
 }
 
-fun TabLayout.rx_tabReSelected(): Observable<TabLayout.Tab> {
+fun TabLayout.rx_tabReselected(): Observable<TabLayout.Tab> {
     return Observable.create { subscriber ->
         _tabSelected.onTabReselected {
             subscriber.onNext(it)
@@ -45,11 +46,7 @@ fun TabLayout.rx_tabReSelected(): Observable<TabLayout.Tab> {
 }
 
 private val TabLayout._tabSelected: _TabLayout_OnTabSelectedListener
-    get() {
-        val listener = _TabLayout_OnTabSelectedListener()
-        setOnTabSelectedListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _TabLayout_OnTabSelectedListener() }, { setOnTabSelectedListener(it) })
 
 class _TabLayout_OnTabSelectedListener : TabLayout.OnTabSelectedListener {
 
@@ -84,5 +81,3 @@ class _TabLayout_OnTabSelectedListener : TabLayout.OnTabSelectedListener {
     }
 
 }
-
- 

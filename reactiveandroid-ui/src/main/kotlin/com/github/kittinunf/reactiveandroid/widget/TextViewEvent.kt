@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.widget.TextView
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -67,11 +68,8 @@ fun TextView.rx_textChanged(): Observable<TextChangedListener> {
 }
 
 private val TextView._textChanged: _TextView_TextChangedListener
-    get () {
-        val listener = _TextView_TextChangedListener()
-        addTextChangedListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _TextView_TextChangedListener() }, { addTextChangedListener(it) })
+
 
 private class _TextView_TextChangedListener : TextWatcher {
 

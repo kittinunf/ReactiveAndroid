@@ -2,6 +2,7 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.view.View
 import android.widget.SearchView
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import com.github.kittinunf.reactiveandroid.view.FocusChangeListener
 import rx.Observable
@@ -16,7 +17,7 @@ fun SearchView.rx_close(overriden: Boolean): Observable<Unit> {
             subscriber.onNext(Unit)
             overriden
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
             setOnCloseListener(null)
         })
@@ -28,9 +29,9 @@ fun SearchView.rx_queryTextFocusChange(): Observable<FocusChangeListener> {
         setOnQueryTextFocusChangeListener { view, hasFocus ->
             subscriber.onNext(FocusChangeListener(view, hasFocus))
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
-           setOnQueryTextFocusChangeListener(null)
+            setOnQueryTextFocusChangeListener(null)
         })
     }
 }
@@ -41,9 +42,9 @@ fun SearchView.rx_queryTextChange(consumed: Boolean): Observable<String> {
             subscriber.onNext(it)
             consumed
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
-           setOnQueryTextListener(null)
+            setOnQueryTextListener(null)
         })
     }
 }
@@ -56,7 +57,7 @@ fun SearchView.rx_queryTextSubmit(consumed: Boolean): Observable<String> {
         }
 
         subscriber.add(AndroidMainThreadSubscription {
-           setOnQueryTextListener(null)
+            setOnQueryTextListener(null)
         })
     }
 }
@@ -65,11 +66,11 @@ fun SearchView.rx_searchClick(): Observable<View> {
     return Observable.create { subscriber ->
         setOnSearchClickListener {
             subscriber.onNext(it)
-            
+
         }
-        
+
         subscriber.add(AndroidMainThreadSubscription {
-           setOnSearchClickListener(null)
+            setOnSearchClickListener(null)
         })
     }
 }
@@ -99,12 +100,9 @@ fun SearchView.rx_suggestionClick(consumed: Boolean): Observable<Int> {
         })
     }
 }
+
 private val SearchView._suggestion: _SearchView_OnSuggestionListener
-    get() {
-        val listener = _SearchView_OnSuggestionListener()
-        setOnSuggestionListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _SearchView_OnSuggestionListener() }, { setOnSuggestionListener(it) })
 
 internal class _SearchView_OnSuggestionListener : SearchView.OnSuggestionListener {
 
@@ -131,11 +129,7 @@ internal class _SearchView_OnSuggestionListener : SearchView.OnSuggestionListene
 }
 
 private val SearchView._queryText: _SearchView_OnQueryTextListener
-    get () {
-        val listener = _SearchView_OnQueryTextListener()
-        setOnQueryTextListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _SearchView_OnQueryTextListener() }, { setOnQueryTextListener(it) })
 
 private class _SearchView_OnQueryTextListener : SearchView.OnQueryTextListener {
 

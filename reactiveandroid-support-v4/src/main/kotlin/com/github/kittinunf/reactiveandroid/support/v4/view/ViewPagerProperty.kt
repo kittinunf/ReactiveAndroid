@@ -8,7 +8,6 @@ import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
 // Properties
 //================================================================================
 
-
 val ViewPager.rx_currentItem: MutableProperty<Int>
     get() {
         val getter = { currentItem }
