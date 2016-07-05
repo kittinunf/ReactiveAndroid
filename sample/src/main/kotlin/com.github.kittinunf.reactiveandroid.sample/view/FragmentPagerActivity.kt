@@ -6,11 +6,11 @@ import android.util.Log
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.sample.fragment.PlaceholderFragment
+import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabSelected
+import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabUnselected
 import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_fragmentsWith
 import com.github.kittinunf.reactiveandroid.view.rx_attachedToWindow
 import com.github.kittinunf.reactiveandroid.view.rx_detachedFromWindow
-import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabSelected
-import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabUnSelected
 import kotlinx.android.synthetic.main.activity_fragment_pager.*
 import rx.Observable
 import rx.subscriptions.CompositeSubscription
@@ -51,12 +51,13 @@ class FragmentPagerActivity : AppCompatActivity() {
         tlPager.setupWithViewPager(viewPager)
 
         tlPager.rx_tabSelected().subscribe {
-            Log.e(javaClass.simpleName, "selected: ${it.position}")
+            Log.e(javaClass.simpleName, "selected ${it.position.toString()}")
         }.addTo(subscriptions)
 
-        tlPager.rx_tabUnSelected().subscribe {
-            Log.e(javaClass.simpleName, "unselected: ${it.position}")
+        tlPager.rx_tabUnselected().subscribe {
+            Log.e(javaClass.simpleName, "unselected ${it.position.toString()}")
         }.addTo(subscriptions)
+
     }
 
 }

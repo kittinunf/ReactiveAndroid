@@ -21,7 +21,7 @@ fun TabLayout.rx_tabSelected(): Observable<TabLayout.Tab> {
     }
 }
 
-fun TabLayout.rx_tabUnSelected(): Observable<TabLayout.Tab> {
+fun TabLayout.rx_tabUnselected(): Observable<TabLayout.Tab> {
     return Observable.create { subscriber ->
         _tabSelected.onTabUnselected {
             subscriber.onNext(it)
@@ -33,7 +33,7 @@ fun TabLayout.rx_tabUnSelected(): Observable<TabLayout.Tab> {
     }
 }
 
-fun TabLayout.rx_tabReSelected(): Observable<TabLayout.Tab> {
+fun TabLayout.rx_tabReselected(): Observable<TabLayout.Tab> {
     return Observable.create { subscriber ->
         _tabSelected.onTabReselected {
             subscriber.onNext(it)
