@@ -1,8 +1,7 @@
 package com.github.kittinunf.reactiveandroid.support.v4.view
 
 import android.support.v4.view.ViewPager
-import android.view.View
-import android.widget.AdapterView
+import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
 
@@ -49,11 +48,7 @@ fun ViewPager.rx_pageSelected(): Observable<Int> {
 }
 
 private val ViewPager._pageChange: _ViewPager_OnPageChangeListener
-    get() {
-        val listener = _ViewPager_OnPageChangeListener()
-        addOnPageChangeListener(listener)
-        return listener
-    }
+        by ExtensionFieldDelegate({ _ViewPager_OnPageChangeListener() }, { addOnPageChangeListener(it) })
 
 private class _ViewPager_OnPageChangeListener : ViewPager.OnPageChangeListener {
 
