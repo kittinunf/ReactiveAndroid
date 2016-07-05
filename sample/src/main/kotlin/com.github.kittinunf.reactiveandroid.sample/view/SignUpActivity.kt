@@ -11,7 +11,7 @@ import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignUpViewModel
 import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignUpViewModelCommand
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.widget.rx_afterTextChanged
-import com.github.kittinunf.reactiveandroid.widget.rx_applyAction
+import com.github.kittinunf.reactiveandroid.support.design.widget.rx_applyAction
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import rx.subscriptions.CompositeSubscription
 

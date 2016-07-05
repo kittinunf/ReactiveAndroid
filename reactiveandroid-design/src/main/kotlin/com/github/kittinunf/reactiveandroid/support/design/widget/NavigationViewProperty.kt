@@ -1,4 +1,4 @@
-package com.github.kittinunf.reactiveandroid.widget
+package com.github.kittinunf.reactiveandroid.support.design.widget
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
