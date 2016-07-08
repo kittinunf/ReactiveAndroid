@@ -12,7 +12,7 @@ abstract class FragmentPagerProxyAdapter<ARG>(fragmentManager: FragmentManager) 
 
     internal var items: List<ARG> = listOf()
 
-    abstract var pageTitle: ((Int, ARG) -> String)
+    abstract var pageTitle: ((Int, ARG) -> String?)
 
     abstract var item: ((Int, ARG) -> Fragment)
 
@@ -28,11 +28,11 @@ abstract class FragmentPagerProxyAdapter<ARG>(fragmentManager: FragmentManager) 
 
 fun <ARG, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, fragmentManager: FragmentManager,
                                                     getItem: (Int, ARG) -> Fragment,
-                                                    getPageTitle: ((Int, ARG) -> String)): Subscription {
+                                                    getPageTitle: ((Int, ARG) -> String?) = { i, a -> null }): Subscription {
     val proxyAdapter = object : FragmentPagerProxyAdapter<ARG>(fragmentManager) {
 
         override var item: (Int, ARG) -> Fragment = getItem
-        override var pageTitle: ((Int, ARG) -> String) = getPageTitle
+        override var pageTitle: ((Int, ARG) -> String?) = getPageTitle
 
     }
     return rx_fragmentsWith(observable, proxyAdapter)
