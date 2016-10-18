@@ -4,19 +4,21 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    compileSdkVersion parent.ext.compileSdkVersion
+    buildToolsVersion parent.ext.buildToolVersion
 
     defaultConfig {
         minSdkVersion 11
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
 
     buildTypes {
@@ -27,8 +29,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
     }
 
     lintOptions {
@@ -47,8 +49,10 @@ dependencies {
 
     compile parent.ext.reactivexRxAndroid
 
-    testCompile parent.ext.junit
-    testCompile parent.ext.robolectric
+    androidTestCompile parent.ext.supportTestEspressoCore
+    androidTestCompile parent.ext.supportTestRunner
+    androidTestCompile parent.ext.supportTestRules
+    androidTestCompile parent.ext.truth
 }
 
 buildscript {

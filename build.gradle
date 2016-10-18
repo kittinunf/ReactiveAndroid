@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.2.1'
 
         classpath 'com.novoda:bintray-release:0.3.4'
 
@@ -16,8 +16,11 @@ buildscript {
 
 allprojects {
     ext {
+        compileSdkVersion = 24
+        buildToolVersion = '24.0.3'
+
         //publish
-        reactiveAndroidVersion = '0.3.7'
+        reactiveAndroidVersion = '0.3.8'
 
         reactiveAndroid = 'reactiveandroid'
         reactiveAndroidAppcompatV7 = 'reactiveandroid-appcompat-v7'
@@ -33,7 +36,7 @@ allprojects {
         website = 'https://github.com/kittinunf/ReactiveAndroid'
 
         //kotlin
-        kotlinVersion = '1.0.3'
+        kotlinVersion = '1.0.4'
         kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
@@ -55,8 +58,12 @@ allprojects {
         reactivexRxAndroid = 'io.reactivex:rxandroid:1.2.1'
 
         //test
-        robolectric = 'org.robolectric:robolectric:3.0'
         junit = 'junit:junit:4.12'
+        supportTestEspressoCore = 'com.android.support.test.espresso:espresso-core:2.2.1'
+        supportTestRunner = 'com.android.support.test:runner:0.5'
+        supportTestRules = 'com.android.support.test:rules:0.5'
+        truth = 'com.google.truth:truth:0.28'
+        robolectric = 'org.robolectric:robolectric:3.0'
     }
 
     repositories {
