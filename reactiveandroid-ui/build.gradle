@@ -52,7 +52,6 @@ dependencies {
     androidTestCompile parent.ext.supportTestEspressoCore
     androidTestCompile parent.ext.supportTestRunner
     androidTestCompile parent.ext.supportTestRules
-    androidTestCompile parent.ext.truth
 }
 
 buildscript {

@@ -62,7 +62,6 @@ allprojects {
         supportTestEspressoCore = 'com.android.support.test.espresso:espresso-core:2.2.1'
         supportTestRunner = 'com.android.support.test:runner:0.5'
         supportTestRules = 'com.android.support.test:rules:0.5'
-        truth = 'com.google.truth:truth:0.28'
         robolectric = 'org.robolectric:robolectric:3.0'
     }
 
