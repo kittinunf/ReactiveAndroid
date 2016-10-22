@@ -113,8 +113,7 @@ data class LayoutChangeListener(val view: View, val newRect: Rect, val oldRect: 
 
 fun View.rx_layoutChange(): Observable<LayoutChangeListener> {
     return Observable.create { subscriber ->
-        val listener: (View, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit = {
-            view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+        val listener = View.OnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             subscriber.onNext(LayoutChangeListener(view, Rect(left, top, right, bottom), Rect(oldLeft, oldTop, oldRight, oldBottom)))
         }
         addOnLayoutChangeListener(listener)

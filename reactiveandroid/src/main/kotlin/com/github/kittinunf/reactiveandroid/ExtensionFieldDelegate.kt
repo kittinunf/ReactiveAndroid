@@ -3,7 +3,7 @@ package com.github.kittinunf.reactiveandroid
 import com.github.kittinunf.reactiveandroid.util.WeakIdentityHashMap
 import kotlin.reflect.KProperty
 
-class ExtensionFieldDelegate<R, T: Any>(val initializer: (R) -> T, val builder: (R.(T) -> Unit)? = null) {
+class ExtensionFieldDelegate<in R, T : Any>(val initializer: (R) -> T, val builder: (R.(T) -> Unit)? = null) {
 
     private val map = WeakIdentityHashMap<R, T>()
 

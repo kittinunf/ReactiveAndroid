@@ -17,10 +17,10 @@ import org.hamcrest.CoreMatchers.`is` as isEqualTo
 @RunWith(AndroidJUnit4::class)
 class ViewEventTest {
 
-    @Rule @JvmField val uiThreadTestRule = UiThreadTestRule()
+    @Rule @JvmField
+    val uiThreadTestRule = UiThreadTestRule()
 
     private val context = InstrumentationRegistry.getContext()
-    private val instrumentation = InstrumentationRegistry.getInstrumentation()
     private val view = View(context)
 
     @Test
@@ -151,6 +151,44 @@ class ViewEventTest {
         assertThat(first.newRect.top, isEqualTo(view.top))
         assertThat(first.newRect.right, isEqualTo(view.right))
         assertThat(first.newRect.bottom, isEqualTo(view.bottom))
+
+        subscription.unsubscribe()
+        view.layout(view.left + 1, view.top + 2, view.right + 3, view.bottom + 4)
+        t.assertValueCount(1)
+    }
+
+    @Test
+    @UiThreadTest
+    fun testScrollChange() {
+        val t = TestSubscriber<ScrollChangeListener>()
+        val subscription = view.rx_scrollChange().subscribe(t)
+
+        t.assertNoErrors()
+        t.assertNoValues()
+
+        view.scrollTo(10, 20)
+        val first = t.onNextEvents.first()
+
+        assertThat(first.oldDirection.x, isEqualTo(0))
+        assertThat(first.direction.x, isEqualTo(10))
+        assertThat(first.oldDirection.y, isEqualTo(0))
+        assertThat(first.direction.y, isEqualTo(20))
+
+        view.scrollTo(200, 100)
+        val second = t.onNextEvents[1]
+        assertThat(second.oldDirection.x, isEqualTo(10))
+        assertThat(second.direction.x, isEqualTo(200))
+        assertThat(second.oldDirection.y, isEqualTo(20))
+        assertThat(second.direction.y, isEqualTo(100))
+
+        subscription.unsubscribe()
+        view.scrollTo(1000, 1000)
+        t.assertValueCount(2)
+    }
+
+    @Test
+    @UiThreadTest
+    fun testCreateContextMenu() {
     }
 
 }

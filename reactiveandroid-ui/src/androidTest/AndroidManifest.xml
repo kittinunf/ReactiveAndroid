@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.github.kittinunf.reactiveandroid">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.kittinunf.reactiveandroid">
+
+
+    <application>
+        <activity android:name=".view.ViewAttachActivity" />
+    </application>
 
 </manifest>
