@@ -246,7 +246,6 @@ class ViewPropertyTest {
     }
 
     //helpers
-
     fun withBackground(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
 
         override fun matchesSafely(view: View?): Boolean {
@@ -276,7 +275,7 @@ class ViewPropertyTest {
             val context = view.context
             val color = view.background
 
-            val otherColor = context.resources.getColor(resId, null)
+            val otherColor = context.resources.getColor(resId)
 
             val colorValue = (color as ColorDrawable).color
             val otherColorValue = otherColor
@@ -297,7 +296,7 @@ class ViewPropertyTest {
             val context = view.context
             val color = view.foreground
 
-            val otherColor = context.resources.getColor(resId, null)
+            val otherColor = context.resources.getColor(resId)
 
             val colorValue = (color as ColorDrawable).color
             val otherColorValue = otherColor
