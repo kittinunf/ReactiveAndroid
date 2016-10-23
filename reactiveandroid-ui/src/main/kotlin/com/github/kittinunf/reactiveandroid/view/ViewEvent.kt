@@ -1,7 +1,11 @@
 package com.github.kittinunf.reactiveandroid.view
 
 import android.graphics.Rect
-import android.view.*
+import android.view.ContextMenu
+import android.view.DragEvent
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable

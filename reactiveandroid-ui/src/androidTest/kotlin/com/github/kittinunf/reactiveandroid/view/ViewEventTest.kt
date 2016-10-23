@@ -1,7 +1,10 @@
 package com.github.kittinunf.reactiveandroid.view
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
+import android.support.test.filters.SdkSuppress
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.KeyEvent
@@ -156,6 +159,8 @@ class ViewEventTest {
         t.assertValueCount(1)
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
     @Test
     @UiThreadTest
     fun testScrollChange() {
