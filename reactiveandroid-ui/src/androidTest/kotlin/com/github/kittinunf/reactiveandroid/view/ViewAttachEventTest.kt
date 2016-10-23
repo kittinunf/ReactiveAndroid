@@ -12,7 +12,8 @@ import rx.observers.TestSubscriber
 @RunWith(AndroidJUnit4::class)
 class ViewAttachEventTest {
 
-    @Rule @JvmField
+    @Rule
+    @JvmField
     val activityRule = ActivityTestRule(ViewAttachActivity::class.java)
 
     val instrumentation = InstrumentationRegistry.getInstrumentation()
@@ -32,6 +33,8 @@ class ViewAttachEventTest {
 
         t1.assertNoValues()
         t1.assertNoErrors()
+        t2.assertNoValues()
+        t2.assertNoValues()
 
         instrumentation.runOnMainSync {
             parent.addView(child)

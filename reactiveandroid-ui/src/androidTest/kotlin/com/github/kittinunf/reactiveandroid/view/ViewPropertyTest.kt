@@ -1,11 +1,14 @@
 package com.github.kittinunf.reactiveandroid.view
 
+import android.annotation.TargetApi
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
+import android.support.test.filters.SdkSuppress
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
@@ -80,11 +83,11 @@ class ViewPropertyTest {
         val background = view.rx_background
         assertThat(view.background, nullValue())
 
-        val backgroundDrawable = context.resources.getDrawable(R.drawable.ic_accessibility_black_18dp, null)
+        val backgroundDrawable = context.resources.getDrawable(R.drawable.ic_accessibility_black_18dp)
         Observable.just(backgroundDrawable).bindTo(background)
         assertThat(view, withBackground(R.drawable.ic_accessibility_black_18dp))
 
-        val anotherBackgroundDrawable = context.resources.getDrawable(R.drawable.ic_account_balance_wallet_black_18dp, null)
+        val anotherBackgroundDrawable = context.resources.getDrawable(R.drawable.ic_account_balance_wallet_black_18dp)
         background.bindTo(Observable.just(anotherBackgroundDrawable))
         assertThat(view, withBackground(R.drawable.ic_account_balance_wallet_black_18dp))
     }
@@ -152,6 +155,8 @@ class ViewPropertyTest {
         assertThat(view.isFocused, equalTo(false))
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
     @Test
     @UiThreadTest
     fun testForeground() {
