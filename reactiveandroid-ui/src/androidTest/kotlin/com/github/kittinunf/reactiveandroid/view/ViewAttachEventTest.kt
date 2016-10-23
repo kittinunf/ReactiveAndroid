@@ -20,10 +20,8 @@ class ViewAttachEventTest {
 
     @Test
     fun testAttachStateChange() {
-        val activity = activityRule.activity
-
-        val parent = activity.parent
-        val child = activity.child
+        val parent = activityRule.activity.parent
+        val child = activityRule.activity.child
 
         val t1 = TestSubscriber<View>()
         val t2 = TestSubscriber<View>()

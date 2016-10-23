@@ -20,18 +20,12 @@ class ViewGroupEventTest {
     val uiThreadTestRule = UiThreadTestRule()
 
     private val context = InstrumentationRegistry.getContext()
-    private val view = View(context)
-
-    @Test
-    @UiThreadTest
-    fun testAnimation() {
-    }
 
     @Test
     @UiThreadTest
     fun testHierarchyChange() {
         val parent = LinearLayout(context)
-        val child = view
+        val child = View(context)
 
         val t1 = TestSubscriber<HierarchyChangeListener>()
         val t2 = TestSubscriber<HierarchyChangeListener>()

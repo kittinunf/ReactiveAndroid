@@ -259,7 +259,7 @@ class ViewPropertyTest {
             val context = view.context
             val background = view.background
 
-            val otherDrawable = context.resources.getDrawable(resId, null) ?: return false
+            val otherDrawable = context.resources.getDrawable(resId) ?: return false
 
             val bitmap = (background as BitmapDrawable).bitmap
             val otherBitmap = (otherDrawable as BitmapDrawable).bitmap
