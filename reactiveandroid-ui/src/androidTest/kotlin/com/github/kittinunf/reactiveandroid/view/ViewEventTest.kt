@@ -7,12 +7,12 @@ import android.support.test.runner.AndroidJUnit4
 import android.view.KeyEvent
 import android.view.View
 import android.widget.LinearLayout
+import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import rx.observers.TestSubscriber
-import org.hamcrest.CoreMatchers.`is` as isEqualTo
 
 @RunWith(AndroidJUnit4::class)
 class ViewEventTest {
@@ -114,7 +114,6 @@ class ViewEventTest {
             isFocusable = true
             addView(view)
         }
-
         view.isFocusable = true
 
         t.assertNoErrors()
@@ -147,10 +146,10 @@ class ViewEventTest {
         t.assertValueCount(1)
         val first = t.onNextEvents.toList().first()
 
-        assertThat(first.newRect.left, isEqualTo(view.left))
-        assertThat(first.newRect.top, isEqualTo(view.top))
-        assertThat(first.newRect.right, isEqualTo(view.right))
-        assertThat(first.newRect.bottom, isEqualTo(view.bottom))
+        assertThat(first.newRect.left, equalTo(view.left))
+        assertThat(first.newRect.top, equalTo(view.top))
+        assertThat(first.newRect.right, equalTo(view.right))
+        assertThat(first.newRect.bottom, equalTo(view.bottom))
 
         subscription.unsubscribe()
         view.layout(view.left + 1, view.top + 2, view.right + 3, view.bottom + 4)
@@ -169,17 +168,17 @@ class ViewEventTest {
         view.scrollTo(10, 20)
         val first = t.onNextEvents.first()
 
-        assertThat(first.oldDirection.x, isEqualTo(0))
-        assertThat(first.direction.x, isEqualTo(10))
-        assertThat(first.oldDirection.y, isEqualTo(0))
-        assertThat(first.direction.y, isEqualTo(20))
+        assertThat(first.oldDirection.x, equalTo(0))
+        assertThat(first.direction.x, equalTo(10))
+        assertThat(first.oldDirection.y, equalTo(0))
+        assertThat(first.direction.y, equalTo(20))
 
         view.scrollTo(200, 100)
         val second = t.onNextEvents[1]
-        assertThat(second.oldDirection.x, isEqualTo(10))
-        assertThat(second.direction.x, isEqualTo(200))
-        assertThat(second.oldDirection.y, isEqualTo(20))
-        assertThat(second.direction.y, isEqualTo(100))
+        assertThat(second.oldDirection.x, equalTo(10))
+        assertThat(second.direction.x, equalTo(200))
+        assertThat(second.oldDirection.y, equalTo(20))
+        assertThat(second.direction.y, equalTo(100))
 
         subscription.unsubscribe()
         view.scrollTo(1000, 1000)

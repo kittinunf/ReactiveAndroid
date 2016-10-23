@@ -8,8 +8,8 @@ android {
     buildToolsVersion parent.ext.buildToolVersion
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 24
+        minSdkVersion parent.ext.minSdkVersion
+        targetSdkVersion parent.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
     }

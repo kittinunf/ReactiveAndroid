@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.kittinunf.reactiveandroid">
 
-
     <application>
         <activity android:name=".view.ViewAttachActivity" />
     </application>

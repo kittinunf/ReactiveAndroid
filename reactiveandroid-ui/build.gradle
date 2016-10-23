@@ -8,8 +8,8 @@ android {
     buildToolsVersion parent.ext.buildToolVersion
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 24
+        minSdkVersion parent.ext.minSdkVersion
+        targetSdkVersion parent.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -48,10 +48,12 @@ dependencies {
     compile project(':reactiveandroid')
 
     compile parent.ext.reactivexRxAndroid
+    compile parent.ext.androidSupportAnnotation
 
     androidTestCompile parent.ext.supportTestEspressoCore
     androidTestCompile parent.ext.supportTestRunner
     androidTestCompile parent.ext.supportTestRules
+    androidTestCompile 'org.awaitility:awaitility:2.0.0'
 }
 
 buildscript {

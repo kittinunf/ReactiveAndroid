@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "com.github.kittinunf.reactiveandroid.sample"
-        minSdkVersion 11
-        targetSdkVersion 24
+        minSdkVersion parent.ext.minSdkVersion
+        targetSdkVersion parent.ext.compileSdkVersion
         versionCode 1
     }
 
