@@ -16,7 +16,8 @@ import rx.observers.TestSubscriber
 @RunWith(AndroidJUnit4::class)
 class ViewGroupEventTest {
 
-    @Rule @JvmField
+    @Rule
+    @JvmField
     val uiThreadTestRule = UiThreadTestRule()
 
     private val context = InstrumentationRegistry.getContext()

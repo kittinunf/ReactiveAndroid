@@ -5,6 +5,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.animation.Animation
 import android.view.animation.LayoutAnimationController
+import android.view.animation.RotateAnimation
 import android.view.animation.TranslateAnimation
 import org.junit.Rule
 import org.junit.Test
@@ -30,6 +31,7 @@ class ViewGroupAnimationEventTest {
         }
 
         val translateAnimation = TranslateAnimation(0.0f, 10.0f, 0.0f, 20.0f)
+        translateAnimation.duration = 100
         parent.layoutAnimation = LayoutAnimationController(translateAnimation)
 
         val t1 = TestSubscriber<Animation>()
@@ -48,6 +50,21 @@ class ViewGroupAnimationEventTest {
 
         t1.assertValueCount(1)
 //        t2.assertValueCount(1)
+
+        val rotateAnimation = RotateAnimation(0.0f, 360.0f)
+        rotateAnimation.repeatCount = Animation.INFINITE
+        parent.layoutAnimation = LayoutAnimationController(rotateAnimation)
+        val t3 = TestSubscriber<Animation>()
+        parent.rx_animationRepeat().subscribe(t3)
+
+        t3.assertNoValues()
+        t3.assertNoErrors()
+
+        instrumentation.runOnMainSync {
+            parent.startLayoutAnimation()
+        }
+
+//        t3.assertValueCount(1)
     }
 
 }
