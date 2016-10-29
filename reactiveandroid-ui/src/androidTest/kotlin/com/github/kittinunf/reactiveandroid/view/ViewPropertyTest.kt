@@ -11,6 +11,7 @@ import android.support.test.annotation.UiThreadTest
 import android.support.test.filters.SdkSuppress
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.LinearLayout
 import com.github.kittinunf.reactiveandroid.rx.bindTo
@@ -259,7 +260,7 @@ class ViewPropertyTest {
             val context = view.context
             val background = view.background
 
-            val otherDrawable = context.resources.getDrawable(resId) ?: return false
+            val otherDrawable = ContextCompat.getDrawable(context, resId) ?: return false
 
             val bitmap = (background as BitmapDrawable).bitmap
             val otherBitmap = (otherDrawable as BitmapDrawable).bitmap
@@ -280,7 +281,7 @@ class ViewPropertyTest {
             val context = view.context
             val color = view.background
 
-            val otherColor = context.resources.getColor(resId)
+            val otherColor = ContextCompat.getColor(context, resId)
 
             val colorValue = (color as ColorDrawable).color
             val otherColorValue = otherColor
@@ -301,7 +302,7 @@ class ViewPropertyTest {
             val context = view.context
             val color = view.foreground
 
-            val otherColor = context.resources.getColor(resId)
+            val otherColor = ContextCompat.getColor(context, resId)
 
             val colorValue = (color as ColorDrawable).color
             val otherColorValue = otherColor

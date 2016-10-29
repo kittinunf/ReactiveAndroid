@@ -50,6 +50,7 @@ dependencies {
     compile parent.ext.reactivexRxAndroid
     compile parent.ext.androidSupportAnnotation
 
+    androidTestCompile parent.ext.androidSupportV4
     androidTestCompile parent.ext.supportTestEspressoCore
     androidTestCompile parent.ext.supportTestRunner
     androidTestCompile parent.ext.supportTestRules
