@@ -20,7 +20,8 @@ import rx.observers.TestSubscriber
 @RunWith(AndroidJUnit4::class)
 class ViewEventTest {
 
-    @Rule @JvmField
+    @Rule
+    @JvmField
     val uiThreadTestRule = UiThreadTestRule()
 
     private val context = InstrumentationRegistry.getContext()
