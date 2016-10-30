@@ -1,10 +1,13 @@
 package com.github.kittinunf.reactiveandroid.view
 
+import android.annotation.TargetApi
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Build
 import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
+import android.support.test.filters.SdkSuppress
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v4.content.ContextCompat
@@ -156,6 +159,8 @@ class ImageViewPropertyTest {
         assertThat(view.scaleType, equalTo(ImageView.ScaleType.FIT_XY))
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
     @Test
     @UiThreadTest
     fun testImageTintMode() {
@@ -168,6 +173,8 @@ class ImageViewPropertyTest {
         assertThat(view.imageTintMode, equalTo(PorterDuff.Mode.DARKEN))
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
     @Test
     @UiThreadTest
     fun testImageTintList() {
