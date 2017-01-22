@@ -18,7 +18,7 @@ allprojects {
     ext {
         compileSdkVersion = 25
         buildToolVersion = '25.0.2'
-        minSdkVersion = 12
+        minSdkVersion = 14
 
         //publish
         reactiveAndroidVersion = '0.3.8'
