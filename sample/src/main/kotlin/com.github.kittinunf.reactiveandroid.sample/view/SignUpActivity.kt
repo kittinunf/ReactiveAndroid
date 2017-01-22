@@ -11,7 +11,6 @@ import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignUpViewModel
 import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignUpViewModelCommand
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.widget.rx_afterTextChanged
-import com.github.kittinunf.reactiveandroid.widget.rx_applyAction
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import rx.subscriptions.CompositeSubscription
 
@@ -42,7 +41,7 @@ class SignUpActivity : AppCompatActivity() {
                     .bindTo(this@SignUpActivity, SignUpActivity::handleError)
                     .addTo(compositeSubscription)
 
-            signUpButton.rx_applyAction(buttonAction).addTo(compositeSubscription)
+//            signUpButton.rx_applyAction(buttonAction).addTo(compositeSubscription)
         }
     }
 

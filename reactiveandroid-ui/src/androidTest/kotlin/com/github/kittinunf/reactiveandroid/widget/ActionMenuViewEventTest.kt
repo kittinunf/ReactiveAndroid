@@ -48,10 +48,15 @@ class ActionMenuViewEventTest {
         val first = t.onNextEvents.first()
         assertThat(first, equalTo(item1))
 
-        menu.performIdentifierAction(1000, 0)
+        menu.performIdentifierAction(1001, 0)
         t.assertValueCount(2)
         val second = t.onNextEvents[1]
         assertThat(second, equalTo(item2))
+
+        s.unsubscribe()
+
+        menu.performIdentifierAction(1000, 0)
+        t.assertValueCount(2)
     }
 
 }
