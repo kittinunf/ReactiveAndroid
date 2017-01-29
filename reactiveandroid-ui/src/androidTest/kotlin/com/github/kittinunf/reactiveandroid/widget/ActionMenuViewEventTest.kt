@@ -34,8 +34,8 @@ class ActionMenuViewEventTest {
     @UiThreadTest
     fun testMenuItemClick() {
         // add menu items
-        val item1 = menu.add(0, 1000, Menu.NONE, "hello")
-        val item2 = menu.add(0, 1001, Menu.NONE, "hello")
+        val item1 = menu.add(0, 1000, Menu.NONE, "menu_1000")
+        val item2 = menu.add(0, 1001, Menu.NONE, "menu_1001")
 
         val t = TestSubscriber<MenuItem>()
         val s = view.rx_menuItemClick(true).subscribe(t)

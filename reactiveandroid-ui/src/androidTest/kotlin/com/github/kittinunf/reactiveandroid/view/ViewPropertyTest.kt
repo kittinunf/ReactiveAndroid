@@ -1,6 +1,7 @@
 package com.github.kittinunf.reactiveandroid.view
 
 import android.annotation.TargetApi
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
@@ -169,8 +170,10 @@ class ViewPropertyTest {
         Observable.just(colorDrawable).bindTo(foreground)
         assertThat(view, withForegroundColor(android.R.color.black))
 
-        val anotherColorDrawable = ColorDrawable(Color.WHITE) as Drawable
-        foreground.bindTo(Observable.just(anotherColorDrawable))
+        val anotherColorDrawable = ColorDrawable(Color.WHITE)
+
+        val anotherDrawable = Observable.just(anotherColorDrawable) as Observable<Drawable>
+        foreground.bindTo(anotherDrawable)
         assertThat(view, withForegroundColor(android.R.color.white))
     }
 
@@ -251,69 +254,87 @@ class ViewPropertyTest {
         assertThat(view.visibility, equalTo(View.VISIBLE))
     }
 
-    //helpers
-    fun withBackground(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
-
-        override fun matchesSafely(view: View?): Boolean {
-            if (view == null) return false
-
-            val context = view.context
-            val background = view.background
-
-            val otherDrawable = ContextCompat.getDrawable(context, resId) ?: return false
-
-            val bitmap = (background as BitmapDrawable).bitmap
-            val otherBitmap = (otherDrawable as BitmapDrawable).bitmap
-            return bitmap.sameAs(otherBitmap)
-        }
-
-        override fun describeTo(description: Description?) {
-            description?.appendText("view has background resource id: $resId")
-        }
-
-    }
-
-    fun withBackgroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
-
-        override fun matchesSafely(view: View?): Boolean {
-            if (view == null) return false
-
-            val context = view.context
-            val color = view.background
-
-            val otherColor = ContextCompat.getColor(context, resId)
-
-            val colorValue = (color as ColorDrawable).color
-            val otherColorValue = otherColor
-            return colorValue == otherColorValue
-        }
-
-        override fun describeTo(description: Description?) {
-            description?.appendText("view has background color resource id: $resId")
-        }
-
-    }
-
-    fun withForegroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
-
-        override fun matchesSafely(view: View?): Boolean {
-            if (view == null) return false
-
-            val context = view.context
-            val color = view.foreground
-
-            val otherColor = ContextCompat.getColor(context, resId)
-
-            val colorValue = (color as ColorDrawable).color
-            val otherColorValue = otherColor
-            return colorValue == otherColorValue
-        }
-
-        override fun describeTo(description: Description?) {
-            description?.appendText("view has background color resource id: $resId")
-        }
-
-    }
 }
+
+//helpers
+fun withBackground(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
+
+    override fun matchesSafely(view: View?): Boolean {
+        if (view == null) return false
+
+        val context = view.context
+        val background = view.background
+
+        val otherDrawable = ContextCompat.getDrawable(context, resId) ?: return false
+
+        val bitmap = (background as BitmapDrawable).bitmap
+        val otherBitmap = (otherDrawable as BitmapDrawable).bitmap
+        return bitmap.sameAs(otherBitmap)
+    }
+
+    override fun describeTo(description: Description?) {
+        description?.appendText("view has background resource id: $resId")
+    }
+
+}
+
+fun withBackgroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
+
+    override fun matchesSafely(view: View?): Boolean {
+        if (view == null) return false
+
+        val context = view.context
+        val color = view.background
+
+        val otherColor = ContextCompat.getColor(context, resId)
+
+        val colorValue = (color as ColorDrawable).color
+        val otherColorValue = otherColor
+        return colorValue == otherColorValue
+    }
+
+    override fun describeTo(description: Description?) {
+        description?.appendText("view has background color resource id: $resId")
+    }
+
+}
+
+fun withForegroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
+
+    override fun matchesSafely(view: View?): Boolean {
+        if (view == null) return false
+
+        val context = view.context
+        val color = view.foreground
+
+        val otherColor = ContextCompat.getColor(context, resId)
+
+        val colorValue = (color as ColorDrawable).color
+        val otherColorValue = otherColor
+        return colorValue == otherColorValue
+    }
+
+    override fun describeTo(description: Description?) {
+        description?.appendText("view has background color resource id: $resId")
+    }
+
+}
+
+fun withDrawable(context: Context, resId: Int): Matcher<Drawable> = object : TypeSafeMatcher<Drawable>() {
+
+    override fun matchesSafely(drawable: Drawable?): Boolean {
+        if (drawable == null) return false
+
+        val bitmap = (ContextCompat.getDrawable(context, resId) as BitmapDrawable).bitmap
+        val anotherBitmap = (drawable as BitmapDrawable).bitmap
+        return bitmap == anotherBitmap
+    }
+
+    override fun describeTo(description: Description?) {
+        description?.appendText("drawable with resource id: $resId")
+    }
+
+}
+
 
 

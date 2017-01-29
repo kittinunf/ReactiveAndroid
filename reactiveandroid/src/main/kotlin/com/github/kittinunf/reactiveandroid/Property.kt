@@ -66,8 +66,7 @@ class Property<T>(init: T) : PropertyType<T> {
 
 class MutableProperty<T>(init: T?) : MutablePropertyType<T> {
 
-    constructor() : this(null) {
-    }
+    constructor() : this(null)
 
     override val observable: Observable<T>
         get() = sink.filter { it != null }
