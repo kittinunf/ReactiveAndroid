@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 
-class ViewAttachActivity : Activity() {
+class ViewAttachTestActivity : Activity() {
 
     lateinit var parent: LinearLayout
     lateinit var child: View

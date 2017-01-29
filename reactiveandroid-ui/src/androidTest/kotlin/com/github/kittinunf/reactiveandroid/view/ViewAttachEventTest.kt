@@ -14,7 +14,7 @@ class ViewAttachEventTest {
 
     @Rule
     @JvmField
-    val activityRule = ActivityTestRule(ViewAttachActivity::class.java)
+    val activityRule = ActivityTestRule(ViewAttachTestActivity::class.java)
 
     val instrumentation = InstrumentationRegistry.getInstrumentation()
 
