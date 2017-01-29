@@ -46,12 +46,12 @@ class MenuItemPropertyTest {
         val actionView = menuItem.rx_actionView
         assertThat(menuItem.actionView, nullValue())
 
-        val view = ImageView(context) as View
+        val view = ImageView(context)
         Observable.just(view).bindTo(actionView)
 
         assertThat(menuItem.actionView, equalTo(view))
 
-        val anotherView = TextView(context) as View
+        val anotherView = TextView(context)
         actionView.bindTo(Observable.just(anotherView))
 
         assertThat(menuItem.actionView, equalTo(anotherView))

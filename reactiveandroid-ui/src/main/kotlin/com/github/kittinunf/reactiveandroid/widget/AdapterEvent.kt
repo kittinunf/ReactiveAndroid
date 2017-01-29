@@ -16,9 +16,8 @@ fun Adapter.rx_changed(): Observable<Unit> {
             subscriber.onNext(Unit)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
-            unregisterDataSetObserver(_dataSet)
-        })
+        val unregisterSubscription = AndroidMainThreadSubscription { unregisterDataSetObserver(_dataSet) }
+        subscriber.add(unregisterSubscription)
     }
 }
 
@@ -35,7 +34,11 @@ fun Adapter.rx_invalidated(): Observable<Unit> {
 }
 
 private val Adapter._dataSet: _Adapter_DataSetObserver
-        by ExtensionFieldDelegate({ _Adapter_DataSetObserver() }, { registerDataSetObserver(it) })
+        by ExtensionFieldDelegate({
+            _Adapter_DataSetObserver()
+        }, {
+            registerDataSetObserver(it)
+        })
 
 private class _Adapter_DataSetObserver : DataSetObserver() {
 
