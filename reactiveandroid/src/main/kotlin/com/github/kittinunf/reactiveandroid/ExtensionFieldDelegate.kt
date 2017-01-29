@@ -7,7 +7,8 @@ class ExtensionFieldDelegate<in R, T : Any>(val initializer: (R) -> T, val build
 
     private val map = WeakIdentityHashMap<R, T>()
 
-    operator fun getValue(ref: R, property: KProperty<*>): T = map.getOrPut(ref, { setValue(ref, property, initializer(ref)) })
+    operator fun getValue(ref: R, property: KProperty<*>): T =
+            map.getOrPut(ref, { setValue(ref, property, initializer(ref)) })
 
     operator fun setValue(ref: R, property: KProperty<*>, value: T): T {
         ref.builder(value)
