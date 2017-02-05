@@ -25,7 +25,6 @@ class AutoCompleteTextViewTestActivity : Activity() {
         textView.id = android.R.id.input
 
         val parent = LinearLayout(this)
-        parent.id = android.R.id.inputArea
         parent.addView(textView)
         setContentView(parent)
     }

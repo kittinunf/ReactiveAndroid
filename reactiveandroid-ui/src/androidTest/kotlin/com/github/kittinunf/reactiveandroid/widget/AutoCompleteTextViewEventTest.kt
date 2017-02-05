@@ -26,7 +26,7 @@ class AutoCompleteTextViewEventTest {
     val instrumentation = InstrumentationRegistry.getInstrumentation()
 
     @Test
-    fun testItemSelected() {
+    fun testItemClick() {
         val autoCompleteTextView = activityRule.activity.textView
 
         val t = TestSubscriber<ItemClickListener>()
