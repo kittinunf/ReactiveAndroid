@@ -34,11 +34,7 @@ fun Adapter.rx_invalidated(): Observable<Unit> {
 }
 
 private val Adapter._dataSet: _Adapter_DataSetObserver
-        by ExtensionFieldDelegate({
-            _Adapter_DataSetObserver()
-        }, {
-            registerDataSetObserver(it)
-        })
+        by ExtensionFieldDelegate({ _Adapter_DataSetObserver() }, { registerDataSetObserver(it) })
 
 private class _Adapter_DataSetObserver : DataSetObserver() {
 

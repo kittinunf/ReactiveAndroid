@@ -23,6 +23,7 @@ import rx.schedulers.Schedulers
 
 @RunWith(AndroidJUnit4::class)
 class AdapterViewPropertyTest {
+
     @Rule
     @JvmField
     val uiThreadTestRule = UiThreadTestRule()

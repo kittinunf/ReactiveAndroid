@@ -25,4 +25,4 @@ cache:
     - $HOME/.gradle
 
 script:
-  - ./gradlew connectedCheck
+  - ./gradlew connectedCheck --info
