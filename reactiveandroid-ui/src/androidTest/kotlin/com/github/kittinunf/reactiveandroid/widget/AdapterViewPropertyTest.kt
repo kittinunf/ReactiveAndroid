@@ -47,17 +47,19 @@ class AdapterViewPropertyTest {
     @Test
     @UiThreadTest
     fun testEmptyView() {
-        listView.adapter = adapter
+        uiThreadTestRule.runOnUiThread {
+            listView.adapter = adapter
 
-        val textEmptyView = TextView(context)
-        val emptyView = listView.rx_emptyView
-        Observable.just(textEmptyView).bindTo(emptyView)
+            val textEmptyView = TextView(context)
+            val emptyView = listView.rx_emptyView
+            Observable.just(textEmptyView).bindTo(emptyView)
 
-        assertThat(textEmptyView.visibility, equalTo(View.GONE))
+            assertThat(textEmptyView.visibility, equalTo(View.GONE))
 
-        items.clear()
-        adapter.notifyDataSetChanged()
-        assertThat(textEmptyView.visibility, equalTo(View.VISIBLE))
+            items.clear()
+            adapter.notifyDataSetChanged()
+            assertThat(textEmptyView.visibility, equalTo(View.VISIBLE))
+        }
     }
 
     @Test

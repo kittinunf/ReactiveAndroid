@@ -7,6 +7,8 @@
         <activity android:name=".view.ViewAttachTestActivity"/>
 
         <activity android:name=".widget.AdapterViewTestActivity"/>
+
+        <activity android:name=".widget.AutoCompleteTextViewTestActivity"/>
     </application>
 
 </manifest>
