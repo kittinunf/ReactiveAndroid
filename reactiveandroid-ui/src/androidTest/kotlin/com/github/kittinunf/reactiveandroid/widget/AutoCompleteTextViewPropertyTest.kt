@@ -9,6 +9,7 @@ import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v4.content.ContextCompat
+import android.widget.AutoCompleteTextView
 import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.ui.test.R
@@ -60,36 +61,40 @@ class AutoCompleteTextViewPropertyTest {
         background.bindTo(anotherDrawable)
         assertThat(textView.dropDownBackground, withColorDrawable(context, android.R.color.white))
     }
-//
-//    @Test
-//    @UiThreadTest
-//    fun testValidator() {
-//        val upperCaseValidator = object : AutoCompleteTextView.Validator {
-//            override fun fixText(invalidText: CharSequence?): CharSequence {
-//                return invalidText.toString().toUpperCase()
-//            }
-//
-//            override fun isValid(text: CharSequence?): Boolean {
-//                return true
-//            }
-//        }
-//
-//        val lowerCaseValidator = object : AutoCompleteTextView.Validator {
-//            override fun fixText(invalidText: CharSequence?): CharSequence {
-//                return invalidText.toString().toLowerCase()
-//            }
-//
-//            override fun isValid(text: CharSequence?): Boolean {
-//                return true
-//            }
-//        }
-//
-//        val textView = activityRule.activity.textView
-//
-//        val validator = textView.rx_validator
-//
-//        Observable.just(upperCaseValidator).bindTo(validator)
-//    }
+
+    @Test
+    @UiThreadTest
+    fun testValidator() {
+        val upperCaseValidator = object : AutoCompleteTextView.Validator {
+            override fun fixText(invalidText: CharSequence?): CharSequence {
+                return invalidText.toString().toUpperCase()
+            }
+
+            override fun isValid(text: CharSequence?): Boolean {
+                return true
+            }
+        }
+
+        val lowerCaseValidator = object : AutoCompleteTextView.Validator {
+            override fun fixText(invalidText: CharSequence?): CharSequence {
+                return invalidText.toString().toLowerCase()
+            }
+
+            override fun isValid(text: CharSequence?): Boolean {
+                return true
+            }
+        }
+
+        val textView = activityRule.activity.textView
+
+        val validator = textView.rx_validator
+
+        Observable.just(upperCaseValidator).bindTo(validator)
+        assertThat(textView.validator, withValidator(upperCaseValidator))
+
+        validator.bindTo(Observable.just(lowerCaseValidator) as Observable<AutoCompleteTextView.Validator>)
+        assertThat(textView.validator, withValidator(lowerCaseValidator))
+    }
 
 }
 
@@ -107,6 +112,21 @@ fun withColorDrawable(context: Context, resId: Int): Matcher<Drawable> = object 
 
     override fun describeTo(description: Description?) {
         description?.appendText("view has color resource id: $resId")
+    }
+
+}
+
+fun withValidator(validator: AutoCompleteTextView.Validator): Matcher<AutoCompleteTextView.Validator> = object : TypeSafeMatcher<AutoCompleteTextView.Validator>() {
+
+    override fun matchesSafely(item: AutoCompleteTextView.Validator?): Boolean {
+        if (item == null) return false
+
+        val text = "The quick brown fox jumps over the lazy dog"
+        return validator.isValid(text) == item.isValid(text) && validator.fixText(text) == item.fixText(text)
+    }
+
+    override fun describeTo(description: Description?) {
+        description?.appendText("view has validator that is compatible")
     }
 
 }
