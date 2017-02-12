@@ -9,6 +9,8 @@
         <activity android:name=".widget.AdapterViewTestActivity"/>
 
         <activity android:name=".widget.AutoCompleteTextViewTestActivity"/>
+
+        <activity android:name=".widget.CalendarViewTestActivity"/>
     </application>
 
 </manifest>
