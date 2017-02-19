@@ -51,14 +51,14 @@ class CompoundButtonPropertyTest {
         assertThat(view.isChecked, equalTo(true))
 
         checked.bindTo(Observable.just(false))
-        assertThat(view.isChecked, equalTo(true))
+        assertThat(view.isChecked, equalTo(false))
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
     @Test
     @UiThreadTest
-    fun test() {
+    fun testDrawable() {
         val drawable = view.rx_buttonDrawable
         Observable.just(ContextCompat.getDrawable(context, R.drawable.ic_account_balance_wallet_black_18dp)).bindTo(drawable)
         assertThat(view.buttonDrawable, withDrawable(context, R.drawable.ic_account_balance_wallet_black_18dp))
