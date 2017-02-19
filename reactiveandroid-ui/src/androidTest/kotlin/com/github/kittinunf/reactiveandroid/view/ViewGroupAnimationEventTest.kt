@@ -49,7 +49,7 @@ class ViewGroupAnimationEventTest {
         }
 
         t1.assertValueCount(1)
-//        t2.assertValueCount(1)
+        t2.assertValueCount(1)
 
         val rotateAnimation = RotateAnimation(0.0f, 360.0f)
         rotateAnimation.repeatCount = Animation.INFINITE
@@ -64,7 +64,7 @@ class ViewGroupAnimationEventTest {
             parent.startLayoutAnimation()
         }
 
-//        t3.assertValueCount(1)
+        t3.assertValueCount(1)
     }
 
 }
