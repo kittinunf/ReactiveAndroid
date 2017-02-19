@@ -11,6 +11,8 @@
         <activity android:name=".widget.AutoCompleteTextViewTestActivity"/>
 
         <activity android:name=".widget.CalendarViewTestActivity"/>
+
+        <activity android:name=".widget.DatePickerTestActivity"/>
     </application>
 
 </manifest>
