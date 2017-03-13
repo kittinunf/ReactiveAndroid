@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.3.0'
 
         classpath 'com.novoda:bintray-release:0.3.4'
 
@@ -16,8 +16,12 @@ buildscript {
 
 allprojects {
     ext {
+        compileSdkVersion = 25
+        buildToolVersion = '25.0.2'
+        minSdkVersion = 14
+
         //publish
-        reactiveAndroidVersion = '0.3.7'
+        reactiveAndroidVersion = '0.3.8'
 
         reactiveAndroid = 'reactiveandroid'
         reactiveAndroidAppcompatV7 = 'reactiveandroid-appcompat-v7'
@@ -33,13 +37,14 @@ allprojects {
         website = 'https://github.com/kittinunf/ReactiveAndroid'
 
         //kotlin
-        kotlinVersion = '1.0.3'
+        kotlinVersion = '1.0.6'
         kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
 
         //android
-        supportVersion = '23.4.0'
+        supportVersion = '25.1.0'
+        androidSupportAnnotation = "com.android.support:support-annotations:$supportVersion"
         androidSupportV4 = "com.android.support:support-v4:$supportVersion"
         androidAppCompatV7 = "com.android.support:appcompat-v7:$supportVersion"
         androidSupportRecyclerView = "com.android.support:recyclerview-v7:$supportVersion"
@@ -51,12 +56,17 @@ allprojects {
         diffUtils = 'com.googlecode.java-diff-utils:diffutils:1.3.0'
 
         //rxjava
-        reactivexRxJava = 'io.reactivex:rxjava:1.1.6'
+        reactivexRxJava = 'io.reactivex:rxjava:1.2.5'
         reactivexRxAndroid = 'io.reactivex:rxandroid:1.2.1'
 
         //test
-        robolectric = 'org.robolectric:robolectric:3.0'
         junit = 'junit:junit:4.12'
+        supportTestEspressoCore = 'com.android.support.test.espresso:espresso-core:2.2.1'
+        supportTestEspressoContrib = 'com.android.support.test.espresso:espresso-contrib:2.2.1'
+        supportTestRunner = 'com.android.support.test:runner:0.5'
+        supportTestRules = 'com.android.support.test:rules:0.5'
+        robolectric = 'org.robolectric:robolectric:3.0'
+        awaitility = 'org.awaitility:awaitility:2.0.0'
     }
 
     repositories {

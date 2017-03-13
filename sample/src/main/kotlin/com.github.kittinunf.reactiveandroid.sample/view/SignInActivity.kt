@@ -13,7 +13,6 @@ import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignInViewModel
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.view.rx_visibility
 import com.github.kittinunf.reactiveandroid.widget.rx_afterTextChanged
-import com.github.kittinunf.reactiveandroid.widget.rx_applyAction
 import com.github.kittinunf.reactiveandroid.widget.rx_text
 import com.github.kittinunf.reactiveandroid.widget.rx_textChanged
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -43,7 +42,7 @@ class SignInActivity : AppCompatActivity(), SignInViewAction {
                     .bindTo(this@SignInActivity, SignInActivity::handleFailure)
                     .addTo(subscriptions)
         }
-        signInButton.rx_applyAction(viewModel.signInAction).addTo(subscriptions)
+//        signInButton.rx_applyAction(viewModel.signInAction).addTo(subscriptions)
 
         //progressBar
         loadingProgressBar.rx_visibility.bindTo(viewModel.signInAction.executing.map { if (it) View.VISIBLE else View.INVISIBLE }).addTo(subscriptions)

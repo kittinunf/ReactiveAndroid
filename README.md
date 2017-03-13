@@ -1,6 +1,6 @@
 # ReactiveAndroid
 
-[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.0.3-blue.svg)](http://kotlinlang.org) [ ![jcenter](https://api.bintray.com/packages/kittinunf/maven/ReactiveAndroid/images/download.svg) ](https://bintray.com/kittinunf/maven/ReactiveAndroid/_latestVersion) [![Build Status](https://travis-ci.org/kittinunf/ReactiveAndroid.svg?branch=master)](https://travis-ci.org/kittinunf/ReactiveAndroid)
+[ ![Kotlin](https://img.shields.io/badge/Kotlin-1.0.6-blue.svg)](http://kotlinlang.org) [ ![jcenter](https://api.bintray.com/packages/kittinunf/maven/ReactiveAndroid/images/download.svg) ](https://bintray.com/kittinunf/maven/ReactiveAndroid/_latestVersion) [![Build Status](https://travis-ci.org/kittinunf/ReactiveAndroid.svg?branch=master)](https://travis-ci.org/kittinunf/ReactiveAndroid)
 
 Reactive events and properties with RxJava for Android 
 
@@ -18,10 +18,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:0.3.7' //for base UI
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:0.3.7' //for appcompat-v7 module
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:0.3.7' //for support-v4 module
-    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:0.3.7' //for design support module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-ui:<latest-version>' //for base UI
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-appcompat-v7:<latest-version>' //for appcompat-v7 module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-support-v4:<latest-version>' //for support-v4 module
+    compile 'com.github.kittinunf.reactiveandroid:reactiveandroid-design:<latest-version>' //for design support module
 }
 ```
 

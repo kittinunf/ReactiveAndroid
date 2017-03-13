@@ -16,9 +16,8 @@ fun Adapter.rx_changed(): Observable<Unit> {
             subscriber.onNext(Unit)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
-            unregisterDataSetObserver(_dataSet)
-        })
+        val unregisterSubscription = AndroidMainThreadSubscription { unregisterDataSetObserver(_dataSet) }
+        subscriber.add(unregisterSubscription)
     }
 }
 

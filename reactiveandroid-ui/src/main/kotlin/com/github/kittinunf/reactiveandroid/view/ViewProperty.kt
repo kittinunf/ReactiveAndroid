@@ -64,7 +64,13 @@ val View.rx_enabled: MutableProperty<Boolean>
 val View.rx_focused: MutableProperty<Boolean>
     get() {
         val getter = { isFocused }
-        val setter: (Boolean) -> Unit = { requestFocus() }
+        val setter: (Boolean) -> Unit = {
+            if (it) {
+                requestFocus()
+            } else {
+                clearFocus()
+            }
+        }
 
         return createMainThreadMutableProperty(getter, setter)
     }

@@ -66,8 +66,7 @@ class Property<T>(init: T) : PropertyType<T> {
 
 class MutableProperty<T>(init: T?) : MutablePropertyType<T> {
 
-    constructor() : this(null) {
-    }
+    constructor() : this(null)
 
     override val observable: Observable<T>
         get() = sink.filter { it != null }
@@ -83,11 +82,11 @@ class MutableProperty<T>(init: T?) : MutablePropertyType<T> {
 
     private val sink = BehaviorSubject.create<T>(init)
 
-    fun bindTo(observable: Observable<T>) = modify(observable)
+    fun bindTo(observable: Observable<T>) = bind(observable)
 
-    fun bindTo(propertyType: PropertyType<T>) = modify(propertyType.observable)
+    fun bindTo(propertyType: PropertyType<T>) = bind(propertyType.observable)
 
-    private fun modify(observable: Observable<T>): Subscription {
+    private fun bind(observable: Observable<T>): Subscription {
         return observable.subscribe({
             value = it
         }, {

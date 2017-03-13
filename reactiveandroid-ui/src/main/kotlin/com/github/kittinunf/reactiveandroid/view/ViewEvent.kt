@@ -1,6 +1,11 @@
 package com.github.kittinunf.reactiveandroid.view
 
-import android.view.*
+import android.graphics.Rect
+import android.view.ContextMenu
+import android.view.DragEvent
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import rx.Observable
@@ -108,13 +113,12 @@ fun View.rx_focusChange(): Observable<FocusChangeListener> {
     }
 }
 
-data class LayoutChangeListener(val view: View, val newPadding: Padding, val oldPadding: Padding)
+data class LayoutChangeListener(val view: View, val newRect: Rect, val oldRect: Rect)
 
 fun View.rx_layoutChange(): Observable<LayoutChangeListener> {
     return Observable.create { subscriber ->
-        val listener: (View, Int, Int, Int, Int, Int, Int, Int, Int) -> Unit = {
-            view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
-            subscriber.onNext(LayoutChangeListener(view, Padding(left, top, right, bottom), Padding(oldLeft, oldTop, oldRight, oldBottom)))
+        val listener = View.OnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            subscriber.onNext(LayoutChangeListener(view, Rect(left, top, right, bottom), Rect(oldLeft, oldTop, oldRight, oldBottom)))
         }
         addOnLayoutChangeListener(listener)
 
