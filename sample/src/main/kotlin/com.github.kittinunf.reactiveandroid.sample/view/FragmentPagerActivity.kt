@@ -1,18 +1,16 @@
 package com.github.kittinunf.reactiveandroid.sample.view
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
-import com.github.kittinunf.reactiveandroid.sample.fragment.PlaceholderFragment
-import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabSelected
-import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabUnselected
-import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_fragmentsWith
-import com.github.kittinunf.reactiveandroid.view.rx_attachedToWindow
-import com.github.kittinunf.reactiveandroid.view.rx_detachedFromWindow
+import com.github.kittinunf.reactiveandroid.sample.fragment.ViewPagerFragment
+import com.github.kittinunf.reactiveandroid.support.design.widget.rx_itemBackgroundResource
+import com.github.kittinunf.reactiveandroid.support.design.widget.rx_itemIconTintList
+import com.github.kittinunf.reactiveandroid.support.design.widget.rx_itemTextColor
+import com.github.kittinunf.reactiveandroid.support.design.widget.rx_navigationItemSelected
 import kotlinx.android.synthetic.main.activity_fragment_pager.*
-import rx.Observable
 import rx.subscriptions.CompositeSubscription
 
 class FragmentPagerActivity : AppCompatActivity() {
@@ -31,33 +29,24 @@ class FragmentPagerActivity : AppCompatActivity() {
 
     fun setUpUI() {
         setSupportActionBar(toolbar)
-        viewPager.rx_fragmentsWith(Observable.just(listOf("section1", "section2", "section3")), supportFragmentManager,
-                { position, item ->
-                    PlaceholderFragment.newInstance(item)
-                },
-                { position, item ->
-                    item
-                }
-        ).addTo(subscriptions)
 
-        viewPager.rx_attachedToWindow().subscribe {
-            Log.e(javaClass.simpleName, "viewPager is attached")
+        replaceFragment(ViewPagerFragment.newInstance())
+
+        bottomNavigationView.rx_navigationItemSelected(true).subscribe {
+            when (it.itemId) {
+                R.id.action_favorites -> replaceFragment(ViewPagerFragment.newInstance())
+                R.id.action_schedules -> replaceFragment(ViewPagerFragment.newInstance())
+                R.id.action_music -> replaceFragment(ViewPagerFragment.newInstance())
+            }
         }.addTo(subscriptions)
 
-        viewPager.rx_detachedFromWindow().subscribe {
-            Log.e(javaClass.simpleName, "viewPager is detached")
-        }.addTo(subscriptions)
-
-        tlPager.setupWithViewPager(viewPager)
-
-        tlPager.rx_tabSelected().subscribe {
-            Log.e(javaClass.simpleName, "selected ${it.position.toString()}")
-        }.addTo(subscriptions)
-
-        tlPager.rx_tabUnselected().subscribe {
-            Log.e(javaClass.simpleName, "unselected ${it.position.toString()}")
-        }.addTo(subscriptions)
-
+        bottomNavigationView.rx_itemBackgroundResource.value = R.color.colorPrimary
+        bottomNavigationView.rx_itemIconTintList.value = resources.getColorStateList(R.drawable.tabs_color_state)
+        bottomNavigationView.rx_itemTextColor.value = resources.getColorStateList(R.drawable.tabs_color_state)
     }
 
+    fun replaceFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment).commit()
+    }
 }
