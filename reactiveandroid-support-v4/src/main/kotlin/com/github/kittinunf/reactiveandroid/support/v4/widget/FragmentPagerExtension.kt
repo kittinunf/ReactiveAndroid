@@ -1,4 +1,4 @@
-package com.github.kittinunf.reactiveandroid.support.v7.widget
+package com.github.kittinunf.reactiveandroid.support.v4.widget
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

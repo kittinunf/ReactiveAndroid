@@ -10,7 +10,7 @@ import com.github.kittinunf.reactiveandroid.rx.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabSelected
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabUnselected
-import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_fragmentsStateWith
+import com.github.kittinunf.reactiveandroid.support.v4.widget.rx_fragmentsStateWith
 import com.github.kittinunf.reactiveandroid.view.rx_attachedToWindow
 import com.github.kittinunf.reactiveandroid.view.rx_detachedFromWindow
 import kotlinx.android.synthetic.main.fragment_view_pager.*
