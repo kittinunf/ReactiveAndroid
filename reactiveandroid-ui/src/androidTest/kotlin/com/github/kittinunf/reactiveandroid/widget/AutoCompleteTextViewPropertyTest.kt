@@ -111,7 +111,7 @@ fun withColorDrawable(context: Context, resId: Int): Matcher<Drawable> = object 
     }
 
     override fun describeTo(description: Description?) {
-        description?.appendText("view has color resource id: $resId")
+        description?.appendText("view that has color resource id: $resId has color that doesn't match")
     }
 
 }
