@@ -1,9 +1,13 @@
 package com.github.kittinunf.reactiveandroid.widget
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
+import android.support.test.filters.SdkSuppress
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import android.view.Gravity
 import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import org.hamcrest.CoreMatchers.equalTo
@@ -14,14 +18,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import rx.Observable
 import rx.schedulers.Schedulers
-import java.util.*
 
 @RunWith(AndroidJUnit4::class)
-class CalendarViewPropertyTest {
+class PopupMenuPropertyTest {
 
     @Rule
     @JvmField
-    val activityRule = ActivityTestRule(CalendarViewTestActivity::class.java)
+    val activityRule = ActivityTestRule(PopupMenuTestActivity::class.java)
 
     val instrumentation = InstrumentationRegistry.getInstrumentation()
 
@@ -35,22 +38,21 @@ class CalendarViewPropertyTest {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
     @Test
     @UiThreadTest
-    fun testDate() {
-        val calendarView = activityRule.activity.calendarView
-        val date = calendarView.rx_date
+    fun testGravity() {
+        val popup = activityRule.activity.popupMenu
+        val gravity = popup.rx_gravity
 
-        val cal = Calendar.getInstance()
-        cal.set(2017, Calendar.JANUARY, 1, 0, 0)
-        Observable.just(cal.timeInMillis).bindTo(date)
+        Observable.just(Gravity.TOP).bindTo(gravity)
 
-        assertThat(calendarView.date, equalTo(cal.timeInMillis))
+        assertThat(popup.gravity, equalTo(Gravity.TOP))
 
-        cal.set(2017, Calendar.DECEMBER, 31, 0, 0)
-        date.bindTo(Observable.just(cal.timeInMillis))
+        gravity.bindTo(Observable.just(Gravity.BOTTOM))
 
-        assertThat(calendarView.date, equalTo(cal.timeInMillis))
+        assertThat(popup.gravity, equalTo(Gravity.BOTTOM))
     }
 
 }
