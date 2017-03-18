@@ -13,6 +13,8 @@
         <activity android:name=".widget.CalendarViewTestActivity"/>
 
         <activity android:name=".widget.DatePickerTestActivity"/>
+
+        <activity android:name=".widget.PopupMenuTestActivity"/>
     </application>
 
 </manifest>
