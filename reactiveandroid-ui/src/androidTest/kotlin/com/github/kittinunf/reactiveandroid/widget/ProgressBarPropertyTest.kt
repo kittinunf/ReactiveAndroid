@@ -101,11 +101,10 @@ class ProgressBarPropertyTest {
         view.isIndeterminate = false
 
         Observable.just(10).bindTo(progress)
-        assertThat(view.progress, equalTo(10))
+        assertThat(view.secondaryProgress, equalTo(10))
 
         progress.bindTo(Observable.just(20))
-        assertThat(view.progress, equalTo(20))
+        assertThat(view.secondaryProgress, equalTo(20))
     }
 
 }
-
