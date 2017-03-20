@@ -59,7 +59,7 @@ class RadioGroupEventTest {
 
         view.check(1001)
         val third = t.onNextEvents[6]
-        assertThat(third.checkedId, equalTo(1003))
+        assertThat(third.checkedId, equalTo(1001))
         t.assertValueCount(8)
 
         s.unsubscribe()

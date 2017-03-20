@@ -69,8 +69,8 @@ class RatingBarPropertyTest {
         Observable.just(1.0f).bindTo(steps)
         assertThat(ratingBar.stepSize, equalTo(1.0f))
 
-        steps.bindTo(Observable.just(2.0f))
-        assertThat(ratingBar.stepSize, equalTo(2.0f))
+        steps.bindTo(Observable.just(0.5f))
+        assertThat(ratingBar.stepSize, equalTo(0.5f))
     }
 
 }
