@@ -15,6 +15,8 @@
         <activity android:name=".widget.DatePickerTestActivity"/>
 
         <activity android:name=".widget.PopupMenuTestActivity"/>
+
+        <activity android:name=".widget.RatingBarTestActivity"/>
     </application>
 
 </manifest>
