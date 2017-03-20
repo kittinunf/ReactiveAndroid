@@ -17,6 +17,8 @@
         <activity android:name=".widget.PopupMenuTestActivity"/>
 
         <activity android:name=".widget.RatingBarTestActivity"/>
+
+        <activity android:name=".widget.SearchViewTestActivity"/>
     </application>
 
 </manifest>
