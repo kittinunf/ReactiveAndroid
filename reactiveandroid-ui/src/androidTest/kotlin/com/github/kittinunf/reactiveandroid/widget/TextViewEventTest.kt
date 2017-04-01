@@ -2,10 +2,9 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
-import android.support.test.rule.UiThreadTestRule
+import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.text.Editable
-import android.widget.EditText
 import android.widget.TextView
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -18,15 +17,15 @@ import rx.observers.TestSubscriber
 class TextViewEventTest {
     @Rule
     @JvmField
-    val uiThreadTestRule = UiThreadTestRule()
+    val activityRule = ActivityTestRule(TextViewTestActivity::class.java)
 
-    private val context = InstrumentationRegistry.getContext()
-
-    private val view = EditText(context)
+    val instrumentation = InstrumentationRegistry.getInstrumentation()
 
     @Test
     @UiThreadTest
     fun testAfterTextChanged() {
+        val view = activityRule.activity.textView
+
         val t = TestSubscriber<Editable>()
 
         val s = view.rx_afterTextChanged().subscribe(t)
@@ -52,6 +51,8 @@ class TextViewEventTest {
     @Test
     @UiThreadTest
     fun testBeforeTextChanged() {
+        val view = activityRule.activity.textView
+
         val t = TestSubscriber<BeforeTextChangedListener>()
 
         val s = view.rx_beforeTextChanged().subscribe(t)
@@ -86,6 +87,8 @@ class TextViewEventTest {
     @Test
     @UiThreadTest
     fun testTextChanged() {
+        val view = activityRule.activity.textView
+
         val t = TestSubscriber<TextChangedListener>()
 
         val s = view.rx_textChanged().subscribe(t)

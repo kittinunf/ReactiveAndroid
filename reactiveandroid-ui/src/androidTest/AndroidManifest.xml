@@ -21,6 +21,8 @@
         <activity android:name=".widget.SearchViewTestActivity"/>
 
         <activity android:name=".widget.SeekBarTestActivity"/>
+
+        <activity android:name=".widget.TextViewTestActivity"/>
     </application>
 
 </manifest>
