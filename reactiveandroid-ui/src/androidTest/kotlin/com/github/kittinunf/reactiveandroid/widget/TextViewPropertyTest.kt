@@ -1,5 +1,6 @@
 package com.github.kittinunf.reactiveandroid.widget
 
+import android.graphics.Color
 import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
@@ -58,6 +59,19 @@ class TextViewPropertyTest {
 
         hint.bindTo(Observable.just("another_hint_text") as Observable<CharSequence>)
         assertThat(view.hint.toString(), equalTo("another_hint_text"))
+    }
+
+    @Test
+    @UiThreadTest
+    fun testTextColor() {
+        val view = activityRule.activity.textView
+        val textColor = view.rx_textColor
+
+        Observable.just(Color.RED).bindTo(textColor)
+        assertThat(view.currentTextColor, equalTo(Color.RED))
+
+        textColor.bindTo(Observable.just(Color.GREEN))
+        assertThat(view.currentTextColor, equalTo(Color.GREEN))
     }
 
 }
