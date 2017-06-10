@@ -1,6 +1,7 @@
 package com.github.kittinunf.reactiveandroid.widget
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
@@ -72,6 +73,21 @@ class TextViewPropertyTest {
 
         textColor.bindTo(Observable.just(Color.GREEN))
         assertThat(view.currentTextColor, equalTo(Color.GREEN))
+    }
+
+    @Test
+    @UiThreadTest
+    fun testTypeface() {
+        val view = activityRule.activity.textView
+        val typeface = view.rx_typeface
+
+        val sameTypeFace: Typeface? = null
+
+        Observable.just(Typeface.create(sameTypeFace, Typeface.BOLD)).bindTo(typeface)
+        assertThat(view.typeface.isBold, equalTo(true))
+
+        typeface.bindTo(Observable.just(Typeface.create(sameTypeFace, Typeface.ITALIC)))
+        assertThat(view.typeface.isItalic, equalTo(true))
     }
 
 }
