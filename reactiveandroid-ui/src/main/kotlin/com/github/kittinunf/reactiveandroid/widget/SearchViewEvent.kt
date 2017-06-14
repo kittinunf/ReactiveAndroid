@@ -66,7 +66,6 @@ fun SearchView.rx_searchClick(): Observable<View> {
     return Observable.create { subscriber ->
         setOnSearchClickListener {
             subscriber.onNext(it)
-
         }
 
         subscriber.add(AndroidMainThreadSubscription {
