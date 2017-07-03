@@ -5,7 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -19,7 +19,7 @@ fun RecyclerView.rx_scrolled(): Observable<ScrolledListener> {
             subscriber.onNext(ScrolledListener(recyclerView, dx, dy))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnScrollListener(_scroll)
         })
     }
@@ -33,7 +33,7 @@ fun RecyclerView.rx_scrollStateChanged(): Observable<ScrollStateChangedListener>
             subscriber.onNext(ScrollStateChangedListener(recyclerView, newState))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnScrollListener(_scroll)
         })
     }
@@ -45,7 +45,7 @@ fun RecyclerView.rx_recycler(): Observable<RecyclerView.ViewHolder> {
             subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setRecyclerListener(null)
         })
     }
@@ -54,10 +54,10 @@ fun RecyclerView.rx_recycler(): Observable<RecyclerView.ViewHolder> {
 fun RecyclerView.rx_onChildViewAttachedToWindow(): Observable<View> {
     return Observable.create { subscriber ->
         _childAttachStateChange.onChildViewAttachedToWindow {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnChildAttachStateChangeListener(_childAttachStateChange)
         })
     }
@@ -66,10 +66,10 @@ fun RecyclerView.rx_onChildViewAttachedToWindow(): Observable<View> {
 fun RecyclerView.rx_onChildViewDetachedFromWindow(): Observable<View> {
     return Observable.create { subscriber ->
         _childAttachStateChange.onChildViewDetachedFromWindow {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnChildAttachStateChangeListener(_childAttachStateChange)
         })
     }
@@ -83,7 +83,7 @@ fun RecyclerView.rx_touchEvent(): Observable<TouchEventListener> {
             subscriber.onNext(TouchEventListener(recyclerView, motionEvent))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnItemTouchListener(_itemTouch)
         })
     }
@@ -98,7 +98,7 @@ fun RecyclerView.rx_interceptTouchEvent(consumed: Boolean): Observable<Intercept
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnItemTouchListener(_itemTouch)
         })
     }
@@ -110,7 +110,7 @@ fun RecyclerView.rx_dataChanged(): Observable<Unit> {
             subscriber.onNext(Unit)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             adapter?.let {
                 it.unregisterAdapterDataObserver(_adapterDataObserver)
             }
@@ -126,7 +126,7 @@ fun RecyclerView.rx_itemRangeInserted(): Observable<ItemRangeInsertedListener> {
             subscriber.onNext(ItemRangeInsertedListener(positionStart, itemCount))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             adapter?.unregisterAdapterDataObserver(_adapterDataObserver)
         })
     }
@@ -140,7 +140,7 @@ fun RecyclerView.rx_itemRangeMoved(): Observable<ItemRangeMovedListener> {
             subscriber.onNext(ItemRangeMovedListener(fromPosition, toPosition, itemCount))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             adapter?.unregisterAdapterDataObserver(_adapterDataObserver)
         })
     }
@@ -154,7 +154,7 @@ fun RecyclerView.rx_itemRangeRemoved(): Observable<ItemRangeRemovedListener> {
             subscriber.onNext(ItemRangeRemovedListener(positionStart, itemCount))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             adapter?.unregisterAdapterDataObserver(_adapterDataObserver)
         })
     }

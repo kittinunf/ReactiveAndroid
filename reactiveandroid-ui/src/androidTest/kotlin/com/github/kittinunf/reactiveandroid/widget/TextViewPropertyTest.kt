@@ -6,16 +6,16 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.github.kittinunf.reactiveandroid.rx.bindTo
+import com.github.kittinunf.reactiveandroid.reactive.bindTo
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.Observable
-import rx.schedulers.Schedulers
 
 @RunWith(AndroidJUnit4::class)
 class TextViewPropertyTest {
@@ -32,7 +32,7 @@ class TextViewPropertyTest {
         @BeforeClass
         @JvmStatic
         fun setUp() {
-            AndroidThreadScheduler.main = Schedulers.immediate()
+            AndroidThreadScheduler.main = Schedulers.trampoline()
         }
     }
 

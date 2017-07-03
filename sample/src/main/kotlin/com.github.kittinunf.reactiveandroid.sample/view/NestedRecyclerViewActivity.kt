@@ -9,8 +9,9 @@ import android.view.View
 import android.widget.TextView
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_itemsWith
-import kotlinx.android.synthetic.main.activity_nested_recycler_view.*
-import rx.Observable
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_nested_recycler_view.firstRecyclerView
+import kotlinx.android.synthetic.main.activity_nested_recycler_view.secondRecyclerView
 
 class NestedRecyclerViewActivity : AppCompatActivity() {
 
@@ -41,7 +42,7 @@ class NestedRecyclerViewActivity : AppCompatActivity() {
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView by lazy { view.findViewById(android.R.id.text1) as TextView }
+        val textView by lazy { view.findViewById<TextView>(android.R.id.text1) }
     }
 
 }

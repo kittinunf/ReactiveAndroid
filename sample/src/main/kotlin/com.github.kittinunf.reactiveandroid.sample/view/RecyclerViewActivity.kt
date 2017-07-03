@@ -9,20 +9,23 @@ import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import com.github.kittinunf.reactiveandroid.MutableProperty
-import com.github.kittinunf.reactiveandroid.rx.addTo
+import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_itemsWith
 import com.github.kittinunf.reactiveandroid.view.rx_click
 import com.github.kittinunf.reactiveandroid.view.rx_longClick
 import com.github.kittinunf.reactiveandroid.view.rx_menuItemClick
-import kotlinx.android.synthetic.main.activity_recycler_view.*
-import kotlinx.android.synthetic.main.recycler_item.view.*
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_recycler_view.recyclerView
+import kotlinx.android.synthetic.main.activity_recycler_view.titleTextView
+import kotlinx.android.synthetic.main.activity_recycler_view.toolbar
+import kotlinx.android.synthetic.main.recycler_item.view.recyclerItemTextView1
+import kotlinx.android.synthetic.main.recycler_item.view.recyclerItemTextView2
 import java.util.*
 
 class RecyclerViewActivity : AppCompatActivity() {
 
-    val compositeSubscription = CompositeSubscription()
+    val compositeSubscription = CompositeDisposable()
 
     //back storage
     val _items = mutableListOf<String>()
@@ -73,7 +76,7 @@ class RecyclerViewActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        compositeSubscription.unsubscribe()
+        compositeSubscription.dispose()
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

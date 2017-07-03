@@ -2,7 +2,7 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.widget.RatingBar
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events 
@@ -16,7 +16,7 @@ fun RatingBar.rx_ratingBarChange(): Observable<RatingBarChangeListener> {
             subscriber.onNext(RatingBarChangeListener(ratingBar, rating, fromUser))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             onRatingBarChangeListener = null
         })
     }

@@ -6,12 +6,12 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.MenuItem
 import android.widget.PopupMenu
+import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
 class PopupMenuEventTest {
@@ -30,23 +30,23 @@ class PopupMenuEventTest {
         menu.add(0, 1000, 0, "One")
         menu.add(0, 1001, 0, "Two")
 
-        val t = TestSubscriber<MenuItem>()
+        val t = TestObserver<MenuItem>()
 
-        val s = popupMenu.rx_menuItemClick(true).subscribe(t)
+        val s = popupMenu.rx_menuItemClick(true).subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
 
         popupMenu.show()
         menu.performIdentifierAction(1001, 0)
-        val first = t.onNextEvents.first()
+        val first = t.values().first()
         assertThat(first.itemId, equalTo(1001))
 
         menu.performIdentifierAction(1000, 0)
-        val second = t.onNextEvents[1]
+        val second = t.values()[1]
         assertThat(second.itemId, equalTo(1000))
 
-        s.unsubscribe()
+        s.dispose()
 
         menu.performIdentifierAction(1000, 0)
 
@@ -62,9 +62,9 @@ class PopupMenuEventTest {
         menu.add(0, 1000, 0, "One")
         menu.add(0, 1001, 0, "Two")
 
-        val t = TestSubscriber<PopupMenu>()
+        val t = TestObserver<PopupMenu>()
 
-        val s = popupMenu.rx_dismiss().subscribe(t)
+        val s = popupMenu.rx_dismiss().subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
@@ -72,11 +72,11 @@ class PopupMenuEventTest {
         popupMenu.show()
         popupMenu.dismiss()
 
-        val first = t.onNextEvents.first()
+        val first = t.values().first()
         assertThat(first, equalTo(popupMenu))
         t.assertValueCount(1)
 
-        s.unsubscribe()
+        s.dispose()
 
         popupMenu.show()
         popupMenu.dismiss()

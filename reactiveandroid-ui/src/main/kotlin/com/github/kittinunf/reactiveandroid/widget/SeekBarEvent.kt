@@ -3,7 +3,7 @@ package com.github.kittinunf.reactiveandroid.widget
 import android.widget.SeekBar
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -17,7 +17,7 @@ fun SeekBar.rx_progressChanged(): Observable<SeekBarProgressChangeListener> {
             subscriber.onNext(SeekBarProgressChangeListener(seekBar, progress, fromUser))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnSeekBarChangeListener(null)
         })
     }
@@ -26,10 +26,10 @@ fun SeekBar.rx_progressChanged(): Observable<SeekBarProgressChangeListener> {
 fun SeekBar.rx_startTrackingTouch(): Observable<SeekBar> {
     return Observable.create { subscriber ->
         _seekBarChange.onStartTrackingTouch {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnSeekBarChangeListener(null)
         })
     }
@@ -38,10 +38,10 @@ fun SeekBar.rx_startTrackingTouch(): Observable<SeekBar> {
 fun SeekBar.rx_stopTrackingTouch(): Observable<SeekBar> {
     return Observable.create { subscriber ->
         _seekBarChange.onStopTrackingTouch {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnSeekBarChangeListener(null)
         })
     }

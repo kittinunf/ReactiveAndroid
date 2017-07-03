@@ -8,17 +8,17 @@ import android.support.test.filters.SdkSuppress
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.widget.ActionMenuView
-import com.github.kittinunf.reactiveandroid.rx.bindTo
+import com.github.kittinunf.reactiveandroid.reactive.bindTo
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.ui.test.R
 import com.github.kittinunf.reactiveandroid.view.withDrawable
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.Observable
-import rx.schedulers.Schedulers
 
 @TargetApi(Build.VERSION_CODES.M)
 @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
@@ -37,7 +37,7 @@ class ViewGroupPropertyTest {
         @BeforeClass
         @JvmStatic
         fun setUp() {
-            AndroidThreadScheduler.main = Schedulers.immediate()
+            AndroidThreadScheduler.main = Schedulers.trampoline()
         }
     }
 

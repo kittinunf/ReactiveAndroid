@@ -10,12 +10,12 @@ import android.support.test.runner.AndroidJUnit4
 import android.view.KeyEvent
 import android.view.View
 import android.widget.LinearLayout
+import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
 class ViewEventTest {
@@ -30,8 +30,8 @@ class ViewEventTest {
     @Test
     @UiThreadTest
     fun testClick() {
-        val t = TestSubscriber<View>()
-        val subscription = view.rx_click().subscribe(t)
+        val t = TestObserver<View>()
+        val subscription = view.rx_click().subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
@@ -42,7 +42,7 @@ class ViewEventTest {
         view.performClick()
         t.assertValueCount(2)
 
-        subscription.unsubscribe()
+        subscription.dispose()
 
         view.performClick()
         t.assertValueCount(2)
@@ -56,8 +56,8 @@ class ViewEventTest {
     @Test
     @UiThreadTest
     fun testKey() {
-        val t = TestSubscriber<Int>()
-        val subscription = view.rx_key(true).map { it.keyCode }.subscribe(t)
+        val t = TestObserver<Int>()
+        val subscription = view.rx_key(true).map { it.keyCode }.subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
@@ -69,7 +69,7 @@ class ViewEventTest {
 
         t.assertValues(KeyEvent.KEYCODE_A, KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_D, KeyEvent.KEYCODE_F)
 
-        subscription.unsubscribe()
+        subscription.dispose()
 
         view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_Q))
         view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_W))
@@ -90,8 +90,8 @@ class ViewEventTest {
     @Test
     @UiThreadTest
     fun testLongClick() {
-        val t = TestSubscriber<View>()
-        val subscription = view.rx_longClick(true).subscribe(t)
+        val t = TestObserver<View>()
+        val subscription = view.rx_longClick(true).subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
@@ -102,7 +102,7 @@ class ViewEventTest {
         view.performLongClick()
         t.assertValueCount(2)
 
-        subscription.unsubscribe()
+        subscription.dispose()
 
         view.performClick()
         t.assertValueCount(2)
@@ -111,8 +111,8 @@ class ViewEventTest {
     @Test
     @UiThreadTest
     fun testFocusChange() {
-        val t = TestSubscriber<Boolean>()
-        val subscription = view.rx_focusChange().map { it.hasFocus }.subscribe(t)
+        val t = TestObserver<Boolean>()
+        val subscription = view.rx_focusChange().map { it.hasFocus }.subscribeWith(t)
 
         LinearLayout(context).apply {
             isFocusable = true
@@ -130,7 +130,7 @@ class ViewEventTest {
         t.assertValueCount(2)
 
         t.assertValues(true, false)
-        subscription.unsubscribe()
+        subscription.dispose()
 
         view.requestFocus()
         t.assertValueCount(2)
@@ -139,8 +139,8 @@ class ViewEventTest {
     @Test
     @UiThreadTest
     fun testLayoutChange() {
-        val t = TestSubscriber<LayoutChangeListener>()
-        val subscription = view.rx_layoutChange().subscribe(t)
+        val t = TestObserver<LayoutChangeListener>()
+        val subscription = view.rx_layoutChange().subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
@@ -148,14 +148,14 @@ class ViewEventTest {
         view.layout(view.left + 1, view.top + 2, view.right + 3, view.bottom + 4)
 
         t.assertValueCount(1)
-        val first = t.onNextEvents.toList().first()
+        val first = t.values().toList().first()
 
         assertThat(first.newRect.left, equalTo(view.left))
         assertThat(first.newRect.top, equalTo(view.top))
         assertThat(first.newRect.right, equalTo(view.right))
         assertThat(first.newRect.bottom, equalTo(view.bottom))
 
-        subscription.unsubscribe()
+        subscription.dispose()
         view.layout(view.left + 1, view.top + 2, view.right + 3, view.bottom + 4)
         t.assertValueCount(1)
     }
@@ -165,14 +165,14 @@ class ViewEventTest {
     @Test
     @UiThreadTest
     fun testScrollChange() {
-        val t = TestSubscriber<ScrollChangeListener>()
-        val subscription = view.rx_scrollChange().subscribe(t)
+        val t = TestObserver<ScrollChangeListener>()
+        val subscription = view.rx_scrollChange().subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
 
         view.scrollTo(10, 20)
-        val first = t.onNextEvents.first()
+        val first = t.values().first()
 
         assertThat(first.oldDirection.x, equalTo(0))
         assertThat(first.direction.x, equalTo(10))
@@ -180,13 +180,13 @@ class ViewEventTest {
         assertThat(first.direction.y, equalTo(20))
 
         view.scrollTo(200, 100)
-        val second = t.onNextEvents[1]
+        val second = t.values()[1]
         assertThat(second.oldDirection.x, equalTo(10))
         assertThat(second.direction.x, equalTo(200))
         assertThat(second.oldDirection.y, equalTo(20))
         assertThat(second.direction.y, equalTo(100))
 
-        subscription.unsubscribe()
+        subscription.dispose()
         view.scrollTo(1000, 1000)
         t.assertValueCount(2)
     }

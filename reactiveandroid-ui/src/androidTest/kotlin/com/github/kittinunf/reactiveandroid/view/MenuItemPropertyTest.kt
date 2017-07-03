@@ -8,9 +8,11 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.github.kittinunf.reactiveandroid.rx.bindTo
+import com.github.kittinunf.reactiveandroid.reactive.bindTo
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.ui.test.R
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
 import org.junit.Assert.assertThat
@@ -18,8 +20,6 @@ import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.Observable
-import rx.schedulers.Schedulers
 
 @RunWith(AndroidJUnit4::class)
 class MenuItemPropertyTest {
@@ -36,7 +36,7 @@ class MenuItemPropertyTest {
         @BeforeClass
         @JvmStatic
         fun setUp() {
-            AndroidThreadScheduler.main = Schedulers.immediate()
+            AndroidThreadScheduler.main = Schedulers.trampoline()
         }
     }
 

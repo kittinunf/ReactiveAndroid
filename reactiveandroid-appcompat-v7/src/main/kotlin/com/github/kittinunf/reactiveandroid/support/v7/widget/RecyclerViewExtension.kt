@@ -1,13 +1,12 @@
 package com.github.kittinunf.reactiveandroid.support.v7.widget
 
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.github.kittinunf.reactiveandroid.rx.cachedPrevious
+import com.github.kittinunf.reactiveandroid.reactive.cachedPrevious
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
-import difflib.Delta
-import difflib.DiffUtils
-import rx.Observable
-import rx.Subscription
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 
 abstract class RecyclerViewProxyAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
@@ -31,7 +30,7 @@ abstract class RecyclerViewProxyAdapter<T, VH : RecyclerView.ViewHolder> : Recyc
 
 fun <VH : RecyclerView.ViewHolder, T, C : List<T>> RecyclerView.rx_itemsWith(observable: Observable<C>,
                                                                              onCreateViewHolder: (ViewGroup?, Int) -> VH,
-                                                                             onBindViewHolder: (VH, Int, T) -> Unit): Subscription {
+                                                                             onBindViewHolder: (VH, Int, T) -> Unit): Disposable {
     val proxyAdapter = object : RecyclerViewProxyAdapter<T, VH>() {
         override var createViewHolder: (ViewGroup?, Int) -> VH = onCreateViewHolder
 
@@ -41,37 +40,29 @@ fun <VH : RecyclerView.ViewHolder, T, C : List<T>> RecyclerView.rx_itemsWith(obs
 }
 
 fun <VH : RecyclerView.ViewHolder, T, C : List<T>, A : RecyclerViewProxyAdapter<T, VH>> RecyclerView.rx_itemsWith(observable: Observable<C>,
-                                                                                                                  recyclerProxyAdapter: A): Subscription {
+                                                                                                                  recyclerProxyAdapter: A): Disposable {
     adapter = recyclerProxyAdapter
+
+    class DiffCallback(val oldData: List<T>, val newData: List<T>) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = oldData.size
+
+        override fun getNewListSize(): Int = newData.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                oldData[oldItemPosition] == newData[newItemPosition]
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                oldData[oldItemPosition] == newData[newItemPosition]
+
+    }
+
     return observable.cachedPrevious().observeOn(AndroidThreadScheduler.main).subscribe {
         val (previous, current) = it
         recyclerProxyAdapter.items = current!!
 
         //calculate diff
-        val diffPatch = DiffUtils.diff(previous ?: listOf(), current)
-        if (diffPatch.deltas.size > 20) {
-            recyclerProxyAdapter.notifyDataSetChanged()
-        } else if (diffPatch.deltas.size > 0) {
-            for (d in diffPatch.deltas) {
-                val original = d.original
-                val revised = d.revised
-                when (d.type) {
-                    Delta.TYPE.DELETE -> {
-                        recyclerProxyAdapter.notifyItemRangeRemoved(revised.position, original.size())
-                    }
-                    Delta.TYPE.CHANGE -> {
-                        recyclerProxyAdapter.notifyItemRangeChanged(revised.position, revised.size())
-                    }
-                    Delta.TYPE.INSERT -> {
-                        recyclerProxyAdapter.notifyItemRangeInserted(revised.position, revised.size())
-                    }
-                    else -> {
-                    }
-                }
-            }
-        } else {
-            // no change
-        }
-
+        val diffResult = DiffUtil.calculateDiff(DiffCallback(previous ?: listOf(), current))
+        diffResult.dispatchUpdatesTo(recyclerProxyAdapter)
     }
 }

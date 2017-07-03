@@ -1,9 +1,9 @@
 package com.github.kittinunf.reactiveandroid
 
+import io.reactivex.Observable
 import org.hamcrest.CoreMatchers.nullValue
 import org.junit.Assert.assertThat
 import org.junit.Test
-import rx.Observable
 import org.hamcrest.CoreMatchers.`is` as isEqualTo
 
 class MutablePropertyTest {

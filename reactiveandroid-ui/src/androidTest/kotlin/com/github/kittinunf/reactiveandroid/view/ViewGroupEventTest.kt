@@ -6,12 +6,12 @@ import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import android.widget.LinearLayout
+import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
 class ViewGroupEventTest {
@@ -28,11 +28,11 @@ class ViewGroupEventTest {
         val parent = LinearLayout(context)
         val child = View(context)
 
-        val t1 = TestSubscriber<HierarchyChangeListener>()
-        val t2 = TestSubscriber<HierarchyChangeListener>()
+        val t1 = TestObserver<HierarchyChangeListener>()
+        val t2 = TestObserver<HierarchyChangeListener>()
 
-        val s1 = parent.rx_childViewAdded().subscribe(t1)
-        val s2 = parent.rx_childViewRemoved().subscribe(t2)
+        val s1 = parent.rx_childViewAdded().subscribeWith(t1)
+        val s2 = parent.rx_childViewRemoved().subscribeWith(t2)
 
         t1.assertNoValues()
         t1.assertNoErrors()
@@ -43,7 +43,7 @@ class ViewGroupEventTest {
 
         t1.assertValueCount(1)
         t2.assertNoValues()
-        val first = t1.onNextEvents.first()
+        val first = t1.values().first()
         assertThat(first.child, equalTo(child))
         assertThat(first.parent, equalTo(parent as View))
 
@@ -51,12 +51,12 @@ class ViewGroupEventTest {
 
         t1.assertValueCount(1)
         t2.assertValueCount(1)
-        val anotherFirst = t2.onNextEvents.first()
+        val anotherFirst = t2.values().first()
         assertThat(anotherFirst.child, equalTo(child))
         assertThat(anotherFirst.parent, equalTo(parent as View))
 
-        s1.unsubscribe()
-        s2.unsubscribe()
+        s1.dispose()
+        s2.dispose()
 
         parent.addView(child)
         parent.removeView(child)

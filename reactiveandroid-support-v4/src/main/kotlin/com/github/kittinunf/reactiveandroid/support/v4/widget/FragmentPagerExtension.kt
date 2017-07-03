@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
-import rx.Observable
-import rx.Subscription
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 
 abstract class FragmentPagerProxyAdapter<ARG>(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
@@ -28,7 +28,7 @@ abstract class FragmentPagerProxyAdapter<ARG>(fragmentManager: FragmentManager) 
 
 fun <ARG, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, fragmentManager: FragmentManager,
                                                     getItem: (Int, ARG) -> Fragment,
-                                                    getPageTitle: ((Int, ARG) -> String)): Subscription {
+                                                    getPageTitle: ((Int, ARG) -> String)): Disposable {
     val proxyAdapter = object : FragmentPagerProxyAdapter<ARG>(fragmentManager) {
 
         override var item: (Int, ARG) -> Fragment = getItem
@@ -38,7 +38,7 @@ fun <ARG, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, f
     return rx_fragmentsWith(observable, proxyAdapter)
 }
 
-fun <ARG, ADT : FragmentPagerProxyAdapter<ARG>, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, fragmentPagerProxyAdapter: ADT): Subscription {
+fun <ARG, ADT : FragmentPagerProxyAdapter<ARG>, L : List<ARG>> ViewPager.rx_fragmentsWith(observable: Observable<L>, fragmentPagerProxyAdapter: ADT): Disposable {
     adapter = fragmentPagerProxyAdapter
     return observable.observeOn(AndroidThreadScheduler.main).subscribe {
         fragmentPagerProxyAdapter.items = it

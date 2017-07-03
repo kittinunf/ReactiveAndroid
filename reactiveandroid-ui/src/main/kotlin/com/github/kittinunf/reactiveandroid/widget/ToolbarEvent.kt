@@ -4,7 +4,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toolbar
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events 
@@ -17,7 +17,7 @@ fun Toolbar.rx_navigationClick(): Observable<View> {
 
         }
         
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setNavigationOnClickListener(null)
         })
     }
@@ -30,7 +30,7 @@ fun Toolbar.rx_menuItemClick(consumed: Boolean): Observable<MenuItem> {
             consumed
         }
         
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnMenuItemClickListener(null)
         })
     }

@@ -1,7 +1,7 @@
 package com.github.kittinunf.reactiveandroid.scheduler
 
-import rx.Scheduler
-import rx.android.schedulers.AndroidSchedulers
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

@@ -1,11 +1,9 @@
 package com.github.kittinunf.reactiveandroid.subscription
 
-import rx.android.MainThreadSubscription
+import io.reactivex.android.MainThreadDisposable
 
-class AndroidMainThreadSubscription(private val unsubscribe: () -> Unit) : MainThreadSubscription() {
-
-    override fun onUnsubscribe() {
+class AndroidMainThreadSubscription(private val unsubscribe: () -> Unit) : MainThreadDisposable() {
+    override fun onDispose() {
         unsubscribe.invoke()
     }
-
 }

@@ -4,7 +4,7 @@ import android.database.DataSetObserver
 import android.widget.Adapter
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -17,7 +17,7 @@ fun Adapter.rx_changed(): Observable<Unit> {
         }
 
         val unregisterSubscription = AndroidMainThreadSubscription { unregisterDataSetObserver(_dataSet) }
-        subscriber.add(unregisterSubscription)
+        subscriber.setDisposable(unregisterSubscription)
     }
 }
 
@@ -27,7 +27,7 @@ fun Adapter.rx_invalidated(): Observable<Unit> {
             subscriber.onNext(Unit)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             unregisterDataSetObserver(_dataSet)
         })
     }

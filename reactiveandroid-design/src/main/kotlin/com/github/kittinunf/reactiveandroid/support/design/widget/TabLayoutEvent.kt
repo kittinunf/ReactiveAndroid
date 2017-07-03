@@ -3,7 +3,7 @@ package com.github.kittinunf.reactiveandroid.support.design.widget
 import android.support.design.widget.TabLayout
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -12,10 +12,10 @@ import rx.Observable
 fun TabLayout.rx_tabSelected(): Observable<TabLayout.Tab> {
     return Observable.create { subscriber ->
         _tabSelected.onTabSelected {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnTabSelectedListener(null)
         })
     }
@@ -24,10 +24,10 @@ fun TabLayout.rx_tabSelected(): Observable<TabLayout.Tab> {
 fun TabLayout.rx_tabUnselected(): Observable<TabLayout.Tab> {
     return Observable.create { subscriber ->
         _tabSelected.onTabUnselected {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnTabSelectedListener(null)
         })
     }
@@ -36,10 +36,10 @@ fun TabLayout.rx_tabUnselected(): Observable<TabLayout.Tab> {
 fun TabLayout.rx_tabReselected(): Observable<TabLayout.Tab> {
     return Observable.create { subscriber ->
         _tabSelected.onTabReselected {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnTabSelectedListener(null)
         })
     }

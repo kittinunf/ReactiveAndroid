@@ -2,8 +2,8 @@ package com.github.kittinunf.reactiveandroid.support.v7.widget
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import rx.Observable
-import rx.Subscription
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
 
 interface SectionModelType<T> {
@@ -86,7 +86,7 @@ abstract class SectionedRecyclerViewProxyAdapter<T, S : SectionModelType<T>, VH 
 fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C : List<S>> RecyclerView.rx_itemsWith(observable: Observable<C>,
                                                                                                       onCreateViewHolder: (ViewGroup?, Int) -> VH,
                                                                                                       onBindHeaderViewHolder: (VH, Int, S) -> Unit,
-                                                                                                      onBindItemViewHolder: (VH, Int, T) -> Unit): Subscription {
+                                                                                                      onBindItemViewHolder: (VH, Int, T) -> Unit): Disposable {
     val proxyAdapter = object : SectionedRecyclerViewProxyAdapter<T, S, VH>() {
 
         override var createViewHolder: (ViewGroup?, Int) -> VH = onCreateViewHolder
@@ -100,7 +100,7 @@ fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C : List<S>> Recy
 }
 
 fun <VH : RecyclerView.ViewHolder, T, S : SectionModelType<T>, C : List<S>, A : SectionedRecyclerViewProxyAdapter<T, S, VH>> RecyclerView.rx_itemsWith(observable: Observable<C>,
-                                                                                                                                                       sectionedRecyclerViewProxyAdapter: A): Subscription {
+                                                                                                                                                       sectionedRecyclerViewProxyAdapter: A): Disposable {
     adapter = sectionedRecyclerViewProxyAdapter
     return observable.subscribe {
         sectionedRecyclerViewProxyAdapter.sections = it

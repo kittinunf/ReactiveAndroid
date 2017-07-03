@@ -3,7 +3,7 @@ package com.github.kittinunf.reactiveandroid.support.v7.widget
 import android.support.v7.widget.PopupMenu
 import android.view.MenuItem
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -16,7 +16,7 @@ fun PopupMenu.rx_dismiss(): Observable<PopupMenu> {
 
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnDismissListener(null)
         })
     }
@@ -29,7 +29,7 @@ fun PopupMenu.rx_menuItemClick(consumed: Boolean): Observable<MenuItem> {
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
            setOnMenuItemClickListener(null)
         })
     }

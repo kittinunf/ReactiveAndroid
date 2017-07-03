@@ -6,12 +6,12 @@ import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
 class RadioGroupEventTest {
@@ -40,29 +40,29 @@ class RadioGroupEventTest {
         view.addView(radio2)
         view.addView(radio3)
 
-        val t = TestSubscriber<RadioGroupCheckedChangeListener>()
+        val t = TestObserver<RadioGroupCheckedChangeListener>()
 
-        val s = view.rx_checkedChange().subscribe(t)
+        val s = view.rx_checkedChange().subscribeWith(t)
 
         t.assertNoValues()
         t.assertNoErrors()
 
         view.check(1003)
-        val first = t.onNextEvents[0]
+        val first = t.values()[0]
         assertThat(first.checkedId, equalTo(1003))
         t.assertValueCount(2)
 
         view.check(1002)
-        val second = t.onNextEvents[3]
+        val second = t.values()[3]
         assertThat(second.checkedId, equalTo(1002))
         t.assertValueCount(5)
 
         view.check(1001)
-        val third = t.onNextEvents[6]
+        val third = t.values()[6]
         assertThat(third.checkedId, equalTo(1001))
         t.assertValueCount(8)
 
-        s.unsubscribe()
+        s.dispose()
 
         view.check(1003)
         t.assertValueCount(8)

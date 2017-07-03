@@ -6,7 +6,7 @@ import android.view.KeyEvent
 import android.widget.TextView
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -21,7 +21,7 @@ fun TextView.rx_editorAction(consumed: Boolean): Observable<EditorActionListener
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnEditorActionListener(null)
         })
     }
@@ -30,10 +30,10 @@ fun TextView.rx_editorAction(consumed: Boolean): Observable<EditorActionListener
 fun TextView.rx_afterTextChanged(): Observable<Editable> {
     return Observable.create { subscriber ->
         _textChanged.afterTextChanged {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeTextChangedListener(_textChanged)
         })
     }
@@ -47,7 +47,7 @@ fun TextView.rx_beforeTextChanged(): Observable<BeforeTextChangedListener> {
             subscriber.onNext(BeforeTextChangedListener(charSequence, start, count, after))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeTextChangedListener(_textChanged)
         })
     }
@@ -61,7 +61,7 @@ fun TextView.rx_textChanged(): Observable<TextChangedListener> {
             subscriber.onNext(TextChangedListener(charSequence, start, count, after))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeTextChangedListener(_textChanged)
         })
     }

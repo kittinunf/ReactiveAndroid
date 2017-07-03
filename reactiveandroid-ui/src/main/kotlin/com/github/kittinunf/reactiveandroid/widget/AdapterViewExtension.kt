@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
-import rx.Observable
-import rx.Subscription
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 
 abstract class AdapterViewProxyAdapter<T> : BaseAdapter() {
 
@@ -20,7 +20,7 @@ abstract class AdapterViewProxyAdapter<T> : BaseAdapter() {
 
 fun <T> AdapterView<*>.rx_itemsWith(observable: Observable<List<T>>,
                                     getView: (Int, T, View?, ViewGroup?) -> View,
-                                    getItemId: ((Int, T) -> Long)? = null): Subscription {
+                                    getItemId: ((Int, T) -> Long)? = null): Disposable {
 
     val proxyAdapter = object : AdapterViewProxyAdapter<T>() {
 
@@ -33,7 +33,7 @@ fun <T> AdapterView<*>.rx_itemsWith(observable: Observable<List<T>>,
 }
 
 fun <T, U : AdapterViewProxyAdapter<T>> AdapterView<*>.rx_itemsWith(observable: Observable<List<T>>,
-                                              adapterViewProxyAdapter: U): Subscription {
+                                                                    adapterViewProxyAdapter: U): Disposable {
     adapter = adapterViewProxyAdapter
     return observable.subscribe {
         adapterViewProxyAdapter.items = it

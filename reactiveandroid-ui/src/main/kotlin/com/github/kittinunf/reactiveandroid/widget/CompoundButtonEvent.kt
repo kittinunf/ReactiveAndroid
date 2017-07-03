@@ -2,7 +2,7 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.widget.CompoundButton
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Event
@@ -16,7 +16,7 @@ fun CompoundButton.rx_checkedChange(): Observable<CompoundButtonCheckedChangeLis
             subscriber.onNext(CompoundButtonCheckedChangeListener(compoundButton, isChecked))
         }
         
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnCheckedChangeListener(null)
         })
     }

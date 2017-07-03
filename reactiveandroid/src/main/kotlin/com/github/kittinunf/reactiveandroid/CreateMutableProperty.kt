@@ -1,6 +1,6 @@
 package com.github.kittinunf.reactiveandroid
 
-import rx.Scheduler
+import io.reactivex.Scheduler
 
 inline fun <T> createMutableProperty(getter: () -> T, crossinline setter: (T) -> Unit, observeScheduler: Scheduler): MutableProperty<T> {
     return MutableProperty(getter()).apply {

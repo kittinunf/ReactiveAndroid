@@ -4,7 +4,7 @@ import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Event 
@@ -17,7 +17,7 @@ fun AutoCompleteTextView.rx_dismiss(): Observable<Unit> {
 
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnDismissListener(null)
         })
     }
@@ -29,7 +29,7 @@ fun AutoCompleteTextView.rx_itemClick(): Observable<ItemClickListener> {
             subscriber.onNext(ItemClickListener(parent, view, position, id))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             onItemClickListener = null
         })
     }
@@ -41,7 +41,7 @@ fun AutoCompleteTextView.rx_itemSelected(): Observable<ItemSelectedListener> {
             subscriber.onNext(ItemSelectedListener(adapterView, view, position, id))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             onItemSelectedListener = null
         })
     }
@@ -50,10 +50,10 @@ fun AutoCompleteTextView.rx_itemSelected(): Observable<ItemSelectedListener> {
 fun AutoCompleteTextView.rx_nothingSelected(): Observable<AdapterView<*>> {
     return Observable.create { subscriber ->
         _itemSelected.onNothingSelected {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             onItemSelectedListener = null
         })
     }

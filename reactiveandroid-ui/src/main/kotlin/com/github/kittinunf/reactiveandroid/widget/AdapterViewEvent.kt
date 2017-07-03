@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.AdapterView
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -18,7 +18,7 @@ fun AdapterView<*>.rx_itemClick(): Observable<ItemClickListener> {
             subscriber.onNext(ItemClickListener(adapterView, view, position, id))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnItemClickListener(null)
         })
     }
@@ -33,7 +33,7 @@ fun AdapterView<*>.rx_itemLongClick(consumed: Boolean): Observable<ItemLongClick
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnItemLongClickListener(null)
         })
     }
@@ -47,7 +47,7 @@ fun AdapterView<*>.rx_itemSelected(): Observable<ItemSelectedListener> {
             subscriber.onNext(ItemSelectedListener(adapterView, view, position, id))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             onItemSelectedListener = null
         })
     }
@@ -56,10 +56,10 @@ fun AdapterView<*>.rx_itemSelected(): Observable<ItemSelectedListener> {
 fun AdapterView<*>.rx_nothingSelected(): Observable<AdapterView<*>> {
     return Observable.create { subscriber ->
         _itemSelected.onNothingSelected {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             onItemSelectedListener = null
         })
     }

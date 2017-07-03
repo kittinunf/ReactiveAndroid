@@ -2,7 +2,7 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.widget.RadioGroup
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Event 
@@ -16,7 +16,7 @@ fun RadioGroup.rx_checkedChange(): Observable<RadioGroupCheckedChangeListener> {
             subscriber.onNext(RadioGroupCheckedChangeListener(radioGroup, checkedId))
         }
         
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnCheckedChangeListener(null)
         })
     }

@@ -4,7 +4,7 @@ import android.support.v4.widget.DrawerLayout
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -13,10 +13,10 @@ import rx.Observable
 fun DrawerLayout.rx_drawerClosed(): Observable<View> {
     return Observable.create { subscriber ->
         _drawer.onDrawerClosed {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeDrawerListener(_drawer)
         })
     }
@@ -28,7 +28,7 @@ fun DrawerLayout.rx_drawerStateChanged(): Observable<Int> {
             subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeDrawerListener(_drawer)
         })
     }
@@ -42,7 +42,7 @@ fun DrawerLayout.rx_drawerSlide(): Observable<DrawerSlideListener> {
             subscriber.onNext(DrawerSlideListener(view, offset))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeDrawerListener(_drawer)
         })
     }
@@ -51,10 +51,10 @@ fun DrawerLayout.rx_drawerSlide(): Observable<DrawerSlideListener> {
 fun DrawerLayout.rx_drawerOpened(): Observable<View> {
     return Observable.create { subscriber ->
         _drawer.onDrawerOpened {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeDrawerListener(_drawer)
         })
     }
