@@ -126,16 +126,16 @@ data class EditorActionEvent(val textView: TextView, val actionId: Int, val even
 private val TextView._editActionListener: _TextView_EditorActionListener
         by ExtensionFieldDelegate({ _TextView_EditorActionListener() }, { setOnEditorActionListener(it) })
 
-fun Reactive<TextView>.onEditorAction(consumed: Boolean = true): Observable<EditorActionEvent> {
-    return Observable.create { s ->
-        item._editActionListener.onEditorAction {
-            s.onNext(it)
-            consumed
+fun Reactive<TextView>.onEditorAction(consumed: Boolean = true): Observable<EditorActionEvent> =
+        Observable.create { s ->
+            item._editActionListener.onEditorAction {
+                s.onNext(it)
+                consumed
+            }
+
+            s.setDisposable(AndroidMainThreadDisposable({ item.setOnEditorActionListener(null) }))
         }
 
-        s.setDisposable(AndroidMainThreadDisposable({ item.setOnEditorActionListener(null) }))
-    }
-}
 
 private class _TextView_EditorActionListener : TextView.OnEditorActionListener {
 
@@ -145,7 +145,7 @@ private class _TextView_EditorActionListener : TextView.OnEditorActionListener {
             editorAction?.invoke(EditorActionEvent(p0, p1, p2)) ?: false
 
     fun onEditorAction(listener: ((EditorActionEvent) -> Boolean)) {
-        this.editorAction = listener
+        editorAction = listener
     }
 
 }
