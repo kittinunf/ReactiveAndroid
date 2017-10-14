@@ -36,12 +36,14 @@
                 android:id="@+id/userNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
                 android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword" />
 
             <ProgressBar

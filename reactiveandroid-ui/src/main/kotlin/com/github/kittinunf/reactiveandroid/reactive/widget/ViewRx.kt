@@ -13,7 +13,6 @@ var View.rx: Reactive<View> by FieldDelegate { Reactive(it) }
 fun Reactive<View>.click() = Observable.create<View> { emitter ->
 
     val listener = item._click
-
     listener.onClick {
         emitter.onNext(it)
     }

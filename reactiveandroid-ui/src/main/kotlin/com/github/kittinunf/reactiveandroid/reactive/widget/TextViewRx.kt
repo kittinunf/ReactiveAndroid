@@ -121,7 +121,7 @@ private class _TextView_TextChangedListener : TextWatcher {
 
 }
 
-data class EditorActionEvent(val textView: TextView, val actionId: Int, val event: KeyEvent)
+data class EditorActionEvent(val textView: TextView, val actionId: Int, val event: KeyEvent?)
 
 private val TextView._editActionListener: _TextView_EditorActionListener
         by ExtensionFieldDelegate({ _TextView_EditorActionListener() }, { setOnEditorActionListener(it) })
@@ -141,7 +141,7 @@ private class _TextView_EditorActionListener : TextView.OnEditorActionListener {
 
     private var editorAction: ((EditorActionEvent) -> Boolean)? = null
 
-    override fun onEditorAction(p0: TextView, p1: Int, p2: KeyEvent): Boolean =
+    override fun onEditorAction(p0: TextView, p1: Int, p2: KeyEvent?): Boolean =
             editorAction?.invoke(EditorActionEvent(p0, p1, p2)) ?: false
 
     fun onEditorAction(listener: ((EditorActionEvent) -> Boolean)) {
