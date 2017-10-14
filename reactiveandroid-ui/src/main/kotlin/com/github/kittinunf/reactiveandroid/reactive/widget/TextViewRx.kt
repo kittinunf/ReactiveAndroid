@@ -57,7 +57,7 @@ sealed class TextWatcherEvent {
     data class BeforeTextChanged(val s: CharSequence?, val start: Int, val count: Int, val after: Int) : TextWatcherEvent()
 }
 
-fun Reactive<TextView>.onTextChanged() = textWatcher().ofType<TextWatcherEvent.OnTextChanged>()
+fun Reactive<TextView>.textChanged() = textWatcher().ofType<TextWatcherEvent.OnTextChanged>()
 
 fun Reactive<TextView>.beforeTextChanged() = textWatcher().ofType<TextWatcherEvent.BeforeTextChanged>()
 
