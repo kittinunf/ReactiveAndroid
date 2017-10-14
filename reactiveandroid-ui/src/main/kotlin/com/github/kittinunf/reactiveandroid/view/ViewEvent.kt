@@ -7,12 +7,20 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
+import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
+import com.github.kittinunf.reactiveandroid.reactive.Reactive
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import io.reactivex.Observable
+import io.reactivex.functions.Consumer
 
-//================================================================================
-// Events
-//================================================================================
+//Properties
+
+val Reactive<View>.enabled: Consumer<Boolean>
+    get() = AndroidBindingConsumer(item, binder = { item, isEnabled ->
+        item.isEnabled = isEnabled
+    })
+
+//Listeners
 
 fun View.rx_click(): Observable<View> {
     return Observable.create { subscriber ->
