@@ -29,4 +29,4 @@ cache:
 
 script:
   - ./gradlew test
-  - ./gradlew spoon
+  - ./gradlew spoon --info
