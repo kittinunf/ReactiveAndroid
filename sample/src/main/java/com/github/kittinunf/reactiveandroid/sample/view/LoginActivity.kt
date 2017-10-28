@@ -2,8 +2,10 @@ package com.github.kittinunf.reactiveandroid.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import com.github.kittinunf.reactiveandroid.helper.Observables
 import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.reactive.view.click
 import com.github.kittinunf.reactiveandroid.reactive.view.enabled
@@ -12,12 +14,14 @@ import com.github.kittinunf.reactiveandroid.reactive.widget.rx
 import com.github.kittinunf.reactiveandroid.reactive.widget.textChanged
 import com.github.kittinunf.reactiveandroid.sample.R
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
+import kotlinx.android.synthetic.main.activity_login.loadingProgressBar
 import kotlinx.android.synthetic.main.activity_login.loginButton
 import kotlinx.android.synthetic.main.activity_login.passwordEditText
 import kotlinx.android.synthetic.main.activity_login.titleTextView
 import kotlinx.android.synthetic.main.activity_login.userNameEditText
+import java.util.concurrent.TimeUnit
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,23 +32,31 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         titleTextView.text = javaClass.simpleName
 
-        val loginValid = Observable.combineLatest(
+        val loginValid = Observables.combineLatest(
                 userNameEditText.rx.textChanged().map { it.s.toString() },
-                passwordEditText.rx.textChanged().map { it.s.toString() },
-                BiFunction { username: String, password: String ->
-                    username.isNotEmpty() && password.isNotEmpty()
-                })
+                passwordEditText.rx.textChanged().map { it.s.toString() }) { username, password ->
+            username.isNotEmpty() && password.isNotEmpty()
+        }
 
         val loginSubmit = Observable.merge(
                 passwordEditText.rx.onEditorAction(true).filter { it.actionId == EditorInfo.IME_ACTION_DONE }.map { Unit },
                 loginButton.rx.click().map { Unit })
 
-        loginValid.subscribe(loginButton.rx.enabled).addTo(disposables)
+        loginValid.subscribe(loginButton.rx.enabled)
+                .addTo(disposables)
 
-        loginSubmit.subscribe {
-            Toast.makeText(this, "Submit Login", Toast.LENGTH_SHORT).show()
-        }.addTo(disposables)
+        loginSubmit
+                .doOnNext { loadingProgressBar.visibility = View.VISIBLE }
+                .flatMap { fakeNetwork() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { loadingProgressBar.visibility = View.GONE }
+                .subscribe { Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show() }
+                .addTo(disposables)
+    }
 
+    private fun fakeNetwork(): Observable<Boolean> {
+        return Observable.just(true)
+                .delay(500, TimeUnit.MILLISECONDS)
     }
 
     override fun onDestroy() {
