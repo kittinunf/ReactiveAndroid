@@ -15,7 +15,7 @@ class PropertyTest {
             result = it
         }
 
-        assertThat(result, isEqualTo(43))
+        assertThat(result, isEqualTo(42))
     }
 
     @Test
