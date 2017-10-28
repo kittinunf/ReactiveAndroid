@@ -7,7 +7,6 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import com.github.kittinunf.reactiveandroid.reactive.widget.*
 import com.github.kittinunf.reactiveandroid.widget.TextViewTestActivity
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.equalTo
@@ -15,7 +14,6 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @RunWith(AndroidJUnit4::class)
 class TextViewTest {
