@@ -15,7 +15,7 @@ import com.github.kittinunf.reactiveandroid.reactive.ofType
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 
-var TextView.rx: Reactive<TextView> by FieldDelegate { Reactive(it) }
+val TextView.rx: Reactive<TextView> by FieldDelegate { Reactive(it) }
 
 //Properties
 

@@ -1,14 +1,23 @@
-package com.github.kittinunf.reactiveandroid.reactive.widget
+package com.github.kittinunf.reactiveandroid.reactive.view
 
 import android.view.DragEvent
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.FieldDelegate
 import com.github.kittinunf.reactiveandroid.internal.AndroidMainThreadDisposable
+import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
 import com.github.kittinunf.reactiveandroid.reactive.Reactive
 import io.reactivex.Observable
+import io.reactivex.functions.Consumer
 
-var View.rx: Reactive<View> by FieldDelegate { Reactive(it) }
+val View.rx: Reactive<View> by FieldDelegate { Reactive(it) }
+
+//Properties
+
+val Reactive<View>.enabled: Consumer<Boolean>
+    get() = AndroidBindingConsumer(item, binder = { item, isEnabled ->
+        item.isEnabled = isEnabled
+    })
 
 fun Reactive<View>.click() = Observable.create<View> { emitter ->
 

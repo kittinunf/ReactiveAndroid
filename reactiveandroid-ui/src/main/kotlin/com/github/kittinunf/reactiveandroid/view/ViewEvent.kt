@@ -15,10 +15,6 @@ import io.reactivex.functions.Consumer
 
 //Properties
 
-val Reactive<View>.enabled: Consumer<Boolean>
-    get() = AndroidBindingConsumer(item, binder = { item, isEnabled ->
-        item.isEnabled = isEnabled
-    })
 
 //Listeners
 

@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.github.kittinunf.reactiveandroid.reactive.addTo
-import com.github.kittinunf.reactiveandroid.reactive.widget.click
+import com.github.kittinunf.reactiveandroid.reactive.view.click
 import com.github.kittinunf.reactiveandroid.reactive.widget.onEditorAction
-import com.github.kittinunf.reactiveandroid.reactive.widget.rx
+import com.github.kittinunf.reactiveandroid.reactive.view.rx
 import com.github.kittinunf.reactiveandroid.reactive.widget.textChanged
 
 import com.github.kittinunf.reactiveandroid.sample.R
