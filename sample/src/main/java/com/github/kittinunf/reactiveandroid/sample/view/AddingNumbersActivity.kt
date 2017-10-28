@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.github.kittinunf.reactiveandroid.helper.Observables
 import com.github.kittinunf.reactiveandroid.reactive.addTo
-import com.github.kittinunf.reactiveandroid.reactive.view.rx
+import com.github.kittinunf.reactiveandroid.reactive.widget.rx
 import com.github.kittinunf.reactiveandroid.reactive.widget.text
 import com.github.kittinunf.reactiveandroid.reactive.widget.textChanged
 import com.github.kittinunf.reactiveandroid.sample.R

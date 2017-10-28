@@ -1,21 +1,23 @@
 package com.github.kittinunf.reactiveandroid.sample.view
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.reactive.view.click
+import com.github.kittinunf.reactiveandroid.reactive.view.enabled
 import com.github.kittinunf.reactiveandroid.reactive.widget.onEditorAction
-import com.github.kittinunf.reactiveandroid.reactive.view.rx
+import com.github.kittinunf.reactiveandroid.reactive.widget.rx
 import com.github.kittinunf.reactiveandroid.reactive.widget.textChanged
-
 import com.github.kittinunf.reactiveandroid.sample.R
-import com.github.kittinunf.reactiveandroid.view.enabled
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.loginButton
+import kotlinx.android.synthetic.main.activity_login.passwordEditText
+import kotlinx.android.synthetic.main.activity_login.titleTextView
+import kotlinx.android.synthetic.main.activity_login.userNameEditText
 
 class LoginActivity : AppCompatActivity() {
 
