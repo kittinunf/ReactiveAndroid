@@ -6,7 +6,6 @@ import com.github.kittinunf.reactiveandroid.helper.Observables
 import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.reactive.widget.rx
 import com.github.kittinunf.reactiveandroid.reactive.widget.text
-import com.github.kittinunf.reactiveandroid.reactive.widget.textChanged
 import com.github.kittinunf.reactiveandroid.sample.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -25,9 +24,9 @@ class AddingNumbersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_adding_numbers)
 
         Observables.combineLatest(
-                number1.rx.textChanged().map { it.s.toString().toIntOrNull() ?: 0 },
-                number2.rx.textChanged().map { it.s.toString().toIntOrNull() ?: 0 },
-                number3.rx.textChanged().map { it.s.toString().toIntOrNull() ?: 0 }) { n1, n2, n3 -> (n1 + n2 + n3).toString() }
+                number1.rx.text().map { it.toString().toIntOrNull() ?: 0 },
+                number2.rx.text().map { it.toString().toIntOrNull() ?: 0 },
+                number3.rx.text().map { it.toString().toIntOrNull() ?: 0 }) { n1, n2, n3 -> (n1 + n2 + n3).toString() }
                 .observeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(result.rx.text)
