@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.widget.TextView
-import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.FieldDelegate
 import com.github.kittinunf.reactiveandroid.internal.AndroidMainThreadDisposable
 import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
@@ -57,6 +56,8 @@ sealed class TextWatcherEvent {
     data class BeforeTextChanged(val s: CharSequence?, val start: Int, val count: Int, val after: Int) : TextWatcherEvent()
 }
 
+fun Reactive<TextView>.text() = textWatcher().ofType<TextWatcherEvent.OnTextChanged>().map { it.s ?: "" }
+
 fun Reactive<TextView>.textChanged() = textWatcher().ofType<TextWatcherEvent.OnTextChanged>()
 
 fun Reactive<TextView>.beforeTextChanged() = textWatcher().ofType<TextWatcherEvent.BeforeTextChanged>()
@@ -65,87 +66,34 @@ fun Reactive<TextView>.afterTextChanged() = textWatcher().ofType<TextWatcherEven
 
 private fun Reactive<TextView>.textWatcher(): Observable<TextWatcherEvent> =
         Observable.create<TextWatcherEvent> { emitter ->
-            emitter.onNext(TextWatcherEvent.OnTextChanged(item.text, 0, 0, 0))
-            val listener = item._textChanged
-
-            listener.apply {
-                afterTextChanged {
-                    emitter.onNext(TextWatcherEvent.AfterTextChanged(it))
-                }
-                beforeTextChanged { charSequence, start, before, count ->
-                    emitter.onNext(TextWatcherEvent.BeforeTextChanged(charSequence, start, before, count))
+            val listener = object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    emitter.onNext(TextWatcherEvent.AfterTextChanged(s))
                 }
 
-                onTextChanged { charSequence, start, count, after ->
-                    emitter.onNext(TextWatcherEvent.OnTextChanged(charSequence, start, count, after))
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    emitter.onNext(TextWatcherEvent.BeforeTextChanged(s, start, count, after))
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    emitter.onNext(TextWatcherEvent.OnTextChanged(s, start, before, count))
                 }
             }
 
-            emitter.setDisposable(AndroidMainThreadDisposable({ item.removeTextChangedListener(listener) }))
-        }.share()
+            item.addTextChangedListener(listener)
 
-private val TextView._textChanged: _TextView_TextChangedListener
-        by ExtensionFieldDelegate({ _TextView_TextChangedListener() }, { addTextChangedListener(it) })
-
-private class _TextView_TextChangedListener : TextWatcher {
-
-    private var afterTextChanged: ((Editable?) -> Unit)? = null
-
-    private var beforeTextChanged: ((CharSequence?, Int, Int, Int) -> Unit)? = null
-
-    private var onTextChanged: ((CharSequence?, Int, Int, Int) -> Unit)? = null
-
-    override fun afterTextChanged(s: Editable?) {
-        afterTextChanged?.invoke(s)
-    }
-
-    fun afterTextChanged(listener: ((Editable?) -> Unit)) {
-        afterTextChanged = listener
-    }
-
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        beforeTextChanged?.invoke(s, start, count, after)
-    }
-
-    fun beforeTextChanged(listener: (CharSequence?, Int, Int, Int) -> Unit) {
-        beforeTextChanged = listener
-    }
-
-    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        onTextChanged?.invoke(s, start, before, count)
-    }
-
-    fun onTextChanged(listener: (CharSequence?, Int, Int, Int) -> Unit) {
-        onTextChanged = listener
-    }
-
-}
+            emitter.setDisposable(AndroidMainThreadDisposable { item.removeTextChangedListener(listener) })
+        }.startWith(TextWatcherEvent.OnTextChanged(item.text, 0, 0, 0))
 
 data class EditorActionEvent(val textView: TextView, val actionId: Int, val event: KeyEvent?)
 
-private val TextView._editActionListener: _TextView_EditorActionListener
-        by ExtensionFieldDelegate({ _TextView_EditorActionListener() }, { setOnEditorActionListener(it) })
-
 fun Reactive<TextView>.onEditorAction(consumed: Boolean = true): Observable<EditorActionEvent> =
-        Observable.create { s ->
-            item._editActionListener.onEditorAction {
-                s.onNext(it)
+        Observable.create { emitter ->
+            item.setOnEditorActionListener { textView, actionId, keyEvent ->
+                emitter.onNext(EditorActionEvent(textView, actionId, keyEvent))
+
                 consumed
             }
 
-            s.setDisposable(AndroidMainThreadDisposable({ item.setOnEditorActionListener(null) }))
+            emitter.setDisposable(AndroidMainThreadDisposable { item.setOnEditorActionListener(null) })
         }
-
-
-private class _TextView_EditorActionListener : TextView.OnEditorActionListener {
-
-    private var editorAction: ((EditorActionEvent) -> Boolean)? = null
-
-    override fun onEditorAction(p0: TextView, p1: Int, p2: KeyEvent?): Boolean =
-            editorAction?.invoke(EditorActionEvent(p0, p1, p2)) ?: false
-
-    fun onEditorAction(listener: ((EditorActionEvent) -> Boolean)) {
-        editorAction = listener
-    }
-
-}

@@ -2,6 +2,7 @@ package com.github.kittinunf.reactiveandroid.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
@@ -11,7 +12,7 @@ import com.github.kittinunf.reactiveandroid.reactive.view.click
 import com.github.kittinunf.reactiveandroid.reactive.view.enabled
 import com.github.kittinunf.reactiveandroid.reactive.widget.onEditorAction
 import com.github.kittinunf.reactiveandroid.reactive.widget.rx
-import com.github.kittinunf.reactiveandroid.reactive.widget.textChanged
+import com.github.kittinunf.reactiveandroid.reactive.widget.text
 import com.github.kittinunf.reactiveandroid.sample.R
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -33,8 +34,8 @@ class LoginActivity : AppCompatActivity() {
         titleTextView.text = javaClass.simpleName
 
         val loginValid = Observables.combineLatest(
-                userNameEditText.rx.textChanged().map { it.s.toString() },
-                passwordEditText.rx.textChanged().map { it.s.toString() }) { username, password ->
+                userNameEditText.rx.text(),
+                passwordEditText.rx.text()) { username, password ->
             username.isNotEmpty() && password.isNotEmpty()
         }
 
@@ -52,6 +53,10 @@ class LoginActivity : AppCompatActivity() {
                 .doOnNext { loadingProgressBar.visibility = View.GONE }
                 .subscribe { Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show() }
                 .addTo(disposables)
+
+        userNameEditText.rx.onEditorAction().mergeWith(passwordEditText.rx.onEditorAction()).subscribe {
+            Log.d(javaClass.simpleName, it.toString())
+        }
     }
 
     private fun fakeNetwork(): Observable<Boolean> {

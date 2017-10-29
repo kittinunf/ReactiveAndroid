@@ -7,6 +7,7 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import android.view.inputmethod.EditorInfo
 import com.github.kittinunf.reactiveandroid.widget.TextViewTestActivity
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.equalTo
@@ -77,7 +78,7 @@ class TextViewTest {
 
     @Test
     @UiThreadTest
-    fun onTextChanged() {
+    fun textChanged() {
         val view = activityRule.activity.textView
         val test = view.rx.textChanged().test()
 
@@ -111,6 +112,22 @@ class TextViewTest {
         assertThat(test.values()[3].start, equalTo(0))
         assertThat(test.values()[3].before, equalTo(2))
         assertThat(test.values()[3].count, equalTo(3))
+    }
+
+    @Test
+    @UiThreadTest
+    fun editorAction() {
+        val view = activityRule.activity.textView
+        val test = view.rx.onEditorAction().test()
+
+        view.text = "h"
+        view.onEditorAction(EditorInfo.IME_ACTION_NEXT)
+
+        view.text = "he"
+        view.onEditorAction(EditorInfo.IME_ACTION_DONE)
+
+        test.assertValueCount(2)
+        test.assertNoErrors()
     }
 
     @Test
