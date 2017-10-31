@@ -10,6 +10,8 @@ import com.github.kittinunf.reactiveandroid.helper.Observables
 import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.reactive.view.click
 import com.github.kittinunf.reactiveandroid.reactive.view.enabled
+import com.github.kittinunf.reactiveandroid.reactive.view.rx
+import com.github.kittinunf.reactiveandroid.reactive.view.visibility
 import com.github.kittinunf.reactiveandroid.reactive.widget.onEditorAction
 import com.github.kittinunf.reactiveandroid.reactive.widget.rx
 import com.github.kittinunf.reactiveandroid.reactive.widget.text
@@ -47,16 +49,19 @@ class LoginActivity : AppCompatActivity() {
                 .addTo(disposables)
 
         loginSubmit
-                .doOnNext { loadingProgressBar.visibility = View.VISIBLE }
+                .map { View.VISIBLE }
+                .doOnNext(loadingProgressBar.rx.visibility)
                 .flatMap { fakeNetwork() }
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { loadingProgressBar.visibility = View.GONE }
+                .map { View.GONE }
+                .doOnNext(loadingProgressBar.rx.visibility)
                 .subscribe { Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show() }
                 .addTo(disposables)
 
-        userNameEditText.rx.onEditorAction().mergeWith(passwordEditText.rx.onEditorAction()).subscribe {
-            Log.d(javaClass.simpleName, it.toString())
-        }
+        userNameEditText.rx.onEditorAction()
+                .mergeWith(passwordEditText.rx.onEditorAction())
+                .subscribe { Log.d(javaClass.simpleName, it.toString()) }
+                .addTo(disposables)
     }
 
     private fun fakeNetwork(): Observable<Boolean> {

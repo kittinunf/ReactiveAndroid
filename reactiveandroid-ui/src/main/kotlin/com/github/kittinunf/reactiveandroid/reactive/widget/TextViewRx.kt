@@ -19,34 +19,34 @@ val TextView.rx: Reactive<TextView> by FieldDelegate { Reactive(it) }
 //Properties
 
 val Reactive<TextView>.text: Consumer<CharSequence>
-    get() = AndroidBindingConsumer(item, binder = { item, text ->
+    get() = AndroidBindingConsumer(item) { item, text ->
         item.text = text
-    })
+    }
 
 val Reactive<TextView>.error: Consumer<CharSequence>
-    get() = AndroidBindingConsumer(item, binder = { item, error ->
+    get() = AndroidBindingConsumer(item) { item, error ->
         item.error = error
-    })
+    }
 
 val Reactive<TextView>.hint: Consumer<CharSequence>
-    get() = AndroidBindingConsumer(item, binder = { item, hint ->
+    get() = AndroidBindingConsumer(item) { item, hint ->
         item.hint = hint
-    })
+    }
 
 val Reactive<TextView>.textColor: Consumer<Int>
-    get() = AndroidBindingConsumer(item, binder = { item, color ->
+    get() = AndroidBindingConsumer(item) { item, color ->
         item.setTextColor(color)
-    })
+    }
 
 val Reactive<TextView>.textColors: Consumer<ColorStateList>
-    get() = AndroidBindingConsumer(item, binder = { item, colors ->
+    get() = AndroidBindingConsumer(item) { item, colors ->
         item.setTextColor(colors)
-    })
+    }
 
 val Reactive<TextView>.typeface: Consumer<Typeface>
-    get() = AndroidBindingConsumer(item, binder = { item, typeface ->
+    get() = AndroidBindingConsumer(item) { item, typeface ->
         item.typeface = typeface
-    })
+    }
 
 //Listeners
 
