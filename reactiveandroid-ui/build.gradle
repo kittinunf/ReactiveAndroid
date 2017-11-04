@@ -47,7 +47,7 @@ dependencies {
 
     compile project(':reactiveandroid')
 
-    compile parent.ext.reactivexRxAndroid
+    compile parent.ext.reactivexRxAndroid2
     compile parent.ext.androidSupportAnnotation
 
     androidTestCompile parent.ext.androidSupportV4

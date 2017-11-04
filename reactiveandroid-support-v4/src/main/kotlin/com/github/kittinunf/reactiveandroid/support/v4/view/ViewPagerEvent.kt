@@ -3,7 +3,7 @@ package com.github.kittinunf.reactiveandroid.support.v4.view
 import android.support.v4.view.ViewPager
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -15,7 +15,7 @@ fun ViewPager.rx_pageScrollStateChanged(): Observable<Int> {
             subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnPageChangeListener(_pageChange)
         })
     }
@@ -29,7 +29,7 @@ fun ViewPager.rx_pageScrolled(): Observable<PageScrolledListener> {
             subscriber.onNext(PageScrolledListener(position, positionOffset, positionOffsetPixels))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnPageChangeListener(_pageChange)
         })
     }
@@ -41,7 +41,7 @@ fun ViewPager.rx_pageSelected(): Observable<Int> {
             subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnPageChangeListener(_pageChange)
         })
     }

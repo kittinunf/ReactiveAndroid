@@ -50,8 +50,6 @@ dependencies {
     compile parent.ext.androidSupportRecyclerView
     compile parent.ext.androidSupportCardView
 
-    compile parent.ext.diffUtils
-
     testCompile parent.ext.junit
     testCompile parent.ext.robolectric
 }

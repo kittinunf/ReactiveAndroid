@@ -2,7 +2,7 @@ package com.github.kittinunf.reactiveandroid.widget
 
 import android.widget.CalendarView
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -16,7 +16,7 @@ fun CalendarView.rx_dateChange(): Observable<DateChangeListener> {
             subscriber.onNext(DateChangeListener(view, year, month, dayOfMonth))
         }
         
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnDateChangeListener(null)
         })
     }

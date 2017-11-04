@@ -1,11 +1,10 @@
 package com.github.kittinunf.reactiveandroid
 
-import com.github.kittinunf.reactiveandroid.rx.plusAssign
-import rx.Observable
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 
 interface PropertyType<T> {
 
@@ -13,7 +12,7 @@ interface PropertyType<T> {
 
     val observable: Observable<T>
 
-    fun subscribe(observer: Observer<T>) = observable.subscribe(observer)
+    fun subscribe(observer: Observer<T>) = observable.subscribeWith(observer)
 
     fun subscribe(onNext: (T) -> Unit) = observable.subscribe(onNext)
 
@@ -48,18 +47,18 @@ class Property<T>(init: T) : PropertyType<T> {
             field
         }
 
-    private val sink = BehaviorSubject.create<T>(init)
+    private val sink = BehaviorSubject.createDefault<T>(init)
 
-    private val subscriptions = CompositeSubscription()
+    private val compositeDisposable = CompositeDisposable()
 
     constructor(propertyType: PropertyType<T>) : this(propertyType.value!!) {
-        subscriptions += propertyType.observable.subscribe({
+        compositeDisposable.add(propertyType.observable.subscribe({
             _value = it
         }, {
             throw UnsupportedOperationException("Property doesn't support onError")
         }, {
-            subscriptions.unsubscribe()
-        })
+            compositeDisposable.dispose()
+        }))
     }
 
 }
@@ -75,18 +74,18 @@ class MutableProperty<T>(init: T?) : MutablePropertyType<T> {
         get() = synchronized(this) { field }
         set(value) {
             field = synchronized(this) {
-                sink.onNext(value)
+                if (value != null) sink.onNext(value)
                 value
             }
         }
 
-    private val sink = BehaviorSubject.create<T>(init)
+    private val sink = if (init == null) BehaviorSubject.create<T>() else BehaviorSubject.createDefault(init)
 
     fun bindTo(observable: Observable<T>) = bind(observable)
 
     fun bindTo(propertyType: PropertyType<T>) = bind(propertyType.observable)
 
-    private fun bind(observable: Observable<T>): Subscription {
+    private fun bind(observable: Observable<T>): Disposable {
         return observable.subscribe({
             value = it
         }, {
@@ -97,4 +96,3 @@ class MutableProperty<T>(init: T?) : MutablePropertyType<T> {
     }
 
 }
-

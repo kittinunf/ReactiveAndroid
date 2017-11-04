@@ -4,7 +4,7 @@ import android.support.v4.widget.SlidingPaneLayout
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events 
@@ -18,7 +18,7 @@ fun SlidingPaneLayout.rx_panelSlide(): Observable<PanelSlideListener> {
             subscriber.onNext(PanelSlideListener(view, offset))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setPanelSlideListener(null)
         })
     }
@@ -27,10 +27,10 @@ fun SlidingPaneLayout.rx_panelSlide(): Observable<PanelSlideListener> {
 fun SlidingPaneLayout.rx_panelOpened(): Observable<View> {
     return Observable.create { subscriber ->
         _panelSlide.onPanelOpened {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setPanelSlideListener(null)
         })
     }
@@ -39,10 +39,10 @@ fun SlidingPaneLayout.rx_panelOpened(): Observable<View> {
 fun SlidingPaneLayout.rx_panelClosed(): Observable<View> {
     return Observable.create { subscriber ->
         _panelSlide.onPanelClosed {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setPanelSlideListener(null)
         })
     }

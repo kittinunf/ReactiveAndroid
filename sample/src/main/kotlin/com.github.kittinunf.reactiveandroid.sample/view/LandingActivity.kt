@@ -7,26 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.kittinunf.reactiveandroid.Property
-import com.github.kittinunf.reactiveandroid.rx.addTo
-import com.github.kittinunf.reactiveandroid.rx.bindTo
+import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.view.rx_click
 import com.github.kittinunf.reactiveandroid.widget.AdapterViewProxyAdapter
 import com.github.kittinunf.reactiveandroid.widget.rx_itemsWith
-import com.github.kittinunf.reactiveandroid.widget.rx_text
-import kotlinx.android.synthetic.main.activity_landing.*
-import kotlinx.android.synthetic.main.spinner_item.view.*
-import kotlinx.android.synthetic.main.spinner_item_dropdown.view.*
-import rx.Observable
-import rx.schedulers.Schedulers
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_landing.toFragmentPagerButton
+import kotlinx.android.synthetic.main.activity_landing.toListPageButton
+import kotlinx.android.synthetic.main.activity_landing.toNestedListButton
+import kotlinx.android.synthetic.main.activity_landing.toSectionListPageButton
+import kotlinx.android.synthetic.main.activity_landing.toSignInPageButton
+import kotlinx.android.synthetic.main.activity_landing.toSignUpPageButton
+import kotlinx.android.synthetic.main.activity_landing.toolbar
+import kotlinx.android.synthetic.main.activity_landing.toolbarSpinner
+import kotlinx.android.synthetic.main.spinner_item.view.spinnerTextView
+import kotlinx.android.synthetic.main.spinner_item_dropdown.view.spinnerTextViewDropdown
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 class LandingActivity : AppCompatActivity() {
 
-    val subscriptions = CompositeSubscription()
+    val subscriptions = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +43,7 @@ class LandingActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        subscriptions.unsubscribe()
+        subscriptions.dispose()
     }
 
     private fun setUpToolbar() {
@@ -50,20 +55,20 @@ class LandingActivity : AppCompatActivity() {
     }
 
     private fun setUpButtons() {
-        toSignInPageButton.rx_click().map { SignInActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
-        toSignUpPageButton.rx_click().map { SignUpActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
-        toListPageButton.rx_click().map { RecyclerViewActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
-        toSectionListPageButton.rx_click().map { SectionRecyclerViewActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
-        toFragmentPagerButton.rx_click().map { FragmentPagerActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
-        toNestedListButton.rx_click().map { NestedRecyclerViewActivity::class }.bindTo(this, LandingActivity::start).addTo(subscriptions)
+        toSignInPageButton.rx_click().map { SignInActivity::class }.subscribe(this::start).addTo(subscriptions)
+        toSignUpPageButton.rx_click().map { SignUpActivity::class }.subscribe(this::start).addTo(subscriptions)
+        toListPageButton.rx_click().map { RecyclerViewActivity::class }.subscribe(this::start).addTo(subscriptions)
+        toSectionListPageButton.rx_click().map { SectionRecyclerViewActivity::class }.subscribe(this::start).addTo(subscriptions)
+        toFragmentPagerButton.rx_click().map { FragmentPagerActivity::class }.subscribe { start(it) }.addTo(subscriptions)
+        toNestedListButton.rx_click().map { NestedRecyclerViewActivity::class }.subscribe { start(it) }.addTo(subscriptions)
     }
 
     private fun setUpTextView() {
         Observable.interval(5, TimeUnit.SECONDS, Schedulers.computation())
                 .map(Long::toString)
                 .observeOn(AndroidThreadScheduler.main)
-                .bindTo(resultTextView.rx_text)
-                .addTo(subscriptions)
+//                .bindTo(resultTextView.rx_text)
+//                .addTo(subscriptions)
     }
 
     fun start(clazz: KClass<*>) {

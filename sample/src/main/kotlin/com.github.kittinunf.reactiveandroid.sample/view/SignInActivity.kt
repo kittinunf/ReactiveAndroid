@@ -1,28 +1,21 @@
 package com.github.kittinunf.reactiveandroid.sample.view
 
+//import com.github.kittinunf.reactiveandroid.widget.rx_afterTextChanged
+//import com.github.kittinunf.reactiveandroid.widget.rx_text
+//import com.github.kittinunf.reactiveandroid.widget.rx_textChanged
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.View
 import android.widget.Toast
-import com.github.kittinunf.reactiveandroid.rx.addTo
-import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignInViewAction
-import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignInViewModel
-import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
-import com.github.kittinunf.reactiveandroid.view.rx_visibility
-import com.github.kittinunf.reactiveandroid.widget.rx_afterTextChanged
-import com.github.kittinunf.reactiveandroid.widget.rx_text
-import com.github.kittinunf.reactiveandroid.widget.rx_textChanged
-import kotlinx.android.synthetic.main.activity_sign_in.*
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_sign_in.titleTextView
 
 class SignInActivity : AppCompatActivity(), SignInViewAction {
 
-    val subscriptions = CompositeSubscription()
+    val subscriptions = CompositeDisposable()
 
-    val viewModel by lazy(LazyThreadSafetyMode.NONE) { SignInViewModel(this) }
+//    val viewModel by lazy(LazyThreadSafetyMode.NONE) { SignInViewModel(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,42 +25,42 @@ class SignInActivity : AppCompatActivity(), SignInViewAction {
         titleTextView.text = javaClass.simpleName
 
         //button
-        viewModel.signInAction.apply {
-            values.observeOn(AndroidThreadScheduler.main)
-                    .map { "Yey! Sign In successfully" }
-                    .bindTo(this@SignInActivity, SignInActivity::handleSuccess)
-                    .addTo(subscriptions)
+//        viewModel.signInAction.apply {
+//            values.observeOn(AndroidThreadScheduler.main)
+//                    .map { "Yey! Sign In successfully" }
+//                    .bindTo(this@SignInActivity, SignInActivity::handleSuccess)
+//                    .addTo(subscriptions)
 
-            errors.observeOn(AndroidThreadScheduler.main)
-                    .bindTo(this@SignInActivity, SignInActivity::handleFailure)
-                    .addTo(subscriptions)
-        }
+//            errors.observeOn(AndroidThreadScheduler.main)
+//                    .bindTo(this@SignInActivity, SignInActivity::handleFailure)
+//                    .addTo(subscriptions)
+//        }
 //        signInButton.rx_applyAction(viewModel.signInAction).addTo(subscriptions)
 
         //progressBar
-        loadingProgressBar.rx_visibility.bindTo(viewModel.signInAction.executing.map { if (it) View.VISIBLE else View.INVISIBLE }).addTo(subscriptions)
+//        loadingProgressBar.rx_visibility.bindTo(viewModel.signInAction.executing.map { if (it) View.VISIBLE else View.INVISIBLE }).addTo(subscriptions)
 
-        userNameEditText.rx_textChanged().subscribe {
-            Log.e(javaClass.simpleName, "typing username ...")
-        }.addTo(subscriptions)
+//        userNameEditText.rx_textChanged().subscribe {
+//            Log.e(javaClass.simpleName, "typing username ...")
+//        }.addTo(subscriptions)
 
-        passwordEditText.rx_textChanged().subscribe {
-            Log.e(javaClass.simpleName, "typing password ...")
-        }.addTo(subscriptions)
+//        passwordEditText.rx_textChanged().subscribe {
+//            Log.e(javaClass.simpleName, "typing password ...")
+//        }.addTo(subscriptions)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        subscriptions.unsubscribe()
+        subscriptions.dispose()
     }
 
-    override fun usernameObservable() = userNameEditText.rx_afterTextChanged().map { it.toString() }
+//    override fun usernameObservable() = userNameEditText.rx_afterTextChanged().map { it.toString() }
 
-    override fun passwordObservable() = passwordEditText.rx_afterTextChanged().map { it.toString() }
+//    override fun passwordObservable() = passwordEditText.rx_afterTextChanged().map { it.toString() }
 
-    override fun username() = userNameEditText.rx_text
+//    override fun username() = userNameEditText.rx_text
 
-    override fun password() = passwordEditText.rx_text
+//    override fun password() = passwordEditText.rx_text
 
     fun handleSuccess(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

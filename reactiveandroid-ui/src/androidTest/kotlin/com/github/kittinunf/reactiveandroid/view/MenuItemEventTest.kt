@@ -5,12 +5,12 @@ import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.MenuItem
+import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
 class MenuItemEventTest {
@@ -26,8 +26,8 @@ class MenuItemEventTest {
     @Test
     @UiThreadTest
     fun testClick() {
-        val t = TestSubscriber<MenuItem>()
-        val s = menuItem.rx_menuItemClick(true).subscribe(t)
+        val t = TestObserver<MenuItem>()
+        val s = menuItem.rx_menuItemClick(true).subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
@@ -35,10 +35,10 @@ class MenuItemEventTest {
         menuItem.performClick()
 
         t.assertValueCount(1)
-        val item = t.onNextEvents.first()
+        val item = t.values().first()
         assertThat(item, equalTo(menuItem as MenuItem))
 
-        s.unsubscribe()
+        s.dispose()
 
         menuItem.performClick()
         t.assertValueCount(1)
@@ -47,11 +47,11 @@ class MenuItemEventTest {
     @Test
     @UiThreadTest
     fun testExpandedCollapsed() {
-        val t1 = TestSubscriber<MenuItem>()
-        val t2 = TestSubscriber<MenuItem>()
+        val t1 = TestObserver<MenuItem>()
+        val t2 = TestObserver<MenuItem>()
 
-        val s1 = menuItem.rx_actionExpand(true).subscribe(t1)
-        val s2 = menuItem.rx_actionCollapse(true).subscribe(t2)
+        val s1 = menuItem.rx_actionExpand(true).subscribeWith(t1)
+        val s2 = menuItem.rx_actionCollapse(true).subscribeWith(t2)
 
         t1.assertNoErrors()
         t1.assertNoValues()
@@ -63,22 +63,22 @@ class MenuItemEventTest {
         t1.assertValueCount(1)
         t2.assertValueCount(0)
 
-        val item = t1.onNextEvents.first()
+        val item = t1.values().first()
         assertThat(item, equalTo(menuItem as MenuItem))
 
         menuItem.collapseActionView()
         t1.assertValueCount(1)
         t2.assertValueCount(1)
 
-        val anotherItem = t2.onNextEvents.first()
+        val anotherItem = t2.values().first()
         assertThat(anotherItem, equalTo(menuItem as MenuItem))
 
-        s1.unsubscribe()
+        s1.dispose()
 
         menuItem.expandActionView()
         t1.assertValueCount(1)
 
-        s2.unsubscribe()
+        s2.dispose()
 
         menuItem.collapseActionView()
         t2.assertValueCount(1)

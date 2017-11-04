@@ -4,21 +4,15 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.github.kittinunf.reactiveandroid.rx.addTo
-import com.github.kittinunf.reactiveandroid.rx.bindTo
 import com.github.kittinunf.reactiveandroid.sample.R
-import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignUpViewModel
-import com.github.kittinunf.reactiveandroid.sample.viewmodel.SignUpViewModelCommand
-import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
-import com.github.kittinunf.reactiveandroid.widget.rx_afterTextChanged
-import kotlinx.android.synthetic.main.activity_sign_up.*
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_sign_up.titleTextView
 
 class SignUpActivity : AppCompatActivity() {
 
-    val compositeSubscription = CompositeSubscription()
+    val compositeSubscription = CompositeDisposable()
 
-    val initialState = SignUpViewModel()
+//    val initialState = SignUpViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,28 +20,28 @@ class SignUpActivity : AppCompatActivity() {
 
         titleTextView.text = javaClass.simpleName
 
-        val emailChangeCommandObservable = emailEditText.rx_afterTextChanged().map { SignUpViewModelCommand.SignUpEmail(it.toString()) }
+//        val emailChangeCommandObservable = emailEditText.rx_afterTextChanged().map { SignUpViewModelCommand.SignUpEmail(it.toString()) }
 
-        val viewModelObservable = emailChangeCommandObservable.scan(initialState) { state, command -> state.createSignUpViewModel(command) }
+//        val viewModelObservable = emailChangeCommandObservable.scan(initialState) { state, command -> state.createSignUpViewModel(command) }
 
-        viewModelObservable.subscribe {
-            val buttonAction = it.createSignUpAction()
-            buttonAction.values.observeOn(AndroidThreadScheduler.main)
-                    .map{ "You have created account successfully, please check you inbox at $it" }
-                    .bindTo(this@SignUpActivity, SignUpActivity::handleSuccess)
-                    .addTo(compositeSubscription)
+//        viewModelObservable.subscribe {
+//            val buttonAction = it.createSignUpAction()
+//            buttonAction.values.observeOn(AndroidThreadScheduler.main)
+//                    .map { "You have created account successfully, please check you inbox at $it" }
+//                    .bindTo(this@SignUpActivity, SignUpActivity::handleSuccess)
+//                    .addTo(compositeSubscription)
 
-            buttonAction.errors.observeOn(AndroidThreadScheduler.main)
-                    .bindTo(this@SignUpActivity, SignUpActivity::handleError)
-                    .addTo(compositeSubscription)
+//            buttonAction.errors.observeOn(AndroidThreadScheduler.main)
+//                    .bindTo(this@SignUpActivity, SignUpActivity::handleError)
+//                    .addTo(compositeSubscription)
 
 //            signUpButton.rx_applyAction(buttonAction).addTo(compositeSubscription)
-        }
+//        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        compositeSubscription.unsubscribe()
+        compositeSubscription.dispose()
     }
 
     fun handleSuccess(message: String) {

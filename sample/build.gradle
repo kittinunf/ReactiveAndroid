@@ -33,6 +33,10 @@ android {
         abortOnError false
     }
 
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
 }
 
 dependencies {
@@ -43,6 +47,7 @@ dependencies {
     compile project(':reactiveandroid-appcompat-v7')
     compile project(':reactiveandroid-support-v4')
     compile project(':reactiveandroid-design')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
 buildscript {

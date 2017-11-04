@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sample</string>
+    <string name="app_name">ReactiveAndroid-Sample</string>
 
     <string-array name="countries">
         <item> Afghanistan </item>

@@ -5,12 +5,11 @@ import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.widget.ArrayAdapter
+import io.reactivex.observers.TestObserver
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
-import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class AdapterEventTest {
@@ -33,8 +32,8 @@ class AdapterEventTest {
     fun testAdapterChanged() {
         val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, mutableListOf("a", "b", "c", "d", "e"))
 
-        val t = TestSubscriber<Unit>()
-        val s = adapter.rx_changed().subscribe(t)
+        val t = TestObserver<Unit>()
+        val s = adapter.rx_changed().subscribeWith(t)
 
         t.assertNoValues()
         t.assertNoErrors()
@@ -45,7 +44,7 @@ class AdapterEventTest {
         adapter.add("2")
         t.assertValueCount(2)
 
-        s.unsubscribe()
+        s.dispose()
 
         adapter.add("3")
         t.assertValueCount(2)
@@ -56,8 +55,8 @@ class AdapterEventTest {
     fun testAdapterInvalidated() {
         val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, mutableListOf("1", "2", "3", "4"))
 
-        val t = TestSubscriber<Unit>()
-        val s = adapter.rx_invalidated().subscribe(t)
+        val t = TestObserver<Unit>()
+        val s = adapter.rx_invalidated().subscribeWith(t)
 
         t.assertNoValues()
         t.assertNoErrors()
@@ -69,12 +68,12 @@ class AdapterEventTest {
         t.assertNoValues()
 
         adapter.filter.filter("a")
-        t.awaitValueCount(1, 2, TimeUnit.SECONDS)
+        t.awaitCount(1)
 
-        s.unsubscribe()
+        s.dispose()
 
         adapter.filter.filter("b")
-        t.awaitValueCount(1, 2, TimeUnit.SECONDS)
+        t.awaitCount(1)
     }
 
 }

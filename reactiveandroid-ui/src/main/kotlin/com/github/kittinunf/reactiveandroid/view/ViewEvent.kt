@@ -7,12 +7,16 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
+import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
+import com.github.kittinunf.reactiveandroid.reactive.Reactive
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
+import io.reactivex.functions.Consumer
 
-//================================================================================
-// Events
-//================================================================================
+//Properties
+
+
+//Listeners
 
 fun View.rx_click(): Observable<View> {
     return Observable.create { subscriber ->
@@ -20,7 +24,7 @@ fun View.rx_click(): Observable<View> {
             subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnClickListener(null)
         })
     }
@@ -35,7 +39,7 @@ fun View.rx_drag(consumed: Boolean): Observable<DragListener> {
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnDragListener(null)
         })
     }
@@ -50,7 +54,7 @@ fun View.rx_key(consumed: Boolean): Observable<KeyListener> {
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnKeyListener(null)
         })
     }
@@ -65,7 +69,7 @@ fun View.rx_hover(consumed: Boolean): Observable<HoverListener> {
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnHoverListener(null)
         })
     }
@@ -80,7 +84,7 @@ fun View.rx_touch(consumed: Boolean): Observable<TouchListener> {
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnTouchListener(null)
         })
     }
@@ -93,7 +97,7 @@ fun View.rx_longClick(consumed: Boolean): Observable<View> {
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnLongClickListener(null)
         })
     }
@@ -107,7 +111,7 @@ fun View.rx_focusChange(): Observable<FocusChangeListener> {
             subscriber.onNext(FocusChangeListener(view, event))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             onFocusChangeListener = null
         })
     }
@@ -122,7 +126,7 @@ fun View.rx_layoutChange(): Observable<LayoutChangeListener> {
         }
         addOnLayoutChangeListener(listener)
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnLayoutChangeListener(listener)
         })
     }
@@ -138,7 +142,7 @@ fun View.rx_scrollChange(): Observable<ScrollChangeListener> {
             subscriber.onNext(ScrollChangeListener(view, ScrollDirection(scrollX, scrollY), ScrollDirection(oldScrollX, oldScrollY)))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnScrollChangeListener(null)
         })
     }
@@ -152,7 +156,7 @@ fun View.rx_createContextMenu(): Observable<CreateContextMenuListener> {
             subscriber.onNext(CreateContextMenuListener(menu, view, menuInfo))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnCreateContextMenuListener(null)
         })
     }
@@ -161,10 +165,10 @@ fun View.rx_createContextMenu(): Observable<CreateContextMenuListener> {
 fun View.rx_attachedToWindow(): Observable<View> {
     return Observable.create { subscriber ->
         _attachStateChange.onViewAttachedToWindow {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnAttachStateChangeListener(_attachStateChange)
         })
     }
@@ -173,10 +177,10 @@ fun View.rx_attachedToWindow(): Observable<View> {
 fun View.rx_detachedFromWindow(): Observable<View> {
     return Observable.create { subscriber ->
         _attachStateChange.onViewDetachedFromWindow {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             removeOnAttachStateChangeListener(_attachStateChange)
         })
     }

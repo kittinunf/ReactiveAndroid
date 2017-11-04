@@ -10,6 +10,7 @@ import android.support.test.espresso.matcher.RootMatchers.withDecorView
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
@@ -18,7 +19,6 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
 class AutoCompleteTextViewEventTest {
@@ -33,9 +33,9 @@ class AutoCompleteTextViewEventTest {
     fun testItemClick() {
         val autoCompleteTextView = activityRule.activity.textView
 
-        val t = TestSubscriber<ItemClickListener>()
+        val t = TestObserver<ItemClickListener>()
 
-        val s = autoCompleteTextView.rx_itemClick().subscribe(t)
+        val s = autoCompleteTextView.rx_itemClick().subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
@@ -49,7 +49,7 @@ class AutoCompleteTextViewEventTest {
 
         t.assertValueCount(1)
 
-        val first = t.onNextEvents.first()
+        val first = t.values().first()
         assertThat(first.position, equalTo(0))
         assertThat(first.id, equalTo(0L))
 
@@ -62,11 +62,11 @@ class AutoCompleteTextViewEventTest {
 
         t.assertValueCount(2)
 
-        val second = t.onNextEvents[1]
+        val second = t.values()[1]
         assertThat(second.position, equalTo(2))
         assertThat(second.id, equalTo(2L))
 
-        s.unsubscribe()
+        s.dispose()
 
         onView(withId(android.R.id.input))
                 .perform(clearText(), typeText("tw"))
@@ -82,9 +82,9 @@ class AutoCompleteTextViewEventTest {
     fun testDismiss() {
         val autoCompleteTextView = activityRule.activity.textView
 
-        val t = TestSubscriber<Unit>()
+        val t = TestObserver<Unit>()
 
-        val s = autoCompleteTextView.rx_dismiss().subscribe(t)
+        val s = autoCompleteTextView.rx_dismiss().subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
@@ -99,7 +99,7 @@ class AutoCompleteTextViewEventTest {
 
         t.assertValueCount(2)
 
-        s.unsubscribe()
+        s.dispose()
 
         onView(withId(android.R.id.input))
                 .perform(clearText(), typeText("four"), clearText())

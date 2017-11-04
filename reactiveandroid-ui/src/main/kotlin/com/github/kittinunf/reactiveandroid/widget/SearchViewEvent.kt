@@ -5,7 +5,7 @@ import android.widget.SearchView
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import com.github.kittinunf.reactiveandroid.view.FocusChangeListener
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events 
@@ -13,12 +13,12 @@ import rx.Observable
 
 fun SearchView.rx_close(overriden: Boolean): Observable<Unit> {
     return Observable.create { subscriber ->
-        setOnCloseListener { ->
+        setOnCloseListener {
             subscriber.onNext(Unit)
             overriden
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnCloseListener(null)
         })
     }
@@ -30,7 +30,7 @@ fun SearchView.rx_queryTextFocusChange(): Observable<FocusChangeListener> {
             subscriber.onNext(FocusChangeListener(view, hasFocus))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnQueryTextFocusChangeListener(null)
         })
     }
@@ -39,11 +39,11 @@ fun SearchView.rx_queryTextFocusChange(): Observable<FocusChangeListener> {
 fun SearchView.rx_queryTextChange(consumed: Boolean): Observable<String> {
     return Observable.create { subscriber ->
         _queryText.onQueryTextChange {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnQueryTextListener(null)
         })
     }
@@ -52,11 +52,11 @@ fun SearchView.rx_queryTextChange(consumed: Boolean): Observable<String> {
 fun SearchView.rx_queryTextSubmit(consumed: Boolean): Observable<String> {
     return Observable.create { subscriber ->
         _queryText.onQueryTextSubmit {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnQueryTextListener(null)
         })
     }
@@ -68,7 +68,7 @@ fun SearchView.rx_searchClick(): Observable<View> {
             subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnSearchClickListener(null)
         })
     }
@@ -81,7 +81,7 @@ fun SearchView.rx_suggestionSelect(consumed: Boolean): Observable<Int> {
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnSuggestionListener(null)
         })
     }
@@ -94,7 +94,7 @@ fun SearchView.rx_suggestionClick(consumed: Boolean): Observable<Int> {
             consumed
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnSuggestionListener(null)
         })
     }

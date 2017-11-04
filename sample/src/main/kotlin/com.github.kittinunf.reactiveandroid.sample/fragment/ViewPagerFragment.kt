@@ -6,20 +6,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.kittinunf.reactiveandroid.rx.addTo
+import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabSelected
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabUnselected
 import com.github.kittinunf.reactiveandroid.support.v4.widget.rx_fragmentsStateWith
 import com.github.kittinunf.reactiveandroid.view.rx_attachedToWindow
 import com.github.kittinunf.reactiveandroid.view.rx_detachedFromWindow
-import kotlinx.android.synthetic.main.fragment_view_pager.*
-import rx.Observable
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_view_pager.tlPager
+import kotlinx.android.synthetic.main.fragment_view_pager.viewPager
 
 class ViewPagerFragment : Fragment() {
 
-    val subscriptions = CompositeSubscription()
+    val subscriptions = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_view_pager, container, false)

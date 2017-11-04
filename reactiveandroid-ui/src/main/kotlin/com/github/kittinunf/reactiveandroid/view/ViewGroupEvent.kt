@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -14,10 +14,10 @@ import rx.Observable
 fun ViewGroup.rx_animationRepeat(): Observable<Animation> {
     return Observable.create { subscriber ->
         _layout_animation.onAnimationRepeat {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             layoutAnimationListener = null
         })
     }
@@ -26,10 +26,10 @@ fun ViewGroup.rx_animationRepeat(): Observable<Animation> {
 fun ViewGroup.rx_animationEnd(): Observable<Animation> {
     return Observable.create { subscriber ->
         _layout_animation.onAnimationEnd {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             layoutAnimationListener = null
         })
     }
@@ -38,10 +38,10 @@ fun ViewGroup.rx_animationEnd(): Observable<Animation> {
 fun ViewGroup.rx_animationStart(): Observable<Animation> {
     return Observable.create { subscriber ->
         _layout_animation.onAnimationStart {
-            subscriber.onNext(it)
+            if (it != null) subscriber.onNext(it)
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             layoutAnimationListener = null
         })
     }
@@ -55,7 +55,7 @@ fun ViewGroup.rx_childViewRemoved(): Observable<HierarchyChangeListener> {
             subscriber.onNext(HierarchyChangeListener(parent, child))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnHierarchyChangeListener(null)
         })
     }
@@ -67,7 +67,7 @@ fun ViewGroup.rx_childViewAdded(): Observable<HierarchyChangeListener> {
             subscriber.onNext(HierarchyChangeListener(parent, child))
         }
 
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setOnHierarchyChangeListener(null)
         })
     }

@@ -3,7 +3,7 @@ package com.github.kittinunf.reactiveandroid.support.design.widget
 import android.support.design.widget.NavigationView
 import android.view.MenuItem
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import rx.Observable
+import io.reactivex.Observable
 
 //================================================================================
 // Events
@@ -16,7 +16,7 @@ fun NavigationView.rx_navigationItemSelected(selected: Boolean): Observable<Menu
             selected
         }
         
-        subscriber.add(AndroidMainThreadSubscription {
+        subscriber.setDisposable(AndroidMainThreadSubscription {
             setNavigationItemSelectedListener(null)
         })
     }

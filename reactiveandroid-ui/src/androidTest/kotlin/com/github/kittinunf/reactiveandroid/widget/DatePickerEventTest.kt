@@ -4,12 +4,12 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import rx.observers.TestSubscriber
 
 @RunWith(AndroidJUnit4::class)
 class DatePickerEventTest {
@@ -25,15 +25,15 @@ class DatePickerEventTest {
     fun testChecked() {
         val picker = activityRule.activity.datePicker
 
-        val t = TestSubscriber<DateChangedListener>()
+        val t = TestObserver<DateChangedListener>()
 
-        val s = picker.rx_dateChanged(DateState(2017, 1, 1)).subscribe(t)
+        val s = picker.rx_dateChanged(DateState(2017, 1, 1)).subscribeWith(t)
 
         t.assertNoErrors()
         t.assertNoValues()
 
         picker.updateDate(2017, 1, 2)
-        val first = t.onNextEvents.first()
+        val first = t.values().first()
 
         // in Android - 18, onDateChangedListener will be called twice every time we update date
         t.assertValueCount(2) //t.assertValueCount(1)
@@ -43,7 +43,7 @@ class DatePickerEventTest {
         assertThat(first.dayOfMonth, equalTo(2))
 
         picker.updateDate(2018, 2, 10)
-        val second = t.onNextEvents.last()
+        val second = t.values().last()
 
         // in Android - 18, onDateChangedListener will be called twice every time we update date
         t.assertValueCount(4) //t.assertValueCount(4)
@@ -52,7 +52,7 @@ class DatePickerEventTest {
         assertThat(second.monthOfYear, equalTo(2))
         assertThat(second.dayOfMonth, equalTo(10))
 
-        s.unsubscribe()
+        s.dispose()
 
         // in Android - 18, onDateChangedListener will be called twice every time we update date
         t.assertValueCount(4) //t.assertValueCount(4)

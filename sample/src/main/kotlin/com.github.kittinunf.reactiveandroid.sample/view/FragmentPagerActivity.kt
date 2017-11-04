@@ -3,19 +3,20 @@ package com.github.kittinunf.reactiveandroid.sample.view
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import com.github.kittinunf.reactiveandroid.rx.addTo
+import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.sample.fragment.ViewPagerFragment
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_itemBackgroundResource
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_itemIconTintList
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_itemTextColor
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_navigationItemSelected
-import kotlinx.android.synthetic.main.activity_fragment_pager.*
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_fragment_pager.bottomNavigationView
+import kotlinx.android.synthetic.main.activity_fragment_pager.toolbar
 
 class FragmentPagerActivity : AppCompatActivity() {
 
-    val subscriptions = CompositeSubscription()
+    val subscriptions = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -794,7 +794,7 @@ public class WeakIdentityHashMap<K,V> /*extends AbstractMap*/ implements Map<K,V
 	/**
 	 * Returns a set view of the keys contained in this map.  The set is
 	 * backed by the map, so changes to the map are reflected in the set, and
-	 * vice-versa.  The set supports element removal, which removes the
+	 * vice-versa.  The set supports item removal, which removes the
 	 * corresponding mapping from this map, via the <tt>Iterator.remove</tt>,
 	 * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt>, and
 	 * <tt>clear</tt> operations.  It does not support the <tt>add</tt> or
@@ -853,7 +853,7 @@ public class WeakIdentityHashMap<K,V> /*extends AbstractMap*/ implements Map<K,V
 	/**
 	 * Returns a collection view of the values contained in this map.  The
 	 * collection is backed by the map, so changes to the map are reflected in
-	 * the collection, and vice-versa.  The collection supports element
+	 * the collection, and vice-versa.  The collection supports item
 	 * removal, which removes the corresponding mapping from this map, via the
 	 * <tt>Iterator.remove</tt>, <tt>Collection.remove</tt>,
 	 * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt> operations.
@@ -902,9 +902,9 @@ public class WeakIdentityHashMap<K,V> /*extends AbstractMap*/ implements Map<K,V
 
 	/**
 	 * Returns a collection view of the mappings contained in this map.  Each
-	 * element in the returned collection is a <tt>Map.Entry</tt>.  The
+	 * item in the returned collection is a <tt>Map.Entry</tt>.  The
 	 * collection is backed by the map, so changes to the map are reflected in
-	 * the collection, and vice-versa.  The collection supports element
+	 * the collection, and vice-versa.  The collection supports item
 	 * removal, which removes the corresponding mapping from the map, via the
 	 * <tt>Iterator.remove</tt>, <tt>Collection.remove</tt>,
 	 * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt> operations.
