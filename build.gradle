@@ -22,7 +22,7 @@ allprojects {
         minSdkVersion = 14
 
         //publish
-        reactiveAndroidVersion = '0.4.0'
+        reactiveAndroidVersion = '1.0.0-alpha1'
 
         reactiveAndroid = 'reactiveandroid'
         reactiveAndroidAppcompatV7 = 'reactiveandroid-appcompat-v7'
@@ -52,10 +52,6 @@ allprojects {
         androidSupportCardView = "com.android.support:cardview-v7:$supportVersion"
         androidSupportGridLayout = "com.android.support:gridlayout-v7:$supportVersion"
         androidSupportDesign = "com.android.support:design:$supportVersion"
-
-        //rxjava
-        reactivexRxJava = 'io.reactivex:rxjava:1.2.5'
-        reactivexRxAndroid = 'io.reactivex:rxandroid:1.2.1'
 
         //rxjava2
         reactivexRxJava2 = 'io.reactivex.rxjava2:rxjava:2.1.0'
