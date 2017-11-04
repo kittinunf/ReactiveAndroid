@@ -8,10 +8,12 @@ import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.github.kittinunf.reactiveandroid.widget.TextViewTestActivity
 import io.reactivex.Single
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,10 +27,16 @@ class TextViewTest {
 
     val instrumentation = InstrumentationRegistry.getInstrumentation()
 
+    lateinit var view: TextView
+
+    @Before
+    fun before() {
+        view = activityRule.activity.textView
+    }
+
     @Test
     @UiThreadTest
     fun afterTextChanged() {
-        val view = activityRule.activity.textView
         val test = view.rx.afterTextChanged().test()
         val expectedText1 = "test"
         val expectedText2 = "testx"
@@ -46,7 +54,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun beforeTextChanged() {
-        val view = activityRule.activity.textView
         val test = view.rx.beforeTextChanged().test()
 
         val inputText1 = "h"
@@ -79,7 +86,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun textChanged() {
-        val view = activityRule.activity.textView
         val test = view.rx.textChanged().test()
 
         val inputText1 = "h"
@@ -117,7 +123,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun editorAction() {
-        val view = activityRule.activity.textView
         val test = view.rx.onEditorAction().test()
 
         view.text = "h"
@@ -133,7 +138,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun text() {
-        val view = activityRule.activity.textView
         val expectedText = "text"
 
         Single.just(expectedText).subscribe(view.rx.text)
@@ -144,7 +148,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun error() {
-        val view = activityRule.activity.textView
         val expectedText = "error"
 
         Single.just(expectedText).subscribe(view.rx.error)
@@ -155,7 +158,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun hint() {
-        val view = activityRule.activity.textView
         val expectedText = "hint"
 
         Single.just(expectedText).subscribe(view.rx.hint)
@@ -166,7 +168,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun textColor() {
-        val view = activityRule.activity.textView
         val expectedColor = 20
 
         Single.just(expectedColor).subscribe(view.rx.textColor)
@@ -177,8 +178,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun textColors() {
-        val view = activityRule.activity.textView
-
         val states = arrayOf(intArrayOf(android.R.attr.state_activated), intArrayOf(-android.R.attr.state_activated))
         val colors = intArrayOf(Color.parseColor("#FFFF00"), Color.BLACK)
         val expectedColors = ColorStateList(states, colors)
@@ -191,7 +190,6 @@ class TextViewTest {
     @Test
     @UiThreadTest
     fun typeFace() {
-        val view = activityRule.activity.textView
         val expectedTypeface = Typeface.DEFAULT
 
         Single.just(expectedTypeface).subscribe(view.rx.typeface)

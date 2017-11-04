@@ -4,7 +4,12 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import android.view.View
 import com.github.kittinunf.reactiveandroid.view.ViewTestActivity
+import io.reactivex.subjects.BehaviorSubject
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,9 +22,27 @@ class ViewTest {
 
     val instrumentation = InstrumentationRegistry.getInstrumentation()
 
+    lateinit var view: View
+
+    @Before
+    fun before() {
+        view = activityRule.activity.child
+    }
+
     @Test
     @UiThreadTest
     fun activated() {
+        var activated = false
+
+        val activatedSubject = BehaviorSubject.create<Boolean>()
+        activatedSubject.onNext(activated)
+        activatedSubject.subscribe(view.rx.activated)
+
+        assertThat(view.isActivated, equalTo(activated))
+
+        activated = true
+        activatedSubject.onNext(activated)
+        assertThat(view.isActivated, equalTo(activated))
     }
 
     @Test
