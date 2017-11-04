@@ -18,7 +18,6 @@ import android.view.View
 import com.github.kittinunf.reactiveandroid.ui.test.R
 import com.github.kittinunf.reactiveandroid.view.Padding
 import com.github.kittinunf.reactiveandroid.view.ViewTestActivity
-import com.github.kittinunf.reactiveandroid.view.rx_scrollChange
 import io.reactivex.subjects.BehaviorSubject
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
@@ -165,7 +164,7 @@ class ViewTest {
     @Test
     @UiThreadTest
     fun scrollChange() {
-        val test = view.rx_scrollChange().test()
+        val test = view.rx.scrollChange().test()
 
         view.scrollTo(10, 20)
         val first = test.values().first()
@@ -188,6 +187,41 @@ class ViewTest {
         view.scrollTo(300, 300)
 
         test.assertValueCount(2)
+    }
+
+    @Test
+    @UiThreadTest
+    fun attachStateChanged() {
+        val parent = activityRule.activity.parent
+
+        val test1 = view.rx.attachedToWindow().test()
+        val test2 = view.rx.detachedFromWindow().test()
+
+        parent.addView(view)
+
+        test1.assertValueCount(1)
+        test2.assertNoValues()
+
+        parent.removeView(view)
+        test1.assertValueCount(1)
+        test2.assertValueCount(1)
+
+        parent.addView(view)
+        test1.assertValueCount(2)
+        test2.assertValueCount(1)
+
+        parent.removeView(view)
+        test1.assertValueCount(2)
+        test2.assertValueCount(2)
+
+        test1.dispose()
+        test2.dispose()
+
+        parent.addView(view)
+        parent.removeView(view)
+
+        test1.assertValueCount(2)
+        test2.assertValueCount(2)
     }
 
     @Test
