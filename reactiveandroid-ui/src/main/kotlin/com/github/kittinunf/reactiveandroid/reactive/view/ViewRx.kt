@@ -70,6 +70,11 @@ val Reactive<View>.selected: Consumer<Boolean>
         item.isSelected = value
     }
 
+val Reactive<View>.visible: Consumer<Boolean>
+    get() = AndroidBindingConsumer(item) { item, value ->
+        item.visibility = if (value) View.VISIBLE else View.GONE
+    }
+
 val Reactive<View>.visibility: Consumer<Int>
     get() = AndroidBindingConsumer(item) { item, value ->
         item.visibility = value

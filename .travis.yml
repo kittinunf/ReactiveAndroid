@@ -30,4 +30,4 @@ cache:
 script:
   - ./gradlew test
   - ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.github.kittinunf.reactiveandroid.reactive.widget.TextViewTest
-  - ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.github.kittinunf.reactiveandroid.reactive.widget.ViewTest
+  - ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.github.kittinunf.reactiveandroid.reactive.view.ViewTest

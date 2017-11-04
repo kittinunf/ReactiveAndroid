@@ -12,6 +12,7 @@ import android.support.test.runner.AndroidJUnit4
 import android.support.v4.content.ContextCompat
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ui.test.R
+import com.github.kittinunf.reactiveandroid.view.Padding
 import com.github.kittinunf.reactiveandroid.view.ViewTestActivity
 import io.reactivex.subjects.BehaviorSubject
 import org.hamcrest.CoreMatchers.equalTo
@@ -160,26 +161,96 @@ class ViewTest {
     @Test
     @UiThreadTest
     fun longClickable() {
+        var longClickable = false
+
+        val subject = BehaviorSubject.create<Boolean>()
+        subject.onNext(longClickable)
+        subject.subscribe(view.rx.longClickable)
+
+        assertThat(view.isLongClickable, equalTo(longClickable))
+
+        longClickable = true
+        subject.onNext(longClickable)
+        assertThat(view.isLongClickable, equalTo(longClickable))
     }
 
     @Test
     @UiThreadTest
     fun padding() {
+        var padding = Padding(10, 20, 30, 40)
+
+        val subject = BehaviorSubject.create<Padding>()
+        subject.onNext(padding)
+        subject.subscribe(view.rx.padding)
+
+        assertThat(view.paddingStart, equalTo(10))
+        assertThat(view.paddingTop, equalTo(20))
+        assertThat(view.paddingEnd, equalTo(30))
+        assertThat(view.paddingBottom, equalTo(40))
     }
 
     @Test
     @UiThreadTest
     fun pressed() {
+        var pressed = false
+
+        val subject = BehaviorSubject.create<Boolean>()
+        subject.onNext(pressed)
+        subject.subscribe(view.rx.pressed)
+
+        assertThat(view.isPressed, equalTo(pressed))
+
+        pressed = true
+        subject.onNext(pressed)
+        assertThat(view.isPressed, equalTo(pressed))
     }
 
     @Test
     @UiThreadTest
     fun selected() {
+        var selected = false
+
+        val subject = BehaviorSubject.create<Boolean>()
+        subject.onNext(selected)
+        subject.subscribe(view.rx.selected)
+
+        assertThat(view.isLongClickable, equalTo(selected))
+
+        selected = true
+        subject.onNext(selected)
+        assertThat(view.isLongClickable, equalTo(selected))
     }
 
     @Test
     @UiThreadTest
     fun visibility() {
+        var visibility = View.GONE
+
+        val subject = BehaviorSubject.create<Int>()
+        subject.onNext(visibility)
+        subject.subscribe(view.rx.visibility)
+
+        assertThat(view.visibility, equalTo(View.GONE))
+
+        visibility = View.VISIBLE
+        subject.onNext(visibility)
+        assertThat(view.visibility, equalTo(View.VISIBLE))
+    }
+
+    @Test
+    @UiThreadTest
+    fun visible() {
+        var visible = false
+
+        val subject = BehaviorSubject.create<Boolean>()
+        subject.onNext(visible)
+        subject.subscribe(view.rx.visible)
+
+        assertThat(view.visibility, equalTo(View.GONE))
+
+        visible = true
+        subject.onNext(visible)
+        assertThat(view.visibility, equalTo(View.VISIBLE))
     }
 
     fun withBackgroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
