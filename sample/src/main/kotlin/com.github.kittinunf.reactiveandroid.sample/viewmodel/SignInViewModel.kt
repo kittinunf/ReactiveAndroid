@@ -4,11 +4,11 @@ import com.github.kittinunf.reactiveandroid.MutableProperty
 import io.reactivex.Observable
 
 interface SignInViewAction {
-    fun usernameObservable(): Observable<String>
-    fun passwordObservable(): Observable<String>
-
-    fun username(): MutableProperty<CharSequence>
-    fun password(): MutableProperty<CharSequence>
+//    fun usernameObservable(): Observable<String>
+//    fun passwordObservable(): Observable<String>
+//
+//    fun username(): MutableProperty<CharSequence>
+//    fun password(): MutableProperty<CharSequence>
 }
 //
 //class SignInViewModel(val viewAction: SignInViewAction) {

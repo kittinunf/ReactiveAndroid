@@ -8,17 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.github.kittinunf.reactiveandroid.Property
 import com.github.kittinunf.reactiveandroid.reactive.addTo
-import com.github.kittinunf.reactiveandroid.reactive.bindTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.view.rx_click
 import com.github.kittinunf.reactiveandroid.widget.AdapterViewProxyAdapter
 import com.github.kittinunf.reactiveandroid.widget.rx_itemsWith
-import com.github.kittinunf.reactiveandroid.widget.rx_text
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_landing.resultTextView
 import kotlinx.android.synthetic.main.activity_landing.toFragmentPagerButton
 import kotlinx.android.synthetic.main.activity_landing.toListPageButton
 import kotlinx.android.synthetic.main.activity_landing.toNestedListButton
@@ -70,8 +67,8 @@ class LandingActivity : AppCompatActivity() {
         Observable.interval(5, TimeUnit.SECONDS, Schedulers.computation())
                 .map(Long::toString)
                 .observeOn(AndroidThreadScheduler.main)
-                .bindTo(resultTextView.rx_text)
-                .addTo(subscriptions)
+//                .bindTo(resultTextView.rx_text)
+//                .addTo(subscriptions)
     }
 
     fun start(clazz: KClass<*>) {

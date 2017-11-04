@@ -15,4 +15,4 @@ fun <T> Observable<T>.cachedPrevious(): Observable<Pair<T?, T>> {
             .skip(1)
 }
 
-inline fun <reified T> Observable<T>.ofType() = ofType(T::class.java)
+inline fun <reified T> Observable<in T>.ofType() = ofType(T::class.java)

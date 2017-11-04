@@ -3,8 +3,8 @@ package com.github.kittinunf.reactiveandroid.reactive
 import android.os.Handler
 import android.os.Looper
 
-class AndroidBindingConsumer<E, T>(item: E,
-                                   binder: (E, T) -> Unit) : BindingConsumer<E, T>(item, binder) {
+class AndroidBindingConsumer<out E, T>(item: E,
+                                       binder: (E, T) -> Unit) : BindingConsumer<E, T>(item, binder) {
     override fun scope(f: () -> Unit) {
         if (Threads.mainThread == Thread.currentThread()) {
             f()

@@ -29,4 +29,5 @@ cache:
 
 script:
   - ./gradlew test
-  - ./gradlew spoon --info
+  - ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.github.kittinunf.reactiveandroid.reactive.widget.TextViewTest
+  - ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.github.kittinunf.reactiveandroid.reactive.view.ViewTest

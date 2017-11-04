@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-apply plugin: 'spoon'
-
 apply plugin: 'com.novoda.bintray-release'
 
 android {
@@ -58,12 +56,6 @@ dependencies {
     androidTestCompile parent.ext.supportTestRunner
     androidTestCompile parent.ext.supportTestRules
     androidTestCompile parent.ext.awaitility
-}
-
-spoon {
-    if (project.hasProperty('spoonClassName')) {
-        className = project.spoonClassName
-    }
 }
 
 buildscript {
