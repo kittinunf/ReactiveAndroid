@@ -3,7 +3,7 @@ package com.github.kittinunf.reactiveandroid.support.v7.widget
 import android.support.v7.widget.CardView
 import com.github.kittinunf.reactiveandroid.MutableProperty
 import com.github.kittinunf.reactiveandroid.createMainThreadMutableProperty
-import com.github.kittinunf.reactiveandroid.view.Padding
+import com.github.kittinunf.reactiveandroid.reactive.view.Padding
 
 //================================================================================
 // Properties

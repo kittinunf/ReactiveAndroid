@@ -103,6 +103,9 @@ class ViewTest {
     @Test
     @UiThreadTest
     fun longClick() {
+        val parent = activityRule.activity.parent
+        parent.addView(view)
+
         val test = view.rx.longClick().test()
 
         view.performLongClick()
@@ -114,7 +117,6 @@ class ViewTest {
 
         test.dispose()
 
-        view.performLongClick()
         view.performLongClick()
         test.assertValueCount(3)
     }
@@ -128,13 +130,14 @@ class ViewTest {
 
         view.requestFocus()
         view.clearFocus()
+        view.requestFocus()
 
-        test.assertValues(true, false)
+        test.assertValues(true, false, true)
         test.dispose()
 
         view.requestFocus()
         view.clearFocus()
-        test.assertValueCount(2)
+        test.assertValueCount(3)
     }
 
     @Test
