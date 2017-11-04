@@ -47,14 +47,14 @@ class ViewTest {
     fun activated() {
         var activated = false
 
-        val activatedSubject = BehaviorSubject.create<Boolean>()
-        activatedSubject.onNext(activated)
-        activatedSubject.subscribe(view.rx.activated)
+        val subject = BehaviorSubject.create<Boolean>()
+        subject.onNext(activated)
+        subject.subscribe(view.rx.activated)
 
         assertThat(view.isActivated, equalTo(activated))
 
         activated = true
-        activatedSubject.onNext(activated)
+        subject.onNext(activated)
         assertThat(view.isActivated, equalTo(activated))
     }
 
@@ -63,14 +63,14 @@ class ViewTest {
     fun alpha() {
         var alpha = 0.0f
 
-        val alphaSubject = BehaviorSubject.create<Float>()
-        alphaSubject.onNext(alpha)
-        alphaSubject.subscribe(view.rx.alpha)
+        val subject = BehaviorSubject.create<Float>()
+        subject.onNext(alpha)
+        subject.subscribe(view.rx.alpha)
 
         assertThat(view.alpha, equalTo(alpha))
 
         alpha = 0.75f
-        alphaSubject.onNext(alpha)
+        subject.onNext(alpha)
         assertThat(view.alpha, equalTo(alpha))
     }
 
@@ -81,48 +81,80 @@ class ViewTest {
 
         var background = context.resources.getDrawable(R.drawable.ic_accessibility_black_18dp)
 
-        val backgroundSubject = BehaviorSubject.create<Drawable>()
-        backgroundSubject.onNext(background)
-        backgroundSubject.subscribe(view.rx.background)
+        val subject = BehaviorSubject.create<Drawable>()
+        subject.onNext(background)
+        subject.subscribe(view.rx.background)
 
         assertThat(view.background, equalTo(background))
 
         background = context.resources.getDrawable(R.drawable.ic_account_balance_wallet_black_18dp)
-        backgroundSubject.onNext(background)
+        subject.onNext(background)
         assertThat(view.background, equalTo(background))
     }
 
     @Test
     @UiThreadTest
     fun backgroundColor() {
-
         var color = Color.parseColor("#000000") //white
 
-        val colorSubject = BehaviorSubject.create<Int>()
-        colorSubject.onNext(color)
-        colorSubject.subscribe(view.rx.backgroundColor)
+        val subject = BehaviorSubject.create<Int>()
+        subject.onNext(color)
+        subject.subscribe(view.rx.backgroundColor)
 
         assertThat(view, withBackgroundColor(android.R.color.white))
 
         color = Color.parseColor("#FFFFFF") //black
 
-        colorSubject.onNext(color)
-        assertThat(view.background, withBackgroundColor(android.R.color.black))
+        subject.onNext(color)
+        assertThat(view, withBackgroundColor(android.R.color.black))
     }
 
     @Test
     @UiThreadTest
     fun clickable() {
+        var clickable = false
+
+        val subject = BehaviorSubject.create<Boolean>()
+        subject.onNext(clickable)
+        subject.subscribe(view.rx.clickable)
+
+        assertThat(view.isClickable, equalTo(clickable))
+
+        clickable = true
+        subject.onNext(clickable)
+        assertThat(view.isClickable, equalTo(clickable))
     }
 
     @Test
     @UiThreadTest
     fun enabled() {
+        var enabled = false
+
+        val subject = BehaviorSubject.create<Boolean>()
+        subject.onNext(enabled)
+        subject.subscribe(view.rx.enabled)
+
+        assertThat(view.isEnabled, equalTo(enabled))
+
+        enabled = true
+        subject.onNext(enabled)
+        assertThat(view.isEnabled, equalTo(enabled))
     }
 
     @Test
     @UiThreadTest
     fun focused() {
+        var focused = false
+
+        val subject = BehaviorSubject.create<Boolean>()
+        subject.onNext(focused)
+        subject.subscribe(view.rx.focused)
+
+        assertThat(view.isFocused, equalTo(focused))
+
+        focused = true
+        subject.onNext(focused)
+        assertThat(view.isFocused, equalTo(focused))
     }
 
     @Test
@@ -161,8 +193,7 @@ class ViewTest {
             val otherColor = ContextCompat.getColor(context, resId)
 
             val colorValue = (color as ColorDrawable).color
-            val otherColorValue = otherColor
-            return colorValue == otherColorValue
+            return colorValue == otherColor
         }
 
         override fun describeTo(description: Description?) {
@@ -182,8 +213,7 @@ class ViewTest {
             val otherColor = ContextCompat.getColor(context, resId)
 
             val colorValue = (color as ColorDrawable).color
-            val otherColorValue = otherColor
-            return colorValue == otherColorValue
+            return colorValue == otherColor
         }
 
         override fun describeTo(description: Description?) {
