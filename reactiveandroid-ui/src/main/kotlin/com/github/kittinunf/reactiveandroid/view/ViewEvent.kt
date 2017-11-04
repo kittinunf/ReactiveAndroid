@@ -9,6 +9,9 @@ import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
 import com.github.kittinunf.reactiveandroid.reactive.Reactive
+import com.github.kittinunf.reactiveandroid.reactive.view.FocusChangeListener
+import com.github.kittinunf.reactiveandroid.reactive.view.LayoutChangeListener
+import com.github.kittinunf.reactiveandroid.reactive.view.ScrollChangeListener
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
@@ -101,7 +104,6 @@ fun View.rx_longClick(consumed: Boolean): Observable<View> {
     }
 }
 
-data class FocusChangeListener(val view: View, val hasFocus: Boolean)
 
 fun View.rx_focusChange(): Observable<FocusChangeListener> {
     return Observable.create { subscriber ->
@@ -115,7 +117,6 @@ fun View.rx_focusChange(): Observable<FocusChangeListener> {
     }
 }
 
-data class LayoutChangeListener(val view: View, val newRect: Rect, val oldRect: Rect)
 
 fun View.rx_layoutChange(): Observable<LayoutChangeListener> {
     return Observable.create { subscriber ->
@@ -130,9 +131,7 @@ fun View.rx_layoutChange(): Observable<LayoutChangeListener> {
     }
 }
 
-data class ScrollDirection(val x: Int, val y: Int)
 
-data class ScrollChangeListener(val view: View, val direction: ScrollDirection, val oldDirection: ScrollDirection)
 
 fun View.rx_scrollChange(): Observable<ScrollChangeListener> {
     return Observable.create { subscriber ->

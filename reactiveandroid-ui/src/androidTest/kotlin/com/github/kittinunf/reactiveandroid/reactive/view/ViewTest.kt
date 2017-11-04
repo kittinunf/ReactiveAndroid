@@ -60,7 +60,7 @@ class ViewTest {
 
         view.performClick()
         view.performClick()
-        test.assertValueCount(2)
+        test.assertValueCount(3)
     }
 
     @Test
@@ -86,6 +86,56 @@ class ViewTest {
         view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_W))
 
         test.assertValueCount(4)
+    }
+
+    @Test
+    @UiThreadTest
+    fun hover() {
+    }
+
+    @Test
+    @UiThreadTest
+    fun touch() {
+    }
+
+    @Test
+    @UiThreadTest
+    fun longClick() {
+        val test = view.rx.longClick().test()
+
+        view.performLongClick()
+        view.performLongClick()
+        view.performLongClick()
+
+        test.assertValueCount(3)
+        test.assertNoErrors()
+
+        test.dispose()
+
+        view.performLongClick()
+        view.performLongClick()
+        test.assertValueCount(3)
+    }
+
+    @Test
+    @UiThreadTest
+    fun focusChange() {
+        view.isFocusable = true
+
+        val test = view.rx.focusChange().map { it.hasFocus }.test()
+
+        view.requestFocus()
+        test.assertValueCount(1)
+
+        view.clearFocus()
+        test.assertValueCount(2)
+
+        test.assertValues(true, false)
+        test.dispose()
+
+        view.requestFocus()
+        view.clearFocus()
+        test.assertValueCount(2)
     }
 
     @Test

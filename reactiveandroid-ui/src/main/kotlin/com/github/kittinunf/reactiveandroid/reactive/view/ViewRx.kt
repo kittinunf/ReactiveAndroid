@@ -1,5 +1,6 @@
 package com.github.kittinunf.reactiveandroid.reactive.view
 
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.view.DragEvent
 import android.view.KeyEvent
@@ -163,11 +164,40 @@ fun Reactive<View>.longClick(consumed: Boolean = true): Observable<View> =
             emitter.setDisposable(AndroidMainThreadDisposable { item.setOnLongClickListener(null) })
         }
 
-//TODO: FocusChangeListener
+data class FocusChangeListener(val view: View, val hasFocus: Boolean)
 
-//TODO: LayoutChangeListener
+fun Reactive<View>.focusChange(): Observable<FocusChangeListener> =
+        Observable.create { emitter ->
+            item.setOnFocusChangeListener { view, hasFocus ->
+                emitter.onNext(FocusChangeListener(view, hasFocus))
+            }
 
-//TODO: ScrollChangeListener
+            emitter.setDisposable(AndroidMainThreadDisposable { item.onFocusChangeListener = null })
+        }
+
+data class LayoutChangeListener(val view: View, val newRect: Rect, val oldRect: Rect)
+
+fun Reactive<View>.layoutChange(): Observable<LayoutChangeListener> =
+        Observable.create { emitter ->
+            val listener = View.OnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+                emitter.onNext(LayoutChangeListener(view, Rect(left, top, right, bottom), Rect(oldLeft, oldTop, oldRight, oldBottom)))
+            }
+            item.addOnLayoutChangeListener(listener)
+
+            emitter.setDisposable(AndroidMainThreadDisposable { item.removeOnLayoutChangeListener(listener) })
+        }
+
+data class ScrollDirection(val x: Int, val y: Int)
+data class ScrollChangeListener(val view: View, val direction: ScrollDirection, val oldDirection: ScrollDirection)
+
+fun Reactive<View>.scrollChange(): Observable<ScrollChangeListener> =
+        Observable.create { emitter ->
+            item.setOnScrollChangeListener { view: View, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+                emitter.onNext(ScrollChangeListener(view, ScrollDirection(scrollX, scrollY), ScrollDirection(oldScrollX, oldScrollY)))
+            }
+
+            emitter.setDisposable(AndroidMainThreadDisposable { item.setOnScrollChangeListener(null) })
+        }
 
 //TODO: CreateContextMenuListener
 

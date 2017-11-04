@@ -10,6 +10,8 @@ import android.support.test.runner.AndroidJUnit4
 import android.view.KeyEvent
 import android.view.View
 import android.widget.LinearLayout
+import com.github.kittinunf.reactiveandroid.reactive.view.LayoutChangeListener
+import com.github.kittinunf.reactiveandroid.reactive.view.ScrollChangeListener
 import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert.assertThat
