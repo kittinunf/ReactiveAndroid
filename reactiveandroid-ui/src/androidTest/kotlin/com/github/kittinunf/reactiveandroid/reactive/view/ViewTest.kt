@@ -1,12 +1,15 @@
 package com.github.kittinunf.reactiveandroid.reactive.view
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.support.test.InstrumentationRegistry
 import android.support.test.annotation.UiThreadTest
+import android.support.test.filters.SdkSuppress
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v4.content.ContextCompat
@@ -15,6 +18,7 @@ import android.view.View
 import com.github.kittinunf.reactiveandroid.ui.test.R
 import com.github.kittinunf.reactiveandroid.view.Padding
 import com.github.kittinunf.reactiveandroid.view.ViewTestActivity
+import com.github.kittinunf.reactiveandroid.view.rx_scrollChange
 import io.reactivex.subjects.BehaviorSubject
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.nullValue
@@ -125,16 +129,64 @@ class ViewTest {
         val test = view.rx.focusChange().map { it.hasFocus }.test()
 
         view.requestFocus()
-        test.assertValueCount(1)
-
         view.clearFocus()
-        test.assertValueCount(2)
 
         test.assertValues(true, false)
         test.dispose()
 
         view.requestFocus()
         view.clearFocus()
+        test.assertValueCount(2)
+    }
+
+    @Test
+    @UiThreadTest
+    fun layoutChange() {
+        val test = view.rx.layoutChange().test()
+
+        view.layout(view.left + 1, view.top + 2, view.right + 3, view.bottom + 4)
+
+        test.assertValueCount(1)
+        val first = test.values().first()
+
+        assertThat(first.newRect.left, equalTo(view.left))
+        assertThat(first.newRect.top, equalTo(view.top))
+        assertThat(first.newRect.right, equalTo(view.right))
+        assertThat(first.newRect.bottom, equalTo(view.bottom))
+
+        test.dispose()
+
+        view.layout(view.left + 1, view.top + 2, view.right + 3, view.bottom + 4)
+        test.assertValueCount(1)
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.M)
+    @Test
+    @UiThreadTest
+    fun scrollChange() {
+        val test = view.rx_scrollChange().test()
+
+        view.scrollTo(10, 20)
+        val first = test.values().first()
+
+        assertThat(first.oldDirection.x, equalTo(0))
+        assertThat(first.direction.x, equalTo(10))
+        assertThat(first.oldDirection.y, equalTo(0))
+        assertThat(first.direction.y, equalTo(20))
+
+        view.scrollTo(200, 100)
+        val second = test.values()[1]
+        assertThat(second.oldDirection.x, equalTo(10))
+        assertThat(second.direction.x, equalTo(200))
+        assertThat(second.oldDirection.y, equalTo(20))
+        assertThat(second.direction.y, equalTo(100))
+
+        test.dispose()
+
+        view.scrollTo(1000, 1000)
+        view.scrollTo(300, 300)
+
         test.assertValueCount(2)
     }
 
@@ -276,7 +328,7 @@ class ViewTest {
     @Test
     @UiThreadTest
     fun padding() {
-        var padding = Padding(10, 20, 30, 40)
+        val padding = Padding(10, 20, 30, 40)
 
         val subject = BehaviorSubject.create<Padding>()
         subject.onNext(padding)

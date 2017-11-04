@@ -10,6 +10,7 @@ import com.github.kittinunf.reactiveandroid.FieldDelegate
 import com.github.kittinunf.reactiveandroid.internal.AndroidMainThreadDisposable
 import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
 import com.github.kittinunf.reactiveandroid.reactive.Reactive
+import com.github.kittinunf.reactiveandroid.reactive.ofType
 import com.github.kittinunf.reactiveandroid.view.Padding
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
@@ -169,7 +170,9 @@ data class FocusChangeListener(val view: View, val hasFocus: Boolean)
 fun Reactive<View>.focusChange(): Observable<FocusChangeListener> =
         Observable.create { emitter ->
             item.setOnFocusChangeListener { view, hasFocus ->
-                emitter.onNext(FocusChangeListener(view, hasFocus))
+                if (!emitter.isDisposed) {
+                    emitter.onNext(FocusChangeListener(view, hasFocus))
+                }
             }
 
             emitter.setDisposable(AndroidMainThreadDisposable { item.onFocusChangeListener = null })
@@ -180,7 +183,9 @@ data class LayoutChangeListener(val view: View, val newRect: Rect, val oldRect: 
 fun Reactive<View>.layoutChange(): Observable<LayoutChangeListener> =
         Observable.create { emitter ->
             val listener = View.OnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
-                emitter.onNext(LayoutChangeListener(view, Rect(left, top, right, bottom), Rect(oldLeft, oldTop, oldRight, oldBottom)))
+                if (!emitter.isDisposed) {
+                    emitter.onNext(LayoutChangeListener(view, Rect(left, top, right, bottom), Rect(oldLeft, oldTop, oldRight, oldBottom)))
+                }
             }
             item.addOnLayoutChangeListener(listener)
 
@@ -193,14 +198,40 @@ data class ScrollChangeListener(val view: View, val direction: ScrollDirection, 
 fun Reactive<View>.scrollChange(): Observable<ScrollChangeListener> =
         Observable.create { emitter ->
             item.setOnScrollChangeListener { view: View, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-                emitter.onNext(ScrollChangeListener(view, ScrollDirection(scrollX, scrollY), ScrollDirection(oldScrollX, oldScrollY)))
+                if (!emitter.isDisposed) {
+                    emitter.onNext(ScrollChangeListener(view, ScrollDirection(scrollX, scrollY), ScrollDirection(oldScrollX, oldScrollY)))
+                }
             }
 
             emitter.setDisposable(AndroidMainThreadDisposable { item.setOnScrollChangeListener(null) })
         }
 
-//TODO: CreateContextMenuListener
+sealed class AttachStateChangeEvent {
+    data class Attach(val view: View) : AttachStateChangeEvent()
+    data class Detach(val view: View) : AttachStateChangeEvent()
+}
 
-//TODO: AttachToWindow
+fun Reactive<View>.attachedToWindow() = attachStateChange().ofType<AttachStateChangeEvent.Attach>()
 
-//TODO: DetachFromWindow
+fun Reactive<View>.detachedFromWindow() = attachStateChange().ofType<AttachStateChangeEvent.Detach>()
+
+private fun Reactive<View>.attachStateChange(): Observable<AttachStateChangeEvent> =
+        Observable.create { emitter ->
+            val listener = object : View.OnAttachStateChangeListener {
+                override fun onViewDetachedFromWindow(view: View) {
+                    if (!emitter.isDisposed) {
+                        emitter.onNext(AttachStateChangeEvent.Detach(view))
+                    }
+                }
+
+                override fun onViewAttachedToWindow(view: View) {
+                    if (!emitter.isDisposed) {
+                        emitter.onNext(AttachStateChangeEvent.Attach(view))
+                    }
+                }
+            }
+
+            item.addOnAttachStateChangeListener(listener)
+
+            emitter.setDisposable(AndroidMainThreadDisposable { item.removeOnAttachStateChangeListener(listener) })
+        }

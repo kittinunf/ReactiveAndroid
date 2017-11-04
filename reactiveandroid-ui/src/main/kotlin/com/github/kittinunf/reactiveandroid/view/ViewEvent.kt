@@ -12,6 +12,7 @@ import com.github.kittinunf.reactiveandroid.reactive.Reactive
 import com.github.kittinunf.reactiveandroid.reactive.view.FocusChangeListener
 import com.github.kittinunf.reactiveandroid.reactive.view.LayoutChangeListener
 import com.github.kittinunf.reactiveandroid.reactive.view.ScrollChangeListener
+import com.github.kittinunf.reactiveandroid.reactive.view.ScrollDirection
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
