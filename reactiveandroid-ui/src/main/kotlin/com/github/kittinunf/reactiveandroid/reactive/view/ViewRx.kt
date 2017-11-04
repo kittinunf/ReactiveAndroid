@@ -11,7 +11,6 @@ import com.github.kittinunf.reactiveandroid.internal.AndroidMainThreadDisposable
 import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
 import com.github.kittinunf.reactiveandroid.reactive.Reactive
 import com.github.kittinunf.reactiveandroid.reactive.ofType
-import com.github.kittinunf.reactiveandroid.view.Padding
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 
@@ -58,6 +57,8 @@ val Reactive<View>.longClickable: Consumer<Boolean>
         item.isLongClickable = value
     }
 
+data class Padding(val start: Int, val top: Int, val end: Int, val bottom: Int)
+
 val Reactive<View>.padding: Consumer<Padding>
     get() = AndroidBindingConsumer(item) { item, value ->
         item.setPaddingRelative(value.start, value.top, value.end, value.bottom)
@@ -82,6 +83,8 @@ val Reactive<View>.visibility: Consumer<Int>
     get() = AndroidBindingConsumer(item) { item, value ->
         item.visibility = value
     }
+
+//Events
 
 fun Reactive<View>.click(): Observable<View> =
         Observable.create<View> { emitter ->

@@ -16,7 +16,6 @@ import android.support.v4.content.ContextCompat
 import android.view.KeyEvent
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ui.test.R
-import com.github.kittinunf.reactiveandroid.view.Padding
 import com.github.kittinunf.reactiveandroid.view.ViewTestActivity
 import io.reactivex.subjects.BehaviorSubject
 import org.hamcrest.CoreMatchers.equalTo
@@ -438,59 +437,60 @@ class ViewTest {
         assertThat(view.visibility, equalTo(View.VISIBLE))
     }
 
-    fun withBackgroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
+}
 
-        override fun matchesSafely(view: View?): Boolean {
-            if (view == null) return false
+fun withBackgroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
 
-            val context = view.context
-            val color = view.background
+    override fun matchesSafely(view: View?): Boolean {
+        if (view == null) return false
 
-            val otherColor = ContextCompat.getColor(context, resId)
+        val context = view.context
+        val color = view.background
 
-            val colorValue = (color as ColorDrawable).color
-            return colorValue == otherColor
-        }
+        val otherColor = ContextCompat.getColor(context, resId)
 
-        override fun describeTo(description: Description?) {
-            description?.appendText("view has background color resource id: $resId")
-        }
-
+        val colorValue = (color as ColorDrawable).color
+        return colorValue == otherColor
     }
 
-    fun withForegroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
-
-        override fun matchesSafely(view: View?): Boolean {
-            if (view == null) return false
-
-            val context = view.context
-            val color = view.foreground
-
-            val otherColor = ContextCompat.getColor(context, resId)
-
-            val colorValue = (color as ColorDrawable).color
-            return colorValue == otherColor
-        }
-
-        override fun describeTo(description: Description?) {
-            description?.appendText("view has background color resource id: $resId")
-        }
-
+    override fun describeTo(description: Description?) {
+        description?.appendText("view has background color resource id: $resId")
     }
 
-    fun withDrawable(context: Context, resId: Int): Matcher<Drawable> = object : TypeSafeMatcher<Drawable>() {
+}
 
-        override fun matchesSafely(drawable: Drawable?): Boolean {
-            if (drawable == null) return false
+fun withForegroundColor(resId: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
 
-            val bitmap = (ContextCompat.getDrawable(context, resId) as BitmapDrawable).bitmap
-            val anotherBitmap = (drawable as BitmapDrawable).bitmap
-            return bitmap == anotherBitmap
-        }
+    override fun matchesSafely(view: View?): Boolean {
+        if (view == null) return false
 
-        override fun describeTo(description: Description?) {
-            description?.appendText("drawable with resource id: $resId")
-        }
+        val context = view.context
+        val color = view.foreground
 
+        val otherColor = ContextCompat.getColor(context, resId)
+
+        val colorValue = (color as ColorDrawable).color
+        return colorValue == otherColor
     }
+
+    override fun describeTo(description: Description?) {
+        description?.appendText("view has background color resource id: $resId")
+    }
+
+}
+
+fun withDrawable(context: Context, resId: Int): Matcher<Drawable> = object : TypeSafeMatcher<Drawable>() {
+
+    override fun matchesSafely(drawable: Drawable?): Boolean {
+        if (drawable == null) return false
+
+        val bitmap = (ContextCompat.getDrawable(context, resId) as BitmapDrawable).bitmap
+        val anotherBitmap = (drawable as BitmapDrawable).bitmap
+        return bitmap == anotherBitmap
+    }
+
+    override fun describeTo(description: Description?) {
+        description?.appendText("drawable with resource id: $resId")
+    }
+
 }
