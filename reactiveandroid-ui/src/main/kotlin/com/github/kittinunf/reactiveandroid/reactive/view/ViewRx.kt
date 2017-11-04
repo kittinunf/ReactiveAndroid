@@ -2,8 +2,9 @@ package com.github.kittinunf.reactiveandroid.reactive.view
 
 import android.graphics.drawable.Drawable
 import android.view.DragEvent
+import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
-import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
 import com.github.kittinunf.reactiveandroid.FieldDelegate
 import com.github.kittinunf.reactiveandroid.internal.AndroidMainThreadDisposable
 import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
@@ -82,17 +83,23 @@ val Reactive<View>.visibility: Consumer<Int>
 
 fun Reactive<View>.click(): Observable<View> =
         Observable.create<View> { emitter ->
-            item.setOnClickListener { emitter.onNext(it) }
+            item.setOnClickListener {
+                if (!emitter.isDisposed) {
+                    emitter.onNext(it)
+                }
+            }
 
             emitter.setDisposable(AndroidMainThreadDisposable { item.setOnClickListener(null) })
         }
 
 data class DragListener(val view: View, val dragEvent: DragEvent)
 
-fun Reactive<View>.drag(consumed: Boolean): Observable<DragListener> =
+fun Reactive<View>.drag(consumed: Boolean = true): Observable<DragListener> =
         Observable.create { emitter ->
             item.setOnDragListener { view, event ->
-                emitter.onNext(DragListener(view, event))
+                if (!emitter.isDisposed) {
+                    emitter.onNext(DragListener(view, event))
+                }
 
                 consumed
             }
@@ -100,13 +107,61 @@ fun Reactive<View>.drag(consumed: Boolean): Observable<DragListener> =
             emitter.setDisposable(AndroidMainThreadDisposable { item.setOnDragListener(null) })
         }
 
-//TODO: KeyListener
+data class KeyListener(val view: View, val keyCode: Int, val keyEvent: KeyEvent)
 
-//TODO: HoverListener
+fun Reactive<View>.key(consumed: Boolean = true): Observable<KeyListener> =
+        Observable.create { emitter ->
+            item.setOnKeyListener { view, keyCode, keyEvent ->
+                if (!emitter.isDisposed) {
+                    emitter.onNext(KeyListener(view, keyCode, keyEvent))
+                }
 
-//TODO: TouchListener
+                consumed
+            }
 
-//TODO: LongClick
+            emitter.setDisposable(AndroidMainThreadDisposable { item.setOnKeyListener(null) })
+        }
+
+data class MotionListener(val view: View, val motionEvent: MotionEvent)
+
+fun Reactive<View>.hover(consumed: Boolean = true): Observable<MotionListener> =
+        Observable.create { emitter ->
+            item.setOnHoverListener { view, motionEvent ->
+                if (!emitter.isDisposed) {
+                    emitter.onNext(MotionListener(view, motionEvent))
+                }
+
+                consumed
+            }
+
+            emitter.setDisposable(AndroidMainThreadDisposable { item.setOnHoverListener(null) })
+        }
+
+fun Reactive<View>.touch(consumed: Boolean = true): Observable<MotionListener> =
+        Observable.create { emitter ->
+            item.setOnTouchListener { view, motionEvent ->
+                if (!emitter.isDisposed) {
+                    emitter.onNext(MotionListener(view, motionEvent))
+                }
+
+                consumed
+            }
+
+            emitter.setDisposable(AndroidMainThreadDisposable { item.setOnTouchListener(null) })
+        }
+
+fun Reactive<View>.longClick(consumed: Boolean = true): Observable<View> =
+        Observable.create { emitter ->
+            item.setOnLongClickListener {
+                if (!emitter.isDisposed) {
+                    emitter.onNext(it)
+                }
+
+                consumed
+            }
+
+            emitter.setDisposable(AndroidMainThreadDisposable { item.setOnLongClickListener(null) })
+        }
 
 //TODO: FocusChangeListener
 

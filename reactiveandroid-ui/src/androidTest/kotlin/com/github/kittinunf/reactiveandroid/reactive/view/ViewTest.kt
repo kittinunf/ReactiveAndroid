@@ -10,6 +10,7 @@ import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v4.content.ContextCompat
+import android.view.KeyEvent
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ui.test.R
 import com.github.kittinunf.reactiveandroid.view.Padding
@@ -46,13 +47,45 @@ class ViewTest {
     @Test
     @UiThreadTest
     fun click() {
+        val test = view.rx.click().test()
 
+        view.performClick()
+        view.performClick()
+        view.performClick()
+
+        test.assertValueCount(3)
+        test.assertNoErrors()
+
+        test.dispose()
+
+        view.performClick()
+        view.performClick()
+        test.assertValueCount(2)
     }
 
     @Test
     @UiThreadTest
     fun drag() {
+    }
 
+    @Test
+    @UiThreadTest
+    fun key() {
+        val test = view.rx.key().map { it.keyCode }.test()
+
+        view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_A))
+        view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_S))
+        view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_D))
+        view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_F))
+
+        test.assertValues(KeyEvent.KEYCODE_A, KeyEvent.KEYCODE_S, KeyEvent.KEYCODE_D, KeyEvent.KEYCODE_F)
+
+        test.dispose()
+
+        view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_Q))
+        view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_W))
+
+        test.assertValueCount(4)
     }
 
     @Test

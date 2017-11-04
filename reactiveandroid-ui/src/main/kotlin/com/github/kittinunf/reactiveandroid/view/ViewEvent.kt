@@ -60,20 +60,18 @@ fun View.rx_key(consumed: Boolean): Observable<KeyListener> {
     }
 }
 
-data class HoverListener(val view: View, val motionEvent: MotionEvent)
-
-fun View.rx_hover(consumed: Boolean): Observable<HoverListener> {
-    return Observable.create { subscriber ->
-        setOnHoverListener { view, event ->
-            subscriber.onNext(HoverListener(view, event))
-            consumed
-        }
-
-        subscriber.setDisposable(AndroidMainThreadSubscription {
-            setOnHoverListener(null)
-        })
-    }
-}
+//fun View.rx_hover(consumed: Boolean): Observable<HoverListener> {
+//    return Observable.create { subscriber ->
+//        setOnHoverListener { view, event ->
+//            subscriber.onNext(HoverListener(view, event))
+//            consumed
+//        }
+//
+//        subscriber.setDisposable(AndroidMainThreadSubscription {
+//            setOnHoverListener(null)
+//        })
+//    }
+//}
 
 data class TouchListener(val view: View, val motionEvent: MotionEvent)
 
