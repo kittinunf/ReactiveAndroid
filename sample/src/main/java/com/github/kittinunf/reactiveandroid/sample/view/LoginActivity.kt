@@ -2,7 +2,6 @@ package com.github.kittinunf.reactiveandroid.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
@@ -42,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val loginSubmit = Observable.merge(
-                passwordEditText.rx.onEditorAction(true).filter { it.actionId == EditorInfo.IME_ACTION_DONE }.map { Unit },
+                passwordEditText.rx.onEditorAction().filter { it.actionId == EditorInfo.IME_ACTION_DONE }.map { Unit },
                 loginButton.rx.click().map { Unit })
 
         loginValid.subscribe(loginButton.rx.enabled)
@@ -56,11 +55,6 @@ class LoginActivity : AppCompatActivity() {
                 .map { View.GONE }
                 .doOnNext(loadingProgressBar.rx.visibility)
                 .subscribe { Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show() }
-                .addTo(disposables)
-
-        userNameEditText.rx.onEditorAction()
-                .mergeWith(passwordEditText.rx.onEditorAction())
-                .subscribe { Log.d(javaClass.simpleName, it.toString()) }
                 .addTo(disposables)
     }
 

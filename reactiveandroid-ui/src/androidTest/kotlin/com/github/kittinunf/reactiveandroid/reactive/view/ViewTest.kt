@@ -45,6 +45,18 @@ class ViewTest {
 
     @Test
     @UiThreadTest
+    fun click() {
+
+    }
+
+    @Test
+    @UiThreadTest
+    fun drag() {
+
+    }
+
+    @Test
+    @UiThreadTest
     fun activated() {
         var activated = false
 

@@ -80,61 +80,25 @@ val Reactive<View>.visibility: Consumer<Int>
         item.visibility = value
     }
 
-fun Reactive<View>.click() = Observable.create<View> { emitter ->
+fun Reactive<View>.click(): Observable<View> =
+        Observable.create<View> { emitter ->
+            item.setOnClickListener { emitter.onNext(it) }
 
-    val listener = item._click
-    listener.onClick {
-        emitter.onNext(it)
-    }
-
-    emitter.setDisposable(AndroidMainThreadDisposable({ item.setOnClickListener(null) }))
-}
-
-private val View._click: _View_OnClickListener
-        by ExtensionFieldDelegate({ _View_OnClickListener() }, { setOnClickListener(it) })
-
-private class _View_OnClickListener : View.OnClickListener {
-
-    private var _onClick: ((View) -> Unit)? = null
-
-    override fun onClick(view: View) {
-        _onClick?.invoke(view)
-    }
-
-    fun onClick(listener: (View) -> Unit) {
-        _onClick = listener
-    }
-
-}
+            emitter.setDisposable(AndroidMainThreadDisposable { item.setOnClickListener(null) })
+        }
 
 data class DragListener(val view: View, val dragEvent: DragEvent)
 
-fun Reactive<View>.drag(consumed: Boolean) = Observable.create<DragListener> { emitter ->
-    val listener = item._drag
+fun Reactive<View>.drag(consumed: Boolean): Observable<DragListener> =
+        Observable.create { emitter ->
+            item.setOnDragListener { view, event ->
+                emitter.onNext(DragListener(view, event))
 
-    listener.onDrag {
-        emitter.onNext(it)
-        consumed
-    }
+                consumed
+            }
 
-    emitter.setDisposable(AndroidMainThreadDisposable({ item.setOnDragListener(null) }))
-}
-
-private val View._drag: _View_OnDragListener
-        by ExtensionFieldDelegate({ _View_OnDragListener() }, { setOnDragListener(it) })
-
-private class _View_OnDragListener : View.OnDragListener {
-
-    private var _onDrag: ((DragListener) -> Boolean)? = null
-
-    override fun onDrag(p0: View, p1: DragEvent): Boolean
-            = _onDrag?.invoke(DragListener(p0, p1)) ?: false
-
-    fun onDrag(listener: (DragListener) -> Boolean) {
-        _onDrag = listener
-    }
-
-}
+            emitter.setDisposable(AndroidMainThreadDisposable { item.setOnDragListener(null) })
+        }
 
 //TODO: KeyListener
 
