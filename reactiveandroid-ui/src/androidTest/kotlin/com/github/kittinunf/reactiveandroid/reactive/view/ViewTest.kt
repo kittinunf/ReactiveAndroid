@@ -32,7 +32,7 @@ class ViewTest {
     @JvmField
     val activityRule = ActivityTestRule(ViewTestActivity::class.java)
 
-    private val context = InstrumentationRegistry.getContext()
+    val context = InstrumentationRegistry.getContext()
 
     val instrumentation = InstrumentationRegistry.getInstrumentation()
 
@@ -78,6 +78,7 @@ class ViewTest {
     @Test
     @UiThreadTest
     fun background() {
+
         assertThat(view.background, nullValue())
 
         var background = context.resources.getDrawable(R.drawable.ic_accessibility_black_18dp)
@@ -96,7 +97,8 @@ class ViewTest {
     @Test
     @UiThreadTest
     fun backgroundColor() {
-        var color = Color.parseColor("#000000") //white
+
+        var color = Color.parseColor("#FFFFFF") //white
 
         val subject = BehaviorSubject.create<Int>()
         subject.onNext(color)
@@ -104,7 +106,7 @@ class ViewTest {
 
         assertThat(view, withBackgroundColor(android.R.color.white))
 
-        color = Color.parseColor("#FFFFFF") //black
+        color = Color.parseColor("#000000") //black
 
         subject.onNext(color)
         assertThat(view, withBackgroundColor(android.R.color.black))
@@ -145,6 +147,8 @@ class ViewTest {
     @Test
     @UiThreadTest
     fun focused() {
+        view.isFocusable = true
+
         var focused = false
 
         val subject = BehaviorSubject.create<Boolean>()
@@ -214,11 +218,11 @@ class ViewTest {
         subject.onNext(selected)
         subject.subscribe(view.rx.selected)
 
-        assertThat(view.isLongClickable, equalTo(selected))
+        assertThat(view.isSelected, equalTo(selected))
 
         selected = true
         subject.onNext(selected)
-        assertThat(view.isLongClickable, equalTo(selected))
+        assertThat(view.isSelected, equalTo(selected))
     }
 
     @Test

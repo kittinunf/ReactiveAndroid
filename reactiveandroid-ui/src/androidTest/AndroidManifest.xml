@@ -4,7 +4,7 @@
     >
 
     <application>
-        <activity android:name=".view.ViewAttachTestActivity"/>
+        <activity android:name=".view.ViewTestActivity"/>
 
         <activity android:name=".widget.AdapterViewTestActivity"/>
 
