@@ -10,18 +10,11 @@ import com.github.kittinunf.reactiveandroid.Property
 import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
-import com.github.kittinunf.reactiveandroid.view.rx_click
 import com.github.kittinunf.reactiveandroid.widget.AdapterViewProxyAdapter
 import com.github.kittinunf.reactiveandroid.widget.rx_itemsWith
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_landing.toFragmentPagerButton
-import kotlinx.android.synthetic.main.activity_landing.toListPageButton
-import kotlinx.android.synthetic.main.activity_landing.toNestedListButton
-import kotlinx.android.synthetic.main.activity_landing.toSectionListPageButton
-import kotlinx.android.synthetic.main.activity_landing.toSignInPageButton
-import kotlinx.android.synthetic.main.activity_landing.toSignUpPageButton
 import kotlinx.android.synthetic.main.activity_landing.toolbar
 import kotlinx.android.synthetic.main.activity_landing.toolbarSpinner
 import kotlinx.android.synthetic.main.spinner_item.view.spinnerTextView
@@ -55,12 +48,12 @@ class LandingActivity : AppCompatActivity() {
     }
 
     private fun setUpButtons() {
-        toSignInPageButton.rx_click().map { SignInActivity::class }.subscribe(this::start).addTo(subscriptions)
-        toSignUpPageButton.rx_click().map { SignUpActivity::class }.subscribe(this::start).addTo(subscriptions)
-        toListPageButton.rx_click().map { RecyclerViewActivity::class }.subscribe(this::start).addTo(subscriptions)
-        toSectionListPageButton.rx_click().map { SectionRecyclerViewActivity::class }.subscribe(this::start).addTo(subscriptions)
-        toFragmentPagerButton.rx_click().map { FragmentPagerActivity::class }.subscribe { start(it) }.addTo(subscriptions)
-        toNestedListButton.rx_click().map { NestedRecyclerViewActivity::class }.subscribe { start(it) }.addTo(subscriptions)
+//        toSignInPageButton.rx_click().map { SignInActivity::class }.subscribe(this::start).addTo(subscriptions)
+//        toSignUpPageButton.rx_click().map { SignUpActivity::class }.subscribe(this::start).addTo(subscriptions)
+//        toListPageButton.rx_click().map { RecyclerViewActivity::class }.subscribe(this::start).addTo(subscriptions)
+//        toSectionListPageButton.rx_click().map { SectionRecyclerViewActivity::class }.subscribe(this::start).addTo(subscriptions)
+//        toFragmentPagerButton.rx_click().map { FragmentPagerActivity::class }.subscribe { start(it) }.addTo(subscriptions)
+//        toNestedListButton.rx_click().map { NestedRecyclerViewActivity::class }.subscribe { start(it) }.addTo(subscriptions)
     }
 
     private fun setUpTextView() {

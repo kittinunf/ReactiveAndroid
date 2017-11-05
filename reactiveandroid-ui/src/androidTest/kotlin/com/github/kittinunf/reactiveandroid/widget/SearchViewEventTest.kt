@@ -6,7 +6,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.View
 import android.widget.SearchView
-import com.github.kittinunf.reactiveandroid.view.FocusChangeListener
+import com.github.kittinunf.reactiveandroid.reactive.view.FocusChangeListener
 import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat

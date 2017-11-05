@@ -12,8 +12,6 @@ import com.github.kittinunf.reactiveandroid.MutableProperty
 import com.github.kittinunf.reactiveandroid.reactive.addTo
 import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.v7.widget.rx_itemsWith
-import com.github.kittinunf.reactiveandroid.view.rx_click
-import com.github.kittinunf.reactiveandroid.view.rx_longClick
 import com.github.kittinunf.reactiveandroid.view.rx_menuItemClick
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_recycler_view.recyclerView
@@ -49,14 +47,14 @@ class RecyclerViewActivity : AppCompatActivity() {
         recyclerView.rx_itemsWith(items.observable, { parent, viewType ->
             val view = LayoutInflater.from(parent?.context).inflate(R.layout.recycler_item, parent, false)
             val vh = ViewHolder(view)
-            vh.itemView.rx_click().subscribe {
-                _items[vh.layoutPosition] = countries.random()
-                items.value = _items.toList()
-            }
-            vh.itemView.rx_longClick(true).subscribe {
-                _items.removeAt(vh.layoutPosition)
-                items.value = _items.toList()
-            }
+//            vh.itemView.rx_click().subscribe {
+//                _items[vh.layoutPosition] = countries.random()
+//                items.value = _items.toList()
+//            }
+//            vh.itemView.rx_longClick(true).subscribe {
+//                _items.removeAt(vh.layoutPosition)
+//                items.value = _items.toList()
+//            }
             vh
         }, { holder, position, item ->
             holder.textView1.text = item

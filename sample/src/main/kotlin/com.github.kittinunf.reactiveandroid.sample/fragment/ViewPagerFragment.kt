@@ -11,8 +11,6 @@ import com.github.kittinunf.reactiveandroid.sample.R
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabSelected
 import com.github.kittinunf.reactiveandroid.support.design.widget.rx_tabUnselected
 import com.github.kittinunf.reactiveandroid.support.v4.widget.rx_fragmentsStateWith
-import com.github.kittinunf.reactiveandroid.view.rx_attachedToWindow
-import com.github.kittinunf.reactiveandroid.view.rx_detachedFromWindow
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_view_pager.tlPager
@@ -38,13 +36,13 @@ class ViewPagerFragment : Fragment() {
                 }
         ).addTo(subscriptions)
 
-        viewPager.rx_attachedToWindow().subscribe {
-            Log.e(javaClass.simpleName, "viewPager is attached")
-        }.addTo(subscriptions)
-
-        viewPager.rx_detachedFromWindow().subscribe {
-            Log.e(javaClass.simpleName, "viewPager is detached")
-        }.addTo(subscriptions)
+//        viewPager.rx_attachedToWindow().subscribe {
+//            Log.e(javaClass.simpleName, "viewPager is attached")
+//        }.addTo(subscriptions)
+//
+//        viewPager.rx_detachedFromWindow().subscribe {
+//            Log.e(javaClass.simpleName, "viewPager is detached")
+//        }.addTo(subscriptions)
 
         tlPager.setupWithViewPager(viewPager)
 

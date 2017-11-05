@@ -9,9 +9,9 @@ import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.widget.ActionMenuView
 import com.github.kittinunf.reactiveandroid.reactive.bindTo
+import com.github.kittinunf.reactiveandroid.reactive.view.withDrawable
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.ui.test.R
-import com.github.kittinunf.reactiveandroid.view.withDrawable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import org.hamcrest.MatcherAssert.assertThat

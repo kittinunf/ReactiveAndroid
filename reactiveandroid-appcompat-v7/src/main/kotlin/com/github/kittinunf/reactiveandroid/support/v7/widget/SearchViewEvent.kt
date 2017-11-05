@@ -3,8 +3,8 @@ package com.github.kittinunf.reactiveandroid.support.v7.widget
 import android.support.v7.widget.SearchView
 import android.view.View
 import com.github.kittinunf.reactiveandroid.ExtensionFieldDelegate
+import com.github.kittinunf.reactiveandroid.reactive.view.FocusChangeListener
 import com.github.kittinunf.reactiveandroid.subscription.AndroidMainThreadSubscription
-import com.github.kittinunf.reactiveandroid.view.FocusChangeListener
 import io.reactivex.Observable
 
 //================================================================================

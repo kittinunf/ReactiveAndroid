@@ -68,15 +68,21 @@ private fun Reactive<TextView>.textWatcher(): Observable<TextWatcherEvent> =
         Observable.create<TextWatcherEvent> { emitter ->
             val listener = object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    emitter.onNext(TextWatcherEvent.AfterTextChanged(s))
+                    if (!emitter.isDisposed) {
+                        emitter.onNext(TextWatcherEvent.AfterTextChanged(s))
+                    }
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                    emitter.onNext(TextWatcherEvent.BeforeTextChanged(s, start, count, after))
+                    if (!emitter.isDisposed) {
+                        emitter.onNext(TextWatcherEvent.BeforeTextChanged(s, start, count, after))
+                    }
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    emitter.onNext(TextWatcherEvent.OnTextChanged(s, start, before, count))
+                    if (!emitter.isDisposed) {
+                        emitter.onNext(TextWatcherEvent.OnTextChanged(s, start, before, count))
+                    }
                 }
             }
 
@@ -90,7 +96,9 @@ data class EditorActionEvent(val textView: TextView, val actionId: Int, val even
 fun Reactive<TextView>.onEditorAction(consumed: Boolean = true): Observable<EditorActionEvent> =
         Observable.create { emitter ->
             item.setOnEditorActionListener { textView, actionId, keyEvent ->
-                emitter.onNext(EditorActionEvent(textView, actionId, keyEvent))
+                if (!emitter.isDisposed) {
+                    emitter.onNext(EditorActionEvent(textView, actionId, keyEvent))
+                }
 
                 consumed
             }
