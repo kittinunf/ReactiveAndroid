@@ -78,3 +78,7 @@ publish {
     uploadName = parent.ext.uploadName
     website = parent.ext.website
 }
+
+tasks.withType(Javadoc) {
+    enabled = false
+}
