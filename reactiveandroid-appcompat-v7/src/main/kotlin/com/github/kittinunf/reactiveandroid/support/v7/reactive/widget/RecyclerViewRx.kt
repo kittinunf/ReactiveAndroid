@@ -1,6 +1,7 @@
 package com.github.kittinunf.reactiveandroid.support.v7.reactive.widget
 
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.github.kittinunf.reactiveandroid.FieldDelegate
 import com.github.kittinunf.reactiveandroid.internal.AndroidMainThreadDisposable
 import com.github.kittinunf.reactiveandroid.reactive.Reactive
@@ -45,4 +46,36 @@ fun Reactive<RecyclerView>.recycler(): Observable<RecyclerView.ViewHolder> =
             item.setRecyclerListener { emitter.onNext(it) }
 
             emitter.setDisposable(AndroidMainThreadDisposable { item.setRecyclerListener(null) })
+        }
+
+sealed class RecyclerChildStateChanged {
+    data class ChildViewDetachedFromWindow(val view: View) : RecyclerChildStateChanged()
+    data class ChildViewAttachedToWindow(val view: View) : RecyclerChildStateChanged()
+}
+
+fun Reactive<RecyclerView>.childViewDetachedFromWindow() = childAttachStateChange().ofType<RecyclerChildStateChanged.ChildViewDetachedFromWindow>()
+
+fun Reactive<RecyclerView>.childViewAttachedToWindow() = childAttachStateChange().ofType<RecyclerChildStateChanged.ChildViewAttachedToWindow>()
+
+private fun Reactive<RecyclerView>.childAttachStateChange(): Observable<RecyclerChildStateChanged> =
+        Observable.create { emitter ->
+
+            val listener = object : RecyclerView.OnChildAttachStateChangeListener {
+                override fun onChildViewDetachedFromWindow(view: View) {
+                    if (!emitter.isDisposed) {
+                        emitter.onNext(RecyclerChildStateChanged.ChildViewDetachedFromWindow(view))
+                    }
+                }
+
+                override fun onChildViewAttachedToWindow(view: View) {
+                    if (!emitter.isDisposed) {
+                        emitter.onNext(RecyclerChildStateChanged.ChildViewAttachedToWindow(view))
+                    }
+                }
+
+            }
+
+            item.addOnChildAttachStateChangeListener(listener)
+
+            emitter.setDisposable(AndroidMainThreadDisposable { item.removeOnChildAttachStateChangeListener(listener) })
         }

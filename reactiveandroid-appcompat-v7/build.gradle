@@ -52,12 +52,10 @@ dependencies {
     compile parent.ext.androidSupportRecyclerView
     compile parent.ext.androidSupportCardView
 
-    androidTestCompile parent.ext.androidSupportV4
     androidTestCompile parent.ext.supportTestEspressoCore
     androidTestCompile parent.ext.supportTestEspressoContrib
     androidTestCompile parent.ext.supportTestRunner
     androidTestCompile parent.ext.supportTestRules
-    androidTestCompile parent.ext.awaitility
 }
 
 buildscript {
