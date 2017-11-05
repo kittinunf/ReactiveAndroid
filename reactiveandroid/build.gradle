@@ -41,4 +41,3 @@ publish {
     uploadName = parent.ext.uploadName
     website = parent.ext.website
 }
-
