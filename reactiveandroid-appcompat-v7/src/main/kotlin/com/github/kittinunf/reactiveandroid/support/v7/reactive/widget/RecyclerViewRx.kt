@@ -48,28 +48,28 @@ fun Reactive<RecyclerView>.recycler(): Observable<RecyclerView.ViewHolder> =
             emitter.setDisposable(AndroidMainThreadDisposable { item.setRecyclerListener(null) })
         }
 
-sealed class RecyclerChildStateChanged {
-    data class ChildViewDetachedFromWindow(val view: View) : RecyclerChildStateChanged()
-    data class ChildViewAttachedToWindow(val view: View) : RecyclerChildStateChanged()
+sealed class ChildAttachStateChanged {
+    data class ChildAttachViewDetachedFromWindow(val view: View) : ChildAttachStateChanged()
+    data class ChildAttachViewAttachedToWindow(val view: View) : ChildAttachStateChanged()
 }
 
-fun Reactive<RecyclerView>.childViewDetachedFromWindow() = childAttachStateChange().ofType<RecyclerChildStateChanged.ChildViewDetachedFromWindow>()
+fun Reactive<RecyclerView>.childViewDetachedFromWindow() = childAttachStateChange().ofType<ChildAttachStateChanged.ChildAttachViewDetachedFromWindow>()
 
-fun Reactive<RecyclerView>.childViewAttachedToWindow() = childAttachStateChange().ofType<RecyclerChildStateChanged.ChildViewAttachedToWindow>()
+fun Reactive<RecyclerView>.childViewAttachedToWindow() = childAttachStateChange().ofType<ChildAttachStateChanged.ChildAttachViewAttachedToWindow>()
 
-private fun Reactive<RecyclerView>.childAttachStateChange(): Observable<RecyclerChildStateChanged> =
+private fun Reactive<RecyclerView>.childAttachStateChange(): Observable<ChildAttachStateChanged> =
         Observable.create { emitter ->
 
             val listener = object : RecyclerView.OnChildAttachStateChangeListener {
                 override fun onChildViewDetachedFromWindow(view: View) {
                     if (!emitter.isDisposed) {
-                        emitter.onNext(RecyclerChildStateChanged.ChildViewDetachedFromWindow(view))
+                        emitter.onNext(ChildAttachStateChanged.ChildAttachViewDetachedFromWindow(view))
                     }
                 }
 
                 override fun onChildViewAttachedToWindow(view: View) {
                     if (!emitter.isDisposed) {
-                        emitter.onNext(RecyclerChildStateChanged.ChildViewAttachedToWindow(view))
+                        emitter.onNext(ChildAttachStateChanged.ChildAttachViewAttachedToWindow(view))
                     }
                 }
 
