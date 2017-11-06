@@ -35,4 +35,54 @@ class RecyclerViewTest {
     fun scrolled() {
 
     }
+
+    @Test
+    fun recycler() {
+
+    }
+
+    @Test
+    fun childViewDetached() {
+
+    }
+
+    @Test
+    fun childViewAttached() {
+
+    }
+
+    @Test
+    fun touchEvent() {
+
+    }
+
+    @Test
+    fun interceptTouchEvent() {
+
+    }
+
+    @Test
+    fun changed() {
+
+    }
+
+    @Test
+    fun itemChanged() {
+
+    }
+
+    @Test
+    fun itemInserted() {
+
+    }
+
+    @Test
+    fun itemMoved() {
+
+    }
+
+    @Test
+    fun itemRemoved() {
+
+    }
 }
