@@ -5,6 +5,10 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import com.github.kittinunf.reactiveandroid.reactive.activity.RecyclerViewTestActivity
+import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.ChildAttachStateChange
+import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.childViewAttachedToWindow
+import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.childViewDetachedFromWindow
+import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.rx
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,12 +47,34 @@ class RecyclerViewTest {
 
     @Test
     fun childViewDetached() {
+        val child = activityRule.activity.child
 
+        activityRule.activity.setItem1Adapter(child)
+
+        val test = view.rx.childViewDetachedFromWindow().test()
+
+        activityRule.activity.unsetAdapter()
+
+        test.awaitCount(1)
+        test.assertValueCount(1)
+        test.assertValue(ChildAttachStateChange.ChildViewDetachedFromWindow(child))
     }
 
     @Test
     fun childViewAttached() {
+        val test = view.rx.childViewAttachedToWindow().test()
 
+        val child = activityRule.activity.child
+        activityRule.activity.setItem1Adapter(child)
+
+        test.awaitCount(1)
+        test.assertValueCount(1)
+        test.assertValue(ChildAttachStateChange.ChildViewAttachedToWindow(child))
+
+        test.dispose()
+
+        activityRule.activity.setItem1Adapter(child)
+        test.assertValueCount(1)
     }
 
     @Test
