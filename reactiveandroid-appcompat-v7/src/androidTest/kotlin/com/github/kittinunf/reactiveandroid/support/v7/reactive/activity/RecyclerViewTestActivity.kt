@@ -1,4 +1,4 @@
-package com.github.kittinunf.reactiveandroid.reactive.activity
+package com.github.kittinunf.reactiveandroid.support.v7.reactive.activity
 
 import android.app.Activity
 import android.os.Bundle

@@ -1,15 +1,10 @@
-package com.github.kittinunf.reactiveandroid.reactive.widget
+package com.github.kittinunf.reactiveandroid.support.v7.reactive.widget
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
-import com.github.kittinunf.reactiveandroid.reactive.activity.RecyclerViewTestActivity
-import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.ChildAttachStateChange
-import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.childViewAttachedToWindow
-import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.childViewDetachedFromWindow
-import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.rx
-import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.scrolled
+import com.github.kittinunf.reactiveandroid.support.v7.reactive.activity.RecyclerViewTestActivity
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
