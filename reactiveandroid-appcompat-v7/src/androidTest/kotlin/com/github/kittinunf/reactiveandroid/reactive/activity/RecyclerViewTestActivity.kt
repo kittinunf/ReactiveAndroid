@@ -4,8 +4,10 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 class RecyclerViewTestActivity : Activity() {
 
@@ -20,7 +22,6 @@ class RecyclerViewTestActivity : Activity() {
         recyclerView = RecyclerView(this).apply {
             id = android.R.id.primary
             layoutManager = LinearLayoutManager(this@RecyclerViewTestActivity)
-
         }
 
         setContentView(recyclerView)
@@ -29,6 +30,12 @@ class RecyclerViewTestActivity : Activity() {
     fun setItem1Adapter(view: View) {
         runOnUiThread {
             recyclerView.adapter = Item1Adapter(view)
+        }
+    }
+
+    fun setItem1000Adapter() {
+        runOnUiThread {
+            recyclerView.adapter = Item1000Adapter()
         }
     }
 
@@ -42,11 +49,25 @@ class RecyclerViewTestActivity : Activity() {
 
         override fun getItemCount(): Int = 1
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder = object : RecyclerView.ViewHolder(child) {
-        }
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder =
+                object : RecyclerView.ViewHolder(child) {}
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            println(position)
+        }
+    }
+
+    class ViewHolder(val view: TextView) : RecyclerView.ViewHolder(view)
+
+    class Item1000Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+        override fun getItemCount(): Int = 1000
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            val textView = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
+            return ViewHolder(textView as TextView)
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         }
     }
 }

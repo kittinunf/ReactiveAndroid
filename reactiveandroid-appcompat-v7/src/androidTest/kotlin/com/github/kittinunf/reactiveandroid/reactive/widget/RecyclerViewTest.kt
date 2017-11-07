@@ -9,6 +9,9 @@ import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.ChildAtta
 import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.childViewAttachedToWindow
 import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.childViewDetachedFromWindow
 import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.rx
+import com.github.kittinunf.reactiveandroid.support.v7.reactive.widget.scrolled
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,7 +40,20 @@ class RecyclerViewTest {
 
     @Test
     fun scrolled() {
+        val test = view.rx.scrolled().test()
 
+        activityRule.activity.setItem1000Adapter()
+
+        instrumentation.runOnMainSync {
+            view.scrollBy(0, 100)
+        }
+
+        test.awaitCount(2)
+
+        val values = test.values()
+        val last = values.last()
+        assertThat(last.dx, equalTo(0))
+        assertThat(last.dy, equalTo(100))
     }
 
     @Test
