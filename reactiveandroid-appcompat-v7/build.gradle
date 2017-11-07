@@ -12,11 +12,13 @@ android {
         targetSdkVersion parent.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
 
     buildTypes {
@@ -27,8 +29,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
     }
 
     lintOptions {
@@ -50,8 +52,12 @@ dependencies {
     compile parent.ext.androidSupportRecyclerView
     compile parent.ext.androidSupportCardView
 
-    testCompile parent.ext.junit
-    testCompile parent.ext.robolectric
+    androidTestCompile parent.ext.androidSupportV4
+    androidTestCompile parent.ext.supportTestEspressoCore
+    androidTestCompile parent.ext.supportTestEspressoContrib
+    androidTestCompile parent.ext.supportTestRunner
+    androidTestCompile parent.ext.supportTestRules
+    androidTestCompile parent.ext.awaitility
 }
 
 buildscript {
