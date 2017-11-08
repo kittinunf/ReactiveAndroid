@@ -58,16 +58,17 @@ class RecyclerViewTestActivity : Activity() {
 
     class ViewHolder(val view: TextView) : RecyclerView.ViewHolder(view)
 
-    class Item1000Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    class Item1000Adapter : RecyclerView.Adapter<ViewHolder>() {
 
         override fun getItemCount(): Int = 1000
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val textView = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
             return ViewHolder(textView as TextView)
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.view.text = position.toString()
         }
     }
 }

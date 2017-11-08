@@ -57,35 +57,28 @@ class RecyclerViewTest {
     }
 
     @Test
-    fun childViewDetached() {
-        val child = activityRule.activity.child
+    fun childViewAttachedDetached() {
+        val attach = view.rx.childViewAttachedToWindow().test()
+        val detach = view.rx.childViewDetachedFromWindow().test()
 
+        val child = activityRule.activity.child
         activityRule.activity.setItem1Adapter(child)
 
-        val test = view.rx.childViewDetachedFromWindow().test()
+        attach.awaitCount(1)
+        attach.assertValueCount(1)
+        attach.assertValue(ChildAttachStateChange.ChildViewAttachedToWindow(child))
 
         activityRule.activity.unsetAdapter()
+        detach.awaitCount(1)
+        detach.assertValueCount(1)
+        detach.assertValue(ChildAttachStateChange.ChildViewDetachedFromWindow(child))
 
-        test.awaitCount(1)
-        test.assertValueCount(1)
-        test.assertValue(ChildAttachStateChange.ChildViewDetachedFromWindow(child))
-    }
-
-    @Test
-    fun childViewAttached() {
-        val test = view.rx.childViewAttachedToWindow().test()
-
-        val child = activityRule.activity.child
-        activityRule.activity.setItem1Adapter(child)
-
-        test.awaitCount(1)
-        test.assertValueCount(1)
-        test.assertValue(ChildAttachStateChange.ChildViewAttachedToWindow(child))
-
-        test.dispose()
+        attach.dispose()
+        detach.dispose()
 
         activityRule.activity.setItem1Adapter(child)
-        test.assertValueCount(1)
+        attach.assertValueCount(1)
+        detach.assertValueCount(1)
     }
 
     @Test
