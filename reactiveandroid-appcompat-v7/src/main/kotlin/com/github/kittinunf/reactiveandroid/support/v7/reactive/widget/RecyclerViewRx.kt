@@ -9,30 +9,30 @@ import com.github.kittinunf.reactiveandroid.reactive.Reactive
 import com.github.kittinunf.reactiveandroid.reactive.ofType
 import io.reactivex.Observable
 
-val RecyclerView.rx: Reactive<RecyclerView> by FieldDelegate { Reactive(it) }
+val RecyclerView.rx: Reactive<RecyclerView> by FieldDelegate({ Reactive(it) })
 
-sealed class RecyclerScrollEvent {
-    data class ScrollStateChanged(val recyclerView: RecyclerView, val newState: Int) : RecyclerScrollEvent()
-    data class Scrolled(val recyclerView: RecyclerView, val dx: Int, val dy: Int) : RecyclerScrollEvent()
+sealed class RecyclerViewScrollEvent {
+    data class ScrollStateChanged(val recyclerView: RecyclerView, val newState: Int) : RecyclerViewScrollEvent()
+    data class Scrolled(val recyclerView: RecyclerView, val dx: Int, val dy: Int) : RecyclerViewScrollEvent()
 }
 
-fun Reactive<RecyclerView>.scrollStateChanged() = scroll().ofType<RecyclerScrollEvent.ScrollStateChanged>()
+fun Reactive<RecyclerView>.scrollStateChanged() = scroll().ofType<RecyclerViewScrollEvent.ScrollStateChanged>()
 
-fun Reactive<RecyclerView>.scrolled() = scroll().ofType<RecyclerScrollEvent.Scrolled>()
+fun Reactive<RecyclerView>.scrolled() = scroll().ofType<RecyclerViewScrollEvent.Scrolled>()
 
-private fun Reactive<RecyclerView>.scroll(): Observable<RecyclerScrollEvent> =
+private fun Reactive<RecyclerView>.scroll(): Observable<RecyclerViewScrollEvent> =
         Observable.create { emitter ->
 
             val listener = object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     if (!emitter.isDisposed) {
-                        emitter.onNext(RecyclerScrollEvent.ScrollStateChanged(recyclerView, newState))
+                        emitter.onNext(RecyclerViewScrollEvent.ScrollStateChanged(recyclerView, newState))
                     }
                 }
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     if (!emitter.isDisposed) {
-                        emitter.onNext(RecyclerScrollEvent.Scrolled(recyclerView, dx, dy))
+                        emitter.onNext(RecyclerViewScrollEvent.Scrolled(recyclerView, dx, dy))
                     }
                 }
             }

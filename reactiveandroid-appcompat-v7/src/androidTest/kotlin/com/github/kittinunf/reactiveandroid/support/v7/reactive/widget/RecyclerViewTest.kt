@@ -8,6 +8,7 @@ import com.github.kittinunf.reactiveandroid.support.v7.reactive.activity.Recycle
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,8 +30,21 @@ class RecyclerViewTest {
     }
 
     @Test
+    @Ignore
     fun scrollStateChanged() {
+        val test = view.rx.scrollStateChanged().test()
 
+        activityRule.activity.setItem1000Adapter()
+
+        instrumentation.runOnMainSync {
+            view.scrollBy(0, 100)
+        }
+
+        test.awaitCount(1)
+
+        val values = test.values()
+        val last = values.last()
+        assertThat(last.recyclerView, equalTo(view))
     }
 
     @Test
