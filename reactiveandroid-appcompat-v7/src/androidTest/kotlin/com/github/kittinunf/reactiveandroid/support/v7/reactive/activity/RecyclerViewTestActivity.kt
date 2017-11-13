@@ -14,6 +14,8 @@ class RecyclerViewTestActivity : Activity() {
     lateinit var recyclerView: RecyclerView
     lateinit var child: View
 
+    var items = (1..100).toList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,9 +35,9 @@ class RecyclerViewTestActivity : Activity() {
         }
     }
 
-    fun setItem1000Adapter() {
+    fun setItemsAdapter() {
         runOnUiThread {
-            recyclerView.adapter = Item1000Adapter()
+            recyclerView.adapter = ItemsAdapter()
         }
     }
 
@@ -58,9 +60,9 @@ class RecyclerViewTestActivity : Activity() {
 
     class ViewHolder(val view: TextView) : RecyclerView.ViewHolder(view)
 
-    class Item1000Adapter : RecyclerView.Adapter<ViewHolder>() {
+    inner class ItemsAdapter : RecyclerView.Adapter<ViewHolder>() {
 
-        override fun getItemCount(): Int = 1000
+        override fun getItemCount(): Int = items.size
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val textView = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
@@ -70,5 +72,7 @@ class RecyclerViewTestActivity : Activity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.view.text = position.toString()
         }
+
+        override fun getItemId(position: Int): Long = items[position].toLong()
     }
 }
