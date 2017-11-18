@@ -119,6 +119,16 @@ class RecyclerViewTest {
 
     @Test
     fun changed() {
+        val change = view.rx.changed().test()
+
+        val newItem = (1..5).toList()
+
+        activityRule.activity.setItemsAdapter()
+        activityRule.activity.items = newItem
+
+        change.awaitCount(1)
+        val values = change.values()
+        val last = values.last()
     }
 
     @Test
