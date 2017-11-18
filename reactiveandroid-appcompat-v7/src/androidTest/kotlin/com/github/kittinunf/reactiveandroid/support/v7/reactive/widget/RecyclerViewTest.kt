@@ -118,6 +118,7 @@ class RecyclerViewTest {
     }
 
     @Test
+    @Ignore
     fun changed() {
         val change = view.rx.changed().test()
 
@@ -127,8 +128,6 @@ class RecyclerViewTest {
         activityRule.activity.items = newItem
 
         change.awaitCount(1)
-        val values = change.values()
-        val last = values.last()
     }
 
     @Test
