@@ -1,10 +1,16 @@
 package com.github.kittinunf.reactiveandroid.support.v7.reactive.widget
 
 import android.support.test.InstrumentationRegistry
+import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.ViewGroup
 import com.github.kittinunf.reactiveandroid.support.v7.reactive.activity.RecyclerViewTestActivity
+import io.reactivex.Single
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
@@ -127,7 +133,11 @@ class RecyclerViewTest {
         activityRule.activity.setItemsAdapter()
         activityRule.activity.items = newItem
 
-        change.awaitCount(1)
+        instrumentation.runOnMainSync {
+            view.adapter.notifyDataSetChanged()
+        }
+
+        change.awaitCount(1, {}, 2000)
     }
 
     @Test
@@ -144,5 +154,44 @@ class RecyclerViewTest {
 
     @Test
     fun itemRemoved() {
+    }
+
+    @Test
+    @UiThreadTest
+    fun adapter() {
+        val expected = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+            override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+            }
+
+            override fun getItemCount(): Int = 1
+
+            override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder =
+                    object : RecyclerView.ViewHolder(View(instrumentation.context)) {}
+        }
+
+        Single.just(expected).subscribe(view.rx.adapter)
+
+        assertThat(view.adapter, equalTo(expected as RecyclerView.Adapter<*>))
+    }
+
+    @Test
+    @UiThreadTest
+    fun itemAnimator() {
+        val expected = DefaultItemAnimator()
+
+        Single.just(expected).subscribe(view.rx.itemAnimator)
+
+        assertThat(view.itemAnimator, equalTo(expected as RecyclerView.ItemAnimator))
+    }
+
+    @Test
+    @UiThreadTest
+    fun layoutManager() {
+        val expected = LinearLayoutManager(instrumentation.context)
+
+        Single.just(expected).subscribe(view.rx.layoutManager)
+
+        assertThat(view.layoutManager, equalTo(expected as RecyclerView.LayoutManager))
     }
 }

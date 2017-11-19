@@ -5,11 +5,32 @@ import android.view.MotionEvent
 import android.view.View
 import com.github.kittinunf.reactiveandroid.FieldDelegate
 import com.github.kittinunf.reactiveandroid.internal.AndroidMainThreadDisposable
+import com.github.kittinunf.reactiveandroid.reactive.AndroidBindingConsumer
 import com.github.kittinunf.reactiveandroid.reactive.Reactive
 import com.github.kittinunf.reactiveandroid.reactive.ofType
 import io.reactivex.Observable
+import io.reactivex.functions.Consumer
 
 val RecyclerView.rx: Reactive<RecyclerView> by FieldDelegate({ Reactive(it) })
+
+// Properties
+
+val Reactive<RecyclerView>.adapter: Consumer<RecyclerView.Adapter<*>>
+    get() = AndroidBindingConsumer(item) { item, value ->
+        item.adapter = value
+    }
+
+val Reactive<RecyclerView>.itemAnimator: Consumer<RecyclerView.ItemAnimator>
+    get() = AndroidBindingConsumer(item) { item, value ->
+        item.itemAnimator = value
+    }
+
+val Reactive<RecyclerView>.layoutManager: Consumer<RecyclerView.LayoutManager>
+    get() = AndroidBindingConsumer(item) { item, value ->
+        item.layoutManager = value
+    }
+
+// Listeners
 
 sealed class RecyclerViewScrollEvent {
     data class ScrollStateChanged(val recyclerView: RecyclerView, val newState: Int) : RecyclerViewScrollEvent()
