@@ -73,6 +73,7 @@ class RecyclerViewTest {
     }
 
     @Test
+    @Ignore
     fun recycler() {
         val test = view.rx.recycler().test()
 
