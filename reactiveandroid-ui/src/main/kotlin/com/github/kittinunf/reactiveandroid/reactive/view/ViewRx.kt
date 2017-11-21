@@ -14,7 +14,7 @@ import com.github.kittinunf.reactiveandroid.reactive.ofType
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 
-val View.rx: Reactive<View> by FieldDelegate { Reactive(it) }
+val View.rx: Reactive<View> by FieldDelegate({ Reactive(it) })
 
 //Properties
 val Reactive<View>.activated: Consumer<Boolean>

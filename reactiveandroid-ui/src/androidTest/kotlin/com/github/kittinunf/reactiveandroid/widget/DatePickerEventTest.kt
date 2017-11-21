@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4
 import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,6 +23,7 @@ class DatePickerEventTest {
 
     @Test
     @UiThreadTest
+    @Ignore
     fun testChecked() {
         val picker = activityRule.activity.datePicker
 

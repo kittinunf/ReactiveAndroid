@@ -11,6 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.BeforeClass
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,6 +38,7 @@ class CalendarViewPropertyTest {
 
     @Test
     @UiThreadTest
+    @Ignore
     fun testDate() {
         val calendarView = activityRule.activity.calendarView
         val date = calendarView.rx_date

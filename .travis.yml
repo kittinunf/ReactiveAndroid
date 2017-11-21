@@ -32,8 +32,7 @@ before_script:
 
 script:
   - ./gradlew test
-  - ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.github.kittinunf.reactiveandroid.reactive.widget.TextViewTest
-  - ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.github.kittinunf.reactiveandroid.reactive.view.ViewTest
+  - ./gradlew connectedAndroidTest
 
 after_success:
   - ./deploy_bintray.sh

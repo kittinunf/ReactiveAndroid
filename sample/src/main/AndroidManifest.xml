@@ -10,40 +10,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".view.LandingActivity">
+        <activity
+            android:name=".view.LandingActivity">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN"/>-->
             <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             <!--</intent-filter>-->
         </activity>
+
         <activity
-            android:name=".view.SignInActivity"
-            android:label=""
-            ></activity>
-        <activity
-            android:name=".view.SignUpActivity"
-            android:label=""
-            ></activity>
-        <activity
-            android:name=".view.SectionRecyclerViewActivity"
-            android:label=""
-            ></activity>
-        <activity
-            android:name=".view.FragmentPagerActivity"
-            android:label=""
-            ></activity>
-        <activity
-            android:name=".view.RecyclerViewActivity"
-            android:label=""
-            ></activity>
-        <activity
-            android:name=".view.NestedRecyclerViewActivity"
-            android:label=""
-            ></activity>
-        <activity android:name=".view.AddingNumbersActivity">
+            android:name=".view.AddingNumbersActivity"
+            >
 
         </activity>
-        <activity android:name=".view.LoginActivity">
+
+        <activity
+            android:name=".view.LoginActivity"
+            >
+
+        </activity>
+
+        <activity
+            android:name=".view.RecyclerViewActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

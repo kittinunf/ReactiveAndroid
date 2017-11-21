@@ -10,8 +10,8 @@ fun <T : R, R> Observable<T>.bindTo(property: MutablePropertyType<R>): Disposabl
     }
 }
 
-fun <T> Observable<T>.cachedPrevious(): Observable<Pair<T?, T>> {
-    return scan(Pair<T?, T>(null, Any() as T)) { (_, j), item -> j to item }
+fun <T> Observable<T>.cachedPrevious(): Observable<Pair<T?, T?>> {
+    return scan(Pair<T?, T?>(null, null)) { (_, j), item -> j to item }
             .skip(1)
 }
 
