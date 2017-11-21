@@ -35,6 +35,15 @@ class ObservableExtensionTest {
         assertThat(values[2] as Pair<List<Int>, List<Int>>, equalTo(listOf(1, 2, 3) to listOf(1, 2, 3, 4, 5)))
     }
 
+    @Test
+    fun cachedPreviousWithListOneItem() {
+        val list = Observable.just(listOf(1,2,3))
+
+        val test = list.cachedPrevious().test()
+
+        assertThat(test.valueCount(), equalTo(1))
+    }
+
 }
 
  

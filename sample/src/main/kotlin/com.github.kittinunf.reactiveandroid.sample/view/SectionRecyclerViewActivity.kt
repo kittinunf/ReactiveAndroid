@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.activity_section_recycler_view.recyclerVie
 import kotlinx.android.synthetic.main.activity_section_recycler_view.titleTextView
 import kotlinx.android.synthetic.main.activity_section_recycler_view.toolbar
 import kotlinx.android.synthetic.main.recycler_header_item.view.recyclerHeaderTextView
-import kotlinx.android.synthetic.main.recycler_item.view.recyclerItemTextView1
 import kotlinx.android.synthetic.main.recycler_item.view.recyclerItemTextView2
+import kotlinx.android.synthetic.main.recycler_item.view.textView1
 import java.util.*
 
 class SectionRecyclerViewActivity : AppCompatActivity() {
@@ -87,7 +87,7 @@ class SectionRecyclerViewActivity : AppCompatActivity() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val headerTextView: TextView by lazy(LazyThreadSafetyMode.NONE) { view.recyclerHeaderTextView }
 
-        val textView1: TextView by lazy(LazyThreadSafetyMode.NONE) { view.recyclerItemTextView1 }
+        val textView1: TextView by lazy(LazyThreadSafetyMode.NONE) { view.textView1}
         val textView2: TextView by lazy(LazyThreadSafetyMode.NONE) { view.recyclerItemTextView2 }
     }
 
