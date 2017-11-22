@@ -21,7 +21,7 @@ allprojects {
         minSdkVersion = 14
 
         //publish
-        reactiveAndroidVersion = '1.0.0-alpha2'
+        reactiveAndroidVersion = '1.0.0-alpha3'
 
         reactiveAndroid = 'reactiveandroid'
         reactiveAndroidAppcompatV7 = 'reactiveandroid-appcompat-v7'
