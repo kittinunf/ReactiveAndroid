@@ -48,7 +48,7 @@ val Reactive<TextView>.typeface: Consumer<Typeface>
         item.typeface = typeface
     }
 
-//Listeners
+//Events
 
 sealed class TextWatcherEvent {
     data class AfterTextChanged(val s: CharSequence?) : TextWatcherEvent()
