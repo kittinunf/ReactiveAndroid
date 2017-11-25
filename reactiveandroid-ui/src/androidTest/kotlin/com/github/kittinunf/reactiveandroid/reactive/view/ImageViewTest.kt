@@ -63,4 +63,38 @@ class ImageViewTest {
         }
     }
 
+    @Test
+    @UiThreadTest
+    fun resourceId() {
+        val subject = BehaviorSubject.create<Int>()
+        subject.subscribe(view.rx.resourceId)
+
+        subject.onNext(R.drawable.ic_accessibility_black_18dp)
+        await().untilAsserted {
+            assertThat(view.drawable, withDrawable(context, R.drawable.ic_accessibility_black_18dp))
+        }
+
+        subject.onNext(R.drawable.ic_account_balance_wallet_black_18dp)
+        await().untilAsserted {
+            assertThat(view.drawable, withDrawable(context, R.drawable.ic_account_balance_wallet_black_18dp))
+        }
+    }
+
+    @Test
+    @UiThreadTest
+    fun scaleType() {
+        val subject = BehaviorSubject.create<ImageView.ScaleType>()
+        subject.subscribe(view.rx.scaleType)
+
+        subject.onNext(ImageView.ScaleType.CENTER)
+        await().untilAsserted {
+            assertThat(view.scaleType, equalTo(ImageView.ScaleType.CENTER))
+        }
+
+        subject.onNext(ImageView.ScaleType.FIT_XY)
+        await().untilAsserted {
+            assertThat(view.scaleType, equalTo(ImageView.ScaleType.FIT_XY))
+        }
+    }
+
 }
