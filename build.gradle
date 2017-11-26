@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.novoda:bintray-release:0.7.0'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -63,7 +63,7 @@ allprojects {
         supportTestRunner = 'com.android.support.test:runner:0.5'
         supportTestRules = 'com.android.support.test:rules:0.5'
         robolectric = 'org.robolectric:robolectric:3.0'
-        awaitility = 'org.awaitility:awaitility:2.0.0'
+        awaitility = 'org.awaitility:awaitility:3.0.0'
     }
 
     repositories {

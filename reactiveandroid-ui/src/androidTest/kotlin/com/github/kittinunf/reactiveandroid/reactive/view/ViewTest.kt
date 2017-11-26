@@ -31,6 +31,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ViewTest {
+
     @Rule
     @JvmField
     val activityRule = ActivityTestRule(ViewTestActivity::class.java)

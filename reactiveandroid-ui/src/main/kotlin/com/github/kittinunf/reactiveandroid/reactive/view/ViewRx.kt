@@ -17,6 +17,7 @@ import io.reactivex.functions.Consumer
 val View.rx: Reactive<View> by FieldDelegate({ Reactive(it) })
 
 //Properties
+
 val Reactive<View>.activated: Consumer<Boolean>
     get() = AndroidBindingConsumer(item) { item, value ->
         item.isActivated = value
