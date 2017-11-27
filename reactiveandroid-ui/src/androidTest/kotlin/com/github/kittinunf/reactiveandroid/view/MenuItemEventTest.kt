@@ -5,6 +5,7 @@ import android.support.test.annotation.UiThreadTest
 import android.support.test.rule.UiThreadTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.MenuItem
+import com.github.kittinunf.reactiveandroid.reactive.view.TestMenuItem
 import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Assert.assertThat

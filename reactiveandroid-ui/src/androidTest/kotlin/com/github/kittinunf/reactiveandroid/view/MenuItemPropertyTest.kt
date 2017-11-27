@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.github.kittinunf.reactiveandroid.reactive.bindTo
+import com.github.kittinunf.reactiveandroid.reactive.view.TestMenuItem
 import com.github.kittinunf.reactiveandroid.scheduler.AndroidThreadScheduler
 import com.github.kittinunf.reactiveandroid.ui.test.R
 import io.reactivex.Observable
