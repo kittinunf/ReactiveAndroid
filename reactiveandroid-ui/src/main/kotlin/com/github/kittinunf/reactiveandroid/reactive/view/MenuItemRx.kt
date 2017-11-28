@@ -27,6 +27,11 @@ val Reactive<MenuItem>.icon: Consumer<Drawable>
         item.icon = value
     }
 
+val Reactive<MenuItem>.iconResourceId: Consumer<Int>
+    get() = AndroidBindingConsumer(item) { item, value ->
+        item.setIcon(value)
+    }
+
 val Reactive<MenuItem>.enabled: Consumer<Boolean>
     get() = AndroidBindingConsumer(item) { item, value ->
         item.isEnabled = value
