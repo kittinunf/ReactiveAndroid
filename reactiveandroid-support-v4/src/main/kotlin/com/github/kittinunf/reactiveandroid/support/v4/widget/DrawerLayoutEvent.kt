@@ -77,7 +77,7 @@ internal class _DrawerLayout_DrawerListener : DrawerLayout.DrawerListener {
         onDrawerClosed = listener
     }
 
-    override fun onDrawerClosed(drawerView: View?) {
+    override fun onDrawerClosed(drawerView: View) {
         onDrawerClosed?.invoke(drawerView)
     }
 
@@ -93,7 +93,7 @@ internal class _DrawerLayout_DrawerListener : DrawerLayout.DrawerListener {
         onDrawerSlide = listener
     }
 
-    override fun onDrawerSlide(drawerView: View?, slideOffset: Float) {
+    override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
         onDrawerSlide?.invoke(drawerView, slideOffset)
     }
 
@@ -101,7 +101,7 @@ internal class _DrawerLayout_DrawerListener : DrawerLayout.DrawerListener {
         onDrawerOpened = listener
     }
 
-    override fun onDrawerOpened(drawerView: View?) {
+    override fun onDrawerOpened(drawerView: View) {
         onDrawerOpened?.invoke(drawerView)
     }
 

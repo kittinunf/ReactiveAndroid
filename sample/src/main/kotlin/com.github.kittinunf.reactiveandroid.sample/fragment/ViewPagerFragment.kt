@@ -24,10 +24,10 @@ class ViewPagerFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_view_pager, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewPager.rx_fragmentsStateWith(Observable.just(listOf("section1", "section2", "section3")), fragmentManager,
+        viewPager.rx_fragmentsStateWith(Observable.just(listOf("section1", "section2", "section3")), fragmentManager!!,
                 { position, item ->
                     PlaceholderFragment.newInstance(item)
                 },

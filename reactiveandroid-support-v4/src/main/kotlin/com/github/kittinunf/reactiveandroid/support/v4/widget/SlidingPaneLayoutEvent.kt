@@ -63,7 +63,7 @@ internal class _SlidingPaneLayout_PanelSlideListener : SlidingPaneLayout.PanelSl
         onPanelSlide = listener
     }
 
-    override fun onPanelSlide(panel: View?, slideOffset: Float) {
+    override fun onPanelSlide(panel: View, slideOffset: Float) {
         onPanelSlide?.invoke(panel, slideOffset)
     }
 
@@ -71,7 +71,7 @@ internal class _SlidingPaneLayout_PanelSlideListener : SlidingPaneLayout.PanelSl
         onPanelClosed = listener
     }
 
-    override fun onPanelClosed(panel: View?) {
+    override fun onPanelClosed(panel: View) {
         onPanelClosed?.invoke(panel)
     }
 
@@ -79,7 +79,7 @@ internal class _SlidingPaneLayout_PanelSlideListener : SlidingPaneLayout.PanelSl
         onPanelOpened = listener
     }
 
-    override fun onPanelOpened(panel: View?) {
+    override fun onPanelOpened(panel: View) {
         onPanelOpened?.invoke(panel)
     }
 

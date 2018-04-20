@@ -66,7 +66,7 @@ abstract class SectionedRecyclerViewProxyAdapter<T, S : SectionModelType<T>, VH 
         //add upperbound to support last item
         _headerPositions.add(Int.MAX_VALUE)
 
-        for (index in 0.._headerPositions.size - 1) {
+        for (index in 0 until _headerPositions.size) {
             val headerPosition = _headerPositions[index]
             if (headerPosition > position) {
                 val previousIndex = index - 1
