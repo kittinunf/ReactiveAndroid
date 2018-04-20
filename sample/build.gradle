@@ -11,6 +11,8 @@ android {
         minSdkVersion parent.ext.minSdkVersion
         targetSdkVersion parent.ext.compileSdkVersion
         versionCode 1
+
+        multiDexEnabled true
     }
 
     sourceSets {
@@ -40,14 +42,17 @@ android {
 }
 
 dependencies {
-    compile parent.ext.kotlinStdLib
-    compile parent.ext.androidAppCompatV7
+    implementation parent.ext.kotlinStdLib
+    implementation parent.ext.androidSupportV4
+    implementation parent.ext.androidAppCompatV7
+    implementation parent.ext.androidSupportAnnotation
 
-    compile project(':reactiveandroid-ui')
-    compile project(':reactiveandroid-appcompat-v7')
-    compile project(':reactiveandroid-support-v4')
-    compile project(':reactiveandroid-design')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation project(':reactiveandroid-ui')
+    implementation project(':reactiveandroid-appcompat-v7')
+    implementation project(':reactiveandroid-support-v4')
+    implementation project(':reactiveandroid-design')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 buildscript {
@@ -60,4 +65,3 @@ buildscript {
         classpath parent.ext.kotlinAndroidExtensions
     }
 }
-
