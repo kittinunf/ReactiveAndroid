@@ -42,7 +42,7 @@ Or, let's assume that you have `Observable<String>` that wants to be outputted w
 
 ``` Kotlin
 val o = Observable.just("Hello")
-o.map { "$it Bob" }.subcribe(textView.rx.text)
+o.map { "$it Bob" }.subscribe(textView.rx.text)
 ```
 
 From above example, whenever `Observable` emits next, it will bind with `setText(value)` of TextView.
