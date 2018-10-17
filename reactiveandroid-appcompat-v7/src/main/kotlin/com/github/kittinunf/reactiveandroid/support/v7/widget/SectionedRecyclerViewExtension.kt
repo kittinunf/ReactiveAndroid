@@ -16,11 +16,11 @@ interface SectionModelType<T> {
 
 class SimpleSection<T>(val name: String, override var items: List<T>) : SectionModelType<T>
 
-fun<T, X> List<T>.mapToSection(sectionName: (T) -> X): List<SimpleSection<T>> = groupBy { sectionName(it) }.mapTo(mutableListOf()) {
+fun <T, X> List<T>.mapToSection(sectionName: (T) -> X): List<SimpleSection<T>> = groupBy { sectionName(it) }.mapTo(mutableListOf()) {
     SimpleSection(it.key.toString(), it.value)
 }
 
-fun<T, X> Observable<List<T>>.mapToSection(sectionName: (T) -> X): Observable<List<SimpleSection<T>>> = map { it.mapToSection(sectionName) }
+fun <T, X> Observable<List<T>>.mapToSection(sectionName: (T) -> X): Observable<List<SimpleSection<T>>> = map { it.mapToSection(sectionName) }
 
 val SECTION_HEADER_VIEW_TYPE = 1000
 val SECTION_ITEM_VIEW_TYPE = 1001
@@ -66,7 +66,7 @@ abstract class SectionedRecyclerViewProxyAdapter<T, S : SectionModelType<T>, VH 
         //add upperbound to support last item
         _headerPositions.add(Int.MAX_VALUE)
 
-        for (index in 0.._headerPositions.size - 1) {
+        for (index in 0 until _headerPositions.size) {
             val headerPosition = _headerPositions[index]
             if (headerPosition > position) {
                 val previousIndex = index - 1
@@ -79,7 +79,7 @@ abstract class SectionedRecyclerViewProxyAdapter<T, S : SectionModelType<T>, VH 
         return null
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH = createViewHolder.invoke(parent, viewType)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = createViewHolder.invoke(parent, viewType)
 
 }
 

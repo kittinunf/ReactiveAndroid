@@ -56,7 +56,7 @@ class RecyclerViewTestActivity : Activity() {
 
         override fun getItemCount(): Int = 1
 
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder =
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
                 object : RecyclerView.ViewHolder(child) {}
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

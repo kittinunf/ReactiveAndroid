@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.1'
         classpath 'com.novoda:bintray-release:0.7.0'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -16,8 +16,8 @@ buildscript {
 
 allprojects {
     ext {
-        compileSdkVersion = 26
-        buildToolVersion = '26.0.2'
+        compileSdkVersion = 27
+        buildToolVersion = '27.0.3'
         minSdkVersion = 14
 
         //publish
@@ -43,7 +43,7 @@ allprojects {
         kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
 
         //android
-        supportVersion = '26.1.0'
+        supportVersion = '27.1.1'
         androidSupportAnnotation = "com.android.support:support-annotations:$supportVersion"
         androidSupportV4 = "com.android.support:support-v4:$supportVersion"
         androidAppCompatV7 = "com.android.support:appcompat-v7:$supportVersion"

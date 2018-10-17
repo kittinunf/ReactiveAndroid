@@ -23,7 +23,7 @@ abstract class RecyclerViewProxyAdapter<T, VH : RecyclerView.ViewHolder> : Recyc
     fun getItem(position: Int) = items[position]
     operator fun get(position: Int) = items[position]
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): VH = createViewHolder.invoke(parent, viewType)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = createViewHolder.invoke(parent, viewType)
 
     override fun onBindViewHolder(viewHolder: VH, position: Int) {
         bindViewHolder.invoke(viewHolder, position, items[position])

@@ -17,10 +17,10 @@ val DrawerLayout.rx_drawerElevation: MutableProperty<Float>
         return createMainThreadMutableProperty(getter, setter)
     }
 
-val DrawerLayout.rx_statusBarBackground: MutableProperty<Drawable>
+val DrawerLayout.rx_statusBarBackground: MutableProperty<Drawable?>
     get() {
         val getter = { statusBarBackgroundDrawable }
-        val setter: (Drawable) -> Unit = { setStatusBarBackground(it) }
+        val setter: (Drawable?) -> Unit = { setStatusBarBackground(it) }
 
         return createMainThreadMutableProperty(getter, setter)
     }
