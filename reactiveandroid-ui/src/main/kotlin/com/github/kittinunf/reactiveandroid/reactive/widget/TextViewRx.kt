@@ -16,7 +16,7 @@ import io.reactivex.functions.Consumer
 
 val TextView.rx: Reactive<TextView> by FieldDelegate({ Reactive(it) })
 
-//Properties
+// Properties
 
 val Reactive<TextView>.text: Consumer<CharSequence>
     get() = AndroidBindingConsumer(item) { item, text ->
@@ -48,7 +48,7 @@ val Reactive<TextView>.typeface: Consumer<Typeface>
         item.typeface = typeface
     }
 
-//Events
+// Events
 
 sealed class TextWatcherEvent {
     data class AfterTextChanged(val s: CharSequence?) : TextWatcherEvent()

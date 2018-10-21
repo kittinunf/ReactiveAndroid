@@ -1,4 +1,4 @@
-package com.github.kittinunf.reactiveandroid.view
+package com.github.kittinunf.reactiveandroid.reactive.view
 
 import android.content.Context
 import android.content.Intent

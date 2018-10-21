@@ -16,7 +16,7 @@ import io.reactivex.functions.Consumer
 
 val View.rx: Reactive<View> by FieldDelegate({ Reactive(it) })
 
-//Properties
+// Properties
 
 val Reactive<View>.activated: Consumer<Boolean>
     get() = AndroidBindingConsumer(item) { item, value ->
@@ -85,7 +85,7 @@ val Reactive<View>.visibility: Consumer<Int>
         item.visibility = value
     }
 
-//Events
+// Events
 
 fun Reactive<View>.click(): Observable<View> =
         Observable.create<View> { emitter ->
