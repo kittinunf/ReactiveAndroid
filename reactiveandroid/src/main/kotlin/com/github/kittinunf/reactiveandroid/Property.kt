@@ -12,13 +12,13 @@ interface PropertyType<T> {
 
     val observable: Observable<T>
 
-    fun subscribe(observer: Observer<T>) = observable.subscribeWith(observer)
+    fun subscribe(observer: Observer<T>): Observer<T> = observable.subscribeWith(observer)
 
-    fun subscribe(onNext: (T) -> Unit) = observable.subscribe(onNext)
+    fun subscribe(onNext: (T) -> Unit): Disposable = observable.subscribe(onNext)
 
-    fun subscribe(onNext: (T) -> Unit, onError: (Throwable) -> Unit) = observable.subscribe(onNext, onError)
+    fun subscribe(onNext: (T) -> Unit, onError: (Throwable) -> Unit): Disposable = observable.subscribe(onNext, onError)
 
-    fun subscribe(onNext: (T) -> Unit, onError: (Throwable) -> Unit, onComplete: () -> Unit) = observable.subscribe(onNext, onError, onComplete)
+    fun subscribe(onNext: (T) -> Unit, onError: (Throwable) -> Unit, onComplete: () -> Unit): Disposable = observable.subscribe(onNext, onError, onComplete)
 
 }
 

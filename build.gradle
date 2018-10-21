@@ -1,23 +1,22 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.kotlin_version = '1.2.71'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.novoda:bintray-release:0.7.0'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.novoda:bintray-release:0.8.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 allprojects {
     ext {
-        compileSdkVersion = 26
-        buildToolVersion = '26.0.2'
+        compileSdkVersion = 28
+        buildToolVersion = '28.0.3'
         minSdkVersion = 14
 
         //publish
@@ -28,6 +27,7 @@ allprojects {
         reactiveAndroidSupportV4 = 'reactiveandroid-support-v4'
         reactiveAndroidUI = 'reactiveandroid-ui'
         reactiveAndroidDesign = 'reactiveandroid-design'
+        reactiveAndroidXAppcompat = 'reactiveandroidx-appcompat'
 
         autoPublish = true
         desc = 'Reactive events and properties with RxJava for Android'
@@ -37,7 +37,7 @@ allprojects {
         website = 'https://github.com/kittinunf/ReactiveAndroid'
 
         //kotlin
-        kotlinVersion = '1.1.60'
+        kotlinVersion = '1.2.71'
         kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
@@ -52,9 +52,15 @@ allprojects {
         androidSupportGridLayout = "com.android.support:gridlayout-v7:$supportVersion"
         androidSupportDesign = "com.android.support:design:$supportVersion"
 
+        //androidx
+        androidxVersion = '1.0.0'
+        androidxAppCompat = "androidx.appcompat:appcompat:$androidxVersion"
+        androidxRecyclerView = "androidx.recyclerview:recyclerview:$androidxVersion"
+        androidxCardView = "androidx.cardview:cardview:$androidxVersion"
+
         //rxjava2
-        reactivexRxJava2 = 'io.reactivex.rxjava2:rxjava:2.1.0'
-        reactivexRxAndroid2 = 'io.reactivex.rxjava2:rxandroid:2.0.1'
+        reactivexRxJava2 = 'io.reactivex.rxjava2:rxjava:2.2.2'
+        reactivexRxAndroid2 = 'io.reactivex.rxjava2:rxandroid:2.1.0'
 
         //test
         junit = 'junit:junit:4.12'

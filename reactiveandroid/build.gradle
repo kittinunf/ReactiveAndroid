@@ -12,13 +12,13 @@ repositories {
 }
 
 dependencies {
-    compile parent.ext.kotlinStdLib
-    compile parent.ext.reactivexRxJava2
+    api parent.ext.kotlinStdLib
+    api parent.ext.reactivexRxJava2
 
     sourceCompatibility = JavaVersion.VERSION_1_6
     targetCompatibility = JavaVersion.VERSION_1_6
 
-    testCompile parent.ext.junit
+    testImplementation parent.ext.junit
 }
 
 buildscript {

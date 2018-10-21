@@ -41,14 +41,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':reactiveandroid-ui')
+    api project(':reactiveandroid-ui')
 
-    compile parent.ext.androidSupportV4
+    api parent.ext.androidSupportV4
 
-    testCompile parent.ext.junit
-    testCompile parent.ext.robolectric
+    testImplementation parent.ext.junit
+    testImplementation parent.ext.robolectric
 }
 
 buildscript {
@@ -74,4 +74,7 @@ publish {
 
 tasks.withType(Javadoc) {
     enabled = false
+}
+repositories {
+    mavenCentral()
 }

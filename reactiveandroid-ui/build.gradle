@@ -43,18 +43,19 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':reactiveandroid')
+    api project(':reactiveandroid')
 
-    compile parent.ext.reactivexRxAndroid2
-    compile parent.ext.androidSupportAnnotation
+    api parent.ext.kotlinStdLib
+    api parent.ext.reactivexRxAndroid2
+    api parent.ext.androidSupportAnnotation
 
-    androidTestCompile parent.ext.supportTestEspressoCore
-    androidTestCompile parent.ext.supportTestEspressoContrib
-    androidTestCompile parent.ext.supportTestRunner
-    androidTestCompile parent.ext.supportTestRules
-    androidTestCompile parent.ext.awaitility
+    androidTestImplementation parent.ext.supportTestEspressoCore
+    androidTestImplementation parent.ext.supportTestEspressoContrib
+    androidTestImplementation parent.ext.supportTestRunner
+    androidTestImplementation parent.ext.supportTestRules
+    androidTestImplementation parent.ext.awaitility
 }
 
 buildscript {
@@ -80,4 +81,7 @@ publish {
 
 tasks.withType(Javadoc) {
     enabled = false
+}
+repositories {
+    mavenCentral()
 }

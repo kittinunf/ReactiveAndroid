@@ -3,4 +3,5 @@ include ':reactiveandroid',
         ':reactiveandroid-ui',
         ':reactiveandroid-support-v4',
         ':reactiveandroid-appcompat-v7',
+        ':reactiveandroidx-appcompat',
         ':sample'
