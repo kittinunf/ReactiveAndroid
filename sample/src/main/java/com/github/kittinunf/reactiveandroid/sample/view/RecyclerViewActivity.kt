@@ -49,14 +49,14 @@ class RecyclerViewActivity : AppCompatActivity() {
                     CountryViewHolder(view).apply {
                         itemView.rx.click()
                                 .subscribe {
-                                    val mutableList = itemSubject.value.toMutableList()
+                                    val mutableList = itemSubject.value?.toMutableList() ?: mutableListOf()
                                     mutableList[layoutPosition] = countries.random()
                                     itemSubject.onNext(mutableList)
                                 }
 
                         itemView.rx.longClick()
                                 .subscribe {
-                                    val mutableList = itemSubject.value.toMutableList()
+                                    val mutableList = itemSubject.value?.toMutableList() ?: mutableListOf()
                                     mutableList.removeAt(layoutPosition)
                                     itemSubject.onNext(mutableList)
                                 }
@@ -76,7 +76,7 @@ class RecyclerViewActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
            R.id.menu_add -> {
-               val mutableList = itemSubject.value.toMutableList()
+               val mutableList = itemSubject.value?.toMutableList() ?: mutableListOf()
                mutableList.add(countries.random())
                itemSubject.onNext(mutableList)
 
