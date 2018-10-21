@@ -16,5 +16,5 @@ class AndroidBindingConsumer<out E, T>(item: E,
 
 private object Threads {
     val mainThreadHandler = Handler(Looper.getMainLooper())
-    val mainThread = Looper.getMainLooper().thread
+    val mainThread: Thread = Looper.getMainLooper().thread
 }

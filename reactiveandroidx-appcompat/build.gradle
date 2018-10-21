@@ -43,14 +43,11 @@ android {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
-
     api project(':reactiveandroid-ui')
 
-    api parent.ext.androidAppCompatV7
-    api parent.ext.androidSupportGridLayout
-    api parent.ext.androidSupportRecyclerView
-    api parent.ext.androidSupportCardView
+    api parent.ext.androidxAppCompat
+    api parent.ext.androidxRecyclerView
+    api parent.ext.androidxCardView
 
     androidTestImplementation parent.ext.supportTestEspressoCore
     androidTestImplementation parent.ext.supportTestEspressoContrib
@@ -70,7 +67,7 @@ buildscript {
 }
 
 publish {
-    artifactId = parent.ext.reactiveAndroidAppcompatV7
+    artifactId = parent.ext.reactiveAndroidXAppcompat
     autoPublish = parent.ext.autoPublish
     desc = parent.ext.desc
     groupId = parent.ext.groupId

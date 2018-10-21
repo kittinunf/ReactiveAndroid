@@ -40,14 +40,14 @@ android {
 }
 
 dependencies {
-    compile parent.ext.kotlinStdLib
-    compile parent.ext.androidAppCompatV7
+    implementation parent.ext.kotlinStdLib
+    implementation parent.ext.androidAppCompatV7
 
-    compile project(':reactiveandroid-ui')
-    compile project(':reactiveandroid-appcompat-v7')
-    compile project(':reactiveandroid-support-v4')
-    compile project(':reactiveandroid-design')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation project(':reactiveandroid-ui')
+    implementation project(':reactiveandroid-appcompat-v7')
+    implementation project(':reactiveandroid-support-v4')
+    implementation project(':reactiveandroid-design')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
 
 buildscript {
